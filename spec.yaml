@@ -1,12 +1,70 @@
-id:  # Unique workflow identifier (kebab-case)
-requirements: # Package dependencies with channels
+id: er_events
+requirements:
   - name: ecoscope-workflows-core
+    version: "0.18.0"  # Pin exact version for reproducibility
+    channel: https://repo.prefix.dev/ecoscope-workflows/
+  - name: ecoscope-workflows-ext-ecoscope
     version: "0.18.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
+  - name: ecoscope-workflows-ext-custom
+    version: "0.0.7"
+    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 
-# List of tasks in execution order
 workflow:
-  - name:  # Display name used for the configuration form UI
-    description:  # Description used for the configuration form
-    id:  # Unique task identifier (snake_case)
-    task:  # Function name from task library
+  - name: Time Range
+    id: time_range
+    task: set_time_range
+    partial:
+      time_format: "%Y-%m-%d"
+
+  - name: Data Source
+    id: er_client_name
+    task: set_er_connection
+
+  - name: Get Event Data
+    id: get_event_data
+    task: get_events
+    partial:
+      client: ${{ workflow.er_client_name.return }}
+      time_range: ${{ workflow.time_range.return }}
+      event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
+      raise_on_empty: false
+      include_details: true
+      include_updates: false
+      include_related_events: false
+      include_null_geometry: true
+
+  - name: Filter Event Relocations
+    id: filter_events
+    task: apply_reloc_coord_filter
+    partial:
+      df: ${{ workflow.get_event_data.return }}
+      roi_gdf: null
+      roi_name: null
+      
+  - name: Normalize Event Details
+    id: normalize_event_details
+    task: normalize_column
+    partial:
+      df: ${{ workflow.filter_events.return }}
+      column: "event_details"
+
+  - name: Remove Column Prefix Event Details
+    id: event_cleanup
+    task: drop_column_prefix
+    partial:
+      df: ${{ workflow.normalize_event_details.return }}
+      prefix: "event_details__"
+
+  - name: Persist Events
+    id: persist_events
+    task: persist_df_wrapper
+    partial:
+      df: ${{ workflow.event_cleanup.return }}
+      root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
+
+  - name: Gather Output Files
+    id: output_files
+    task: gather_output_files
+    partial:
+      files: ${{ workflow.persist_events.return }}
