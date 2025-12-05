@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -26,6 +26,23 @@ class GetEventData(BaseModel):
         True,
         description="Whether or not to include display values for event types",
         title="Include Display Values",
+    )
+
+
+class ProcessColumns(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    drop_columns: Optional[List[str]] = Field(
+        [], description="List of columns to drop.", title="Drop Columns"
+    )
+    retain_columns: Optional[List[str]] = Field(
+        [],
+        description='List of columns to retain with the order specified by the list.\n                        "Keep all the columns if the list is empty.',
+        title="Retain Columns",
+    )
+    rename_columns: Optional[Dict[str, str]] = Field(
+        {}, description="Dictionary of columns to rename.", title="Rename Columns"
     )
 
 
@@ -125,4 +142,5 @@ class Params(BaseModel):
     filter_events: Optional[FilterEvents] = Field(
         None, title="Filter Event Relocations"
     )
+    process_columns: Optional[ProcessColumns] = Field(None, title="Process Columns")
     persist_events: Optional[PersistEvents] = Field(None, title="Persist Events")

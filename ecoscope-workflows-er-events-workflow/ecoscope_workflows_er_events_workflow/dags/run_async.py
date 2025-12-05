@@ -8,6 +8,7 @@ from ecoscope_workflows_core.tasks.io import set_er_connection as set_er_connect
 from ecoscope_workflows_core.tasks.results import (
     gather_output_files as gather_output_files,
 )
+from ecoscope_workflows_core.tasks.transformation import map_columns as map_columns
 from ecoscope_workflows_ext_custom.tasks.io import (
     persist_df_wrapper as persist_df_wrapper,
 )
@@ -34,8 +35,9 @@ def main(params: Params):
         "get_event_data": ["er_client_name", "time_range"],
         "filter_events": ["get_event_data"],
         "normalize_event_details": ["filter_events"],
-        "event_cleanup": ["normalize_event_details"],
-        "persist_events": ["event_cleanup"],
+        "drop_event_details_prefix": ["normalize_event_details"],
+        "process_columns": ["drop_event_details_prefix"],
+        "persist_events": ["process_columns"],
         "output_files": ["persist_events"],
     }
 
@@ -106,9 +108,9 @@ def main(params: Params):
             | (params_dict.get("normalize_event_details") or {}),
             method="call",
         ),
-        "event_cleanup": Node(
+        "drop_event_details_prefix": Node(
             async_task=drop_column_prefix.validate()
-            .set_task_instance_id("event_cleanup")
+            .set_task_instance_id("drop_event_details_prefix")
             .handle_errors()
             .with_tracing()
             .set_executor("lithops"),
@@ -116,7 +118,19 @@ def main(params: Params):
                 "df": DependsOn("normalize_event_details"),
                 "prefix": "event_details__",
             }
-            | (params_dict.get("event_cleanup") or {}),
+            | (params_dict.get("drop_event_details_prefix") or {}),
+            method="call",
+        ),
+        "process_columns": Node(
+            async_task=map_columns.validate()
+            .set_task_instance_id("process_columns")
+            .handle_errors()
+            .with_tracing()
+            .set_executor("lithops"),
+            partial={
+                "df": DependsOn("drop_event_details_prefix"),
+            }
+            | (params_dict.get("process_columns") or {}),
             method="call",
         ),
         "persist_events": Node(
@@ -126,7 +140,7 @@ def main(params: Params):
             .with_tracing()
             .set_executor("lithops"),
             partial={
-                "df": DependsOn("event_cleanup"),
+                "df": DependsOn("process_columns"),
                 "root_path": os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             }
             | (params_dict.get("persist_events") or {}),

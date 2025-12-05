@@ -7,6 +7,7 @@ from ecoscope_workflows_core.tasks.io import set_er_connection as set_er_connect
 from ecoscope_workflows_core.tasks.results import (
     gather_output_files as gather_output_files,
 )
+from ecoscope_workflows_core.tasks.transformation import map_columns as map_columns
 from ecoscope_workflows_ext_custom.tasks.io import (
     persist_df_wrapper as persist_df_wrapper,
 )
@@ -90,15 +91,26 @@ def main(params: Params):
         .call()
     )
 
-    event_cleanup = (
+    drop_event_details_prefix = (
         drop_column_prefix.validate()
-        .set_task_instance_id("event_cleanup")
+        .set_task_instance_id("drop_event_details_prefix")
         .handle_errors()
         .with_tracing()
         .partial(
             df=normalize_event_details,
             prefix="event_details__",
-            **(params_dict.get("event_cleanup") or {}),
+            **(params_dict.get("drop_event_details_prefix") or {}),
+        )
+        .call()
+    )
+
+    process_columns = (
+        map_columns.validate()
+        .set_task_instance_id("process_columns")
+        .handle_errors()
+        .with_tracing()
+        .partial(
+            df=drop_event_details_prefix, **(params_dict.get("process_columns") or {})
         )
         .call()
     )
@@ -109,7 +121,7 @@ def main(params: Params):
         .handle_errors()
         .with_tracing()
         .partial(
-            df=event_cleanup,
+            df=process_columns,
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             **(params_dict.get("persist_events") or {}),
         )

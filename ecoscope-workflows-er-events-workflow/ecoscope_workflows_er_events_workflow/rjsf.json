@@ -116,6 +116,44 @@
       "type": "object",
       "title": "Filter Event Relocations"
     },
+    "process_columns": {
+      "additionalProperties": false,
+      "properties": {
+        "drop_columns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Drop Columns",
+          "type": "array",
+          "description": "List of columns to drop.",
+          "ecoscope:advanced": true
+        },
+        "retain_columns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Retain Columns",
+          "type": "array",
+          "description": "List of columns to retain with the order specified by the list.\n                        \"Keep all the columns if the list is empty.",
+          "ecoscope:advanced": true
+        },
+        "rename_columns": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Rename Columns",
+          "type": "object",
+          "description": "Dictionary of columns to rename.",
+          "ecoscope:advanced": true
+        }
+      },
+      "required": [],
+      "type": "object",
+      "title": "Process Columns"
+    },
     "persist_events": {
       "additionalProperties": false,
       "properties": {
@@ -270,6 +308,13 @@
         "filter_point_coords"
       ]
     },
+    "process_columns": {
+      "ui:order": [
+        "drop_columns",
+        "retain_columns",
+        "rename_columns"
+      ]
+    },
     "persist_events": {
       "ui:order": [
         "filename",
@@ -282,6 +327,7 @@
       "er_client_name",
       "get_event_data",
       "filter_events",
+      "process_columns",
       "persist_events"
     ]
   },

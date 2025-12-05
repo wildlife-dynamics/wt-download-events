@@ -33,6 +33,7 @@ workflow:
       include_related_events: false
       include_null_geometry: true
 
+# todo: preprocess: rename time with event_time
   - name: Filter Event Relocations
     id: filter_events
     task: apply_reloc_coord_filter
@@ -49,17 +50,23 @@ workflow:
       column: "event_details"
 
   - name: Remove Column Prefix Event Details
-    id: event_cleanup
+    id: drop_event_details_prefix
     task: drop_column_prefix
     partial:
       df: ${{ workflow.normalize_event_details.return }}
       prefix: "event_details__"
 
+  - name: Process Columns
+    id: process_columns
+    task: map_columns
+    partial:
+      df: ${{ workflow.drop_event_details_prefix.return }}
+
   - name: Persist Events
     id: persist_events
     task: persist_df_wrapper
     partial:
-      df: ${{ workflow.event_cleanup.return }}
+      df: ${{ workflow.process_columns.return }}
       root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
 
   - name: Gather Output Files
