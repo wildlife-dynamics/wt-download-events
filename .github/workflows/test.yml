@@ -28,8 +28,8 @@ jobs:
         working-directory: ecoscope-workflows-er-events-workflow
         env:
           ECOSCOPE_WORKFLOWS_RESULTS: file://${{ runner.temp }}/outputs
-          ecoscope_workflows__connections__earthranger__mep_dev__server: $${{ env.MEP_DEV_SITE }}
-          ecoscope_workflows__connections__earthranger__mep_dev__username: $${{ env.MEP_DEV_USER }}
+          ecoscope_workflows__connections__earthranger__mep_dev__server: ${{ env.MEP_DEV_SITE }}
+          ecoscope_workflows__connections__earthranger__mep_dev__username: ${{ env.MEP_DEV_USER }}
           ecoscope_workflows__connections__earthranger__mep_dev__password: ${{ secrets.MEP_DEV_PASSWORD }}
         run: |
           pixi run -e default python \
