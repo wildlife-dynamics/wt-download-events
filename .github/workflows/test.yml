@@ -1,0 +1,63 @@
+name: Test Workflow
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: latest
+          manifest-path: ecoscope-workflows-er-events-workflow/pixi.toml
+
+      - name: Run workflow with case1 parameters
+        working-directory: ecoscope-workflows-er-events-workflow
+        run: |
+          pixi run -e runner python \
+            -m ecoscope_workflows_er_events_workflow.cli run \
+            --config-file ../test-cases/case1/param.yaml \
+            --execution-mode sequential
+
+      - name: Validate result.json matches snapshot
+        run: |
+          # Check if result.json was created
+          if [ ! -f "ecoscope-workflows-er-events-workflow/result.json" ]; then
+            echo "Error: result.json was not created"
+            exit 1
+          fi
+
+          # Compare result.json with the snapshot
+          # Using jq to normalize JSON for comparison (ignoring whitespace differences)
+          if ! diff \
+            <(jq -S . ecoscope-workflows-er-events-workflow/result.json) \
+            <(jq -S . __result_snapshot__/case1/result.json); then
+            echo "Error: result.json does not match snapshot"
+            echo "Expected:"
+            cat __result_snapshot__/case1/result.json
+            echo ""
+            echo "Actual:"
+            cat ecoscope-workflows-er-events-workflow/result.json
+            exit 1
+          fi
+
+          echo "Success: result.json matches snapshot"
+
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            ecoscope-workflows-er-events-workflow/result.json
+            __result_snapshot__/case1/result.json
