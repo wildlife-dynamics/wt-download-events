@@ -27,7 +27,7 @@ version = "==0.18.0"
 channel = "https://repo.prefix.dev/ecoscope-workflows/"
 
 [dependencies.ecoscope-workflows-ext-custom]
-version = "==0.0.7"
+version = "==0.0.8"
 channel = "https://repo.prefix.dev/ecoscope-workflows-custom/"
 
 [feature.runner.dependencies.ecoscope-workflows-runner]
