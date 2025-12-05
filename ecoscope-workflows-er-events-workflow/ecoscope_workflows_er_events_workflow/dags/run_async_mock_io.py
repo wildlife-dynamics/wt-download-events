@@ -12,20 +12,28 @@ import os
 import warnings  # 🧪
 
 from ecoscope_workflows_core.graph import DependsOn, DependsOnSequence, Graph, Node
-from ecoscope_workflows_core.tasks.filter import set_time_range
-from ecoscope_workflows_core.tasks.io import set_er_connection
+from ecoscope_workflows_core.tasks.filter import set_time_range as set_time_range
+from ecoscope_workflows_core.tasks.io import set_er_connection as set_er_connection
 from ecoscope_workflows_core.testing import create_task_magicmock  # 🧪
 
 get_events = create_task_magicmock(  # 🧪
     anchor="ecoscope_workflows_ext_ecoscope.tasks.io",  # 🧪
     func_name="get_events",  # 🧪
 )  # 🧪
-from ecoscope_workflows_core.tasks.results import gather_output_files
-from ecoscope_workflows_ext_custom.tasks.io import persist_df_wrapper
-from ecoscope_workflows_ext_custom.tasks.transformation import drop_column_prefix
+from ecoscope_workflows_core.tasks.results import (
+    gather_output_files as gather_output_files,
+)
+from ecoscope_workflows_ext_custom.tasks.io import (
+    persist_df_wrapper as persist_df_wrapper,
+)
+from ecoscope_workflows_ext_custom.tasks.transformation import (
+    drop_column_prefix as drop_column_prefix,
+)
 from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
-    apply_reloc_coord_filter,
-    normalize_column,
+    apply_reloc_coord_filter as apply_reloc_coord_filter,
+)
+from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
+    normalize_column as normalize_column,
 )
 
 from ..params import Params
@@ -78,16 +86,6 @@ def main(params: Params):
             partial={
                 "client": DependsOn("er_client_name"),
                 "time_range": DependsOn("time_range"),
-                "event_columns": [
-                    "id",
-                    "time",
-                    "event_type",
-                    "event_category",
-                    "reported_by",
-                    "serial_number",
-                    "geometry",
-                    "event_details",
-                ],
                 "raise_on_empty": False,
                 "include_details": True,
                 "include_updates": False,

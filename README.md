@@ -1,2 +1,2 @@
-# wt-template
-Template repo for Ecoscope workflow templates
+# EarthRanger Events
+Download Events from EarthRanger

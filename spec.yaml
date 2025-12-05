@@ -27,7 +27,6 @@ workflow:
     partial:
       client: ${{ workflow.er_client_name.return }}
       time_range: ${{ workflow.time_range.return }}
-      event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
       raise_on_empty: false
       include_details: true
       include_updates: false

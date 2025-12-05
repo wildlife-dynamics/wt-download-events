@@ -19,6 +19,9 @@ class GetEventData(BaseModel):
         description="Specify the event type(s) to analyze (optional). Leave this section empty to analyze all event types.",
         title="Event Types",
     )
+    event_columns: List[str] = Field(
+        ..., description="The interested event columns", title="Event Columns"
+    )
     include_display_values: Optional[bool] = Field(
         True,
         description="Whether or not to include display values for event types",

@@ -59,6 +59,14 @@
           "type": "array",
           "description": "Specify the event type(s) to analyze (optional). Leave this section empty to analyze all event types."
         },
+        "event_columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Event Columns",
+          "type": "array",
+          "description": "The interested event columns"
+        },
         "include_display_values": {
           "default": true,
           "title": "Include Display Values",
@@ -68,7 +76,8 @@
         }
       },
       "required": [
-        "event_types"
+        "event_types",
+        "event_columns"
       ],
       "type": "object",
       "title": "Get Event Data"
@@ -251,6 +260,7 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
+        "event_columns",
         "include_display_values"
       ]
     },

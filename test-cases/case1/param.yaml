@@ -3,8 +3,9 @@ time_range:
   until: "2025-08-31"
 er_client_name:
   data_source:
-    name: "mmnr"
+    name: "mep_dev"
 get_event_data:
+  event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
   event_types: ["arrest_rep", "snare_rep", "poacher_camp_rep"]
 filter_events:
   bounding_box:
@@ -18,6 +19,5 @@ filter_events:
     {"x": 1.0, "y": 1.0},
   ]
 persist_events:
-  filename: "mt_illegal_event_08_2025"
-  filetypes: ["geoparquet"]
+  filetypes: ["geoparquet", "csv"]
   sanitize: true # todo: make it default with rjsf override
