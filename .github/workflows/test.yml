@@ -21,10 +21,18 @@ jobs:
           pixi-version: latest
           manifest-path: ecoscope-workflows-er-events-workflow/pixi.toml
 
+      - name: Create output directory
+        run: mkdir -p ${{ runner.temp }}/outputs
+
       - name: Run workflow with case1 parameters
         working-directory: ecoscope-workflows-er-events-workflow
+        env:
+          ECOSCOPE_WORKFLOWS_RESULTS: file://${{ runner.temp }}/outputs
+          ecoscope_workflows__connections__earthranger__mep_dev__server: $${{ env.MEP_DEV_SITE }}
+          ecoscope_workflows__connections__earthranger__mep_dev__username: $${{ env.MEP_DEV_USER }}
+          ecoscope_workflows__connections__earthranger__mep_dev__password: ${{ secrets.MEP_DEV_PASSWORD }}
         run: |
-          pixi run -e runner python \
+          pixi run -e default python \
             -m ecoscope_workflows_er_events_workflow.cli run \
             --config-file ../test-cases/case1/param.yaml \
             --execution-mode sequential
@@ -32,7 +40,7 @@ jobs:
       - name: Validate result.json matches snapshot
         run: |
           # Check if result.json was created
-          if [ ! -f "ecoscope-workflows-er-events-workflow/result.json" ]; then
+          if [ ! -f "${{ runner.temp }}/outputs/result.json" ]; then
             echo "Error: result.json was not created"
             exit 1
           fi
@@ -40,14 +48,14 @@ jobs:
           # Compare result.json with the snapshot
           # Using jq to normalize JSON for comparison (ignoring whitespace differences)
           if ! diff \
-            <(jq -S . ecoscope-workflows-er-events-workflow/result.json) \
+            <(jq -S . ${{ runner.temp }}/outputs/result.json) \
             <(jq -S . __result_snapshot__/case1/result.json); then
             echo "Error: result.json does not match snapshot"
             echo "Expected:"
             cat __result_snapshot__/case1/result.json
             echo ""
             echo "Actual:"
-            cat ecoscope-workflows-er-events-workflow/result.json
+            cat ${{ runner.temp }}/outputs/result.json
             exit 1
           fi
 
@@ -59,5 +67,5 @@ jobs:
         with:
           name: test-results
           path: |
-            ecoscope-workflows-er-events-workflow/result.json
+            ${{ runner.temp }}/outputs/result.json
             __result_snapshot__/case1/result.json
