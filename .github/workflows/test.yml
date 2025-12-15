@@ -8,8 +8,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  discover-test-cases:
     runs-on: ubuntu-latest
+    outputs:
+      test-cases: ${{ steps.find-cases.outputs.test-cases }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Find test cases
+        id: find-cases
+        run: |
+          # Find all directories under test-cases that contain param.yaml
+          cases=$(find test-cases -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
+          echo "test-cases=$cases" >> $GITHUB_OUTPUT
+          echo "Found test cases: $cases"
+
+  test:
+    needs: discover-test-cases
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test-case: ${{ fromJson(needs.discover-test-cases.outputs.test-cases) }}
 
     steps:
       - name: Checkout code
@@ -24,7 +45,7 @@ jobs:
       - name: Create output directory
         run: mkdir -p ${{ runner.temp }}/outputs
 
-      - name: Run workflow with case1 parameters
+      - name: Run workflow with ${{ matrix.test-case }} parameters
         working-directory: ecoscope-workflows-er-events-workflow
         env:
           ECOSCOPE_WORKFLOWS_RESULTS: file://${{ runner.temp }}/outputs
@@ -34,7 +55,7 @@ jobs:
         run: |
           pixi run -e default python \
             -m ecoscope_workflows_er_events_workflow.cli run \
-            --config-file ../test-cases/case1/param.yaml \
+            --config-file ../test-cases/${{ matrix.test-case }}/param.yaml \
             --execution-mode sequential
 
       - name: Validate result.json
@@ -72,7 +93,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: |
-            ${{ runner.temp }}/outputs/result.json
-            __result_snapshot__/case1/result.json
+          name: test-results-${{ matrix.test-case }}
+          path: ${{ runner.temp }}/outputs/result.json
