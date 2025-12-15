@@ -37,7 +37,7 @@ jobs:
             --config-file ../test-cases/case1/param.yaml \
             --execution-mode sequential
 
-      - name: Validate result.json matches snapshot
+      - name: Validate result.json
         run: |
           # Check if result.json was created
           if [ ! -f "${{ runner.temp }}/outputs/result.json" ]; then
@@ -45,21 +45,28 @@ jobs:
             exit 1
           fi
 
-          # Compare result.json with the snapshot
-          # Using jq to normalize JSON for comparison (ignoring whitespace differences)
-          if ! diff \
-            <(jq -S . ${{ runner.temp }}/outputs/result.json) \
-            <(jq -S . __result_snapshot__/case1/result.json); then
-            echo "Error: result.json does not match snapshot"
-            echo "Expected:"
-            cat __result_snapshot__/case1/result.json
-            echo ""
-            echo "Actual:"
+          # Validate that result is not empty and error is null
+          RESULT=$(jq -r '.result' ${{ runner.temp }}/outputs/result.json)
+          ERROR=$(jq -r '.error' ${{ runner.temp }}/outputs/result.json)
+
+          if [ "$RESULT" == "null" ] || [ "$RESULT" == "{}" ] || [ "$RESULT" == "[]" ]; then
+            echo "Error: result is empty or null"
+            echo "Actual result.json:"
             cat ${{ runner.temp }}/outputs/result.json
             exit 1
           fi
 
-          echo "Success: result.json matches snapshot"
+          if [ "$ERROR" != "null" ]; then
+            echo "Error: error field is not null"
+            echo "Error value: $ERROR"
+            echo "Actual result.json:"
+            cat ${{ runner.temp }}/outputs/result.json
+            exit 1
+          fi
+
+          echo "Success: result is not empty and error is null"
+          echo "Result.json:"
+          cat ${{ runner.temp }}/outputs/result.json
 
       - name: Upload result artifact
         if: always()

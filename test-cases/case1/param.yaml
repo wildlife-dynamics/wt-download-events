@@ -8,11 +8,6 @@ get_event_data:
   event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
   event_types: ["arrest_rep", "snare_rep", "poacher_camp_rep"]
 filter_events:
-  # bounding_box:
-  #   min_x: 33.0
-  #   min_y: -3.0
-  #   max_x: 36.0
-  #   max_y: 0.0
   filter_point_coords: [
     {"x": 180.0, "y": 90.0},
     {"x": 0.0, "y": 0.0},
@@ -23,4 +18,4 @@ process_columns:
     time: event_time
 persist_events:
   filetypes: ["geoparquet", "csv"]
-  sanitize: true # todo: make it default with rjsf override
+  sanitize: true
