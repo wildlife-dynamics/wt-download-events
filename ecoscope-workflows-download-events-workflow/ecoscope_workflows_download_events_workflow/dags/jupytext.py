@@ -450,7 +450,6 @@ normalize_event_details = (
 filter_events_params = dict(
     bounding_box=...,
     filter_point_coords=...,
-    reset_index=...,
 )
 
 # %%
