@@ -158,21 +158,6 @@
           "required": [],
           "type": "object",
           "title": "Skip Attachment Download"
-        },
-        "download_attachments": {
-          "additionalProperties": false,
-          "properties": {
-            "attachments_subdir": {
-              "default": "attachments",
-              "title": "Attachments Subdirectory",
-              "type": "string",
-              "description": "Subdirectory inside the output directory to store attachments.",
-              "ecoscope:advanced": true
-            }
-          },
-          "required": [],
-          "type": "object",
-          "title": "Download Attachments"
         }
       }
     },
@@ -197,7 +182,7 @@
                 "max_x": 180.0
               },
               "title": "Bounding Box",
-              "description": "Filter events to inside these bounding coordinates.",
+              "description": "Filter coordinates to be inside these bounding coordinates.",
               "ecoscope:advanced": true
             },
             "filter_point_coords": {
@@ -208,6 +193,13 @@
               "title": "Filter Exact Point Coordinates",
               "type": "array",
               "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
+              "ecoscope:advanced": true
+            },
+            "reset_index": {
+              "default": true,
+              "title": "Reset Index",
+              "type": "boolean",
+              "description": "Reset index after filtering",
               "ecoscope:advanced": true
             }
           },
@@ -296,7 +288,7 @@
               },
               "title": " ",
               "type": "array",
-              "description": "            Specify how the data should be grouped to create the views for your dashboard.\n            This field is optional; if left blank, all the data will appear in a single view.\n            "
+              "description": "            Specify how the data should be grouped to create the views for your dashboard or persisted data.\n            This field is optional; if left blank, all the data will appear in a single view.\n            "
             }
           },
           "type": "object",
@@ -708,7 +700,7 @@
       "type": "string"
     },
     "ValueGrouper": {
-      "oneOf": [],
+      "description": "Use a categorical event column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
       "title": "Category",
       "type": "string"
     }
@@ -733,24 +725,6 @@
         "event_columns"
       ]
     },
-    "Download Attachments": {
-      "ui:order": [
-        "skip_attachment_download",
-        "download_attachments"
-      ],
-      "download_attachments": {
-        "ui:options": {
-          "label": false
-        },
-        "attachments_subdir": {
-          "items": {
-            "ui:options": {
-              "label": false
-            }
-          }
-        }
-      }
-    },
     "Process Events": {
       "ui:order": [
         "filter_events",
@@ -761,7 +735,8 @@
       "filter_events": {
         "ui:order": [
           "bounding_box",
-          "filter_point_coords"
+          "filter_point_coords",
+          "reset_index"
         ],
         "filter_point_coords": {
           "items": {
@@ -813,7 +788,21 @@
       "Process Events",
       "persist_events",
       "Generate Maps"
-    ]
+    ],
+    "Download Attachments": {
+      "download_attachments": {
+        "ui:options": {
+          "label": false
+        },
+        "attachments_subdir": {
+          "items": {
+            "ui:options": {
+              "label": false
+            }
+          }
+        }
+      }
+    }
   },
   "additionalProperties": false
 }

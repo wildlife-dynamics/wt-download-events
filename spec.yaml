@@ -19,6 +19,12 @@ rjsf-overrides:
     Download Attachments.properties.skip_attachment_download.properties.skip.default: true
     persist_events.properties.filename_prefix.default: "events"
   
+  $defs:
+    ValueGrouper: {
+      description: "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
+      title: "Category",
+      "type": "string"
+    }
   uiSchema:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false

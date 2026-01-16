@@ -199,6 +199,7 @@ def main(params: Params):
             use_index_as_id=False,
             event_gdf=skip_attachment_download,
             skip_download=False,
+            attachments_subdir="attachments",
             **(params_dict.get("download_attachments") or {}),
         )
         .call()

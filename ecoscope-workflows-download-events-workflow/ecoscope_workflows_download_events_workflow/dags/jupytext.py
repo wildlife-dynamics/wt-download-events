@@ -274,9 +274,7 @@ skip_attachment_download = (
 # %%
 # parameters
 
-download_attachments_params = dict(
-    attachments_subdir=...,
-)
+download_attachments_params = dict()
 
 # %%
 # call the task
@@ -299,6 +297,7 @@ download_attachments = (
         use_index_as_id=False,
         event_gdf=skip_attachment_download,
         skip_download=False,
+        attachments_subdir="attachments",
         **download_attachments_params,
     )
     .call()
@@ -450,6 +449,7 @@ normalize_event_details = (
 filter_events_params = dict(
     bounding_box=...,
     filter_point_coords=...,
+    reset_index=...,
 )
 
 # %%
