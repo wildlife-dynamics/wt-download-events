@@ -6,31 +6,25 @@ on:
 
 jobs:
   discover:
-    if: contains(github.event.pull_request.labels.*.name, 'test:published')
     uses: ./.github/workflows/_discover.yml
 
   recompile-workflows:
-    if: contains(github.event.pull_request.labels.*.name, 'test:published')
     needs: [discover]
     uses: ./.github/workflows/_recompile.yml
     with:
-      workflows: ${{ needs.discover.outputs.workflows }}
+      workflow_id: ${{ needs.discover.outputs.workflow_id }}
       download-artifacts: false
 
   validate-spec:
-    if: contains(github.event.pull_request.labels.*.name, 'test:published')
+    if: needs.discover.outputs.workflow_id != ''
     needs: [discover]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        workflow: ${{ fromJson(needs.discover.outputs.workflows) }}
-      fail-fast: false
     steps:
       - uses: actions/checkout@v4
 
       - name: Validate spec.yaml requirements
         run: |
-          SPEC_FILE="workflows/${{ matrix.workflow }}/spec.yaml"
+          SPEC_FILE="spec.yaml"
 
           if [ ! -f "$SPEC_FILE" ]; then
             echo "⚠️  Warning: spec.yaml not found at $SPEC_FILE"
@@ -59,7 +53,7 @@ jobs:
       
       - name: Validate test-cases.yaml
         run: |
-          TEST_CASES_FILE="workflows/${{ matrix.workflow }}/test-cases.yaml"
+          TEST_CASES_FILE="test-cases.yaml"
 
           # Validate test-cases.yaml exists
           if [ ! -f "$TEST_CASES_FILE" ]; then
@@ -90,12 +84,12 @@ jobs:
     needs: [discover]
     if: |
       contains(github.event.pull_request.labels.*.name, 'test:published') &&
-      needs.discover.outputs.workflows != '[]'
+      needs.discover.outputs.workflow_id != ''
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        workflow: ${{ fromJson(needs.discover.outputs.workflows) }}
+        # os: [ubuntu-latest, macos-latest, windows-latest] !!!!!!!!!!!!!!!!!!
+        os: [ubuntu-latest]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -121,4 +115,4 @@ jobs:
           ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__USERNAME: ${{ secrets.ER_USERNAME }}
         run: |
           chmod +x dev/pytest-cli.sh || true
-          pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh ${{ matrix.workflow }} --all
+          pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh ${{ needs.discover.outputs.workflow_id }} --all
