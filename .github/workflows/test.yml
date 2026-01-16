@@ -1,97 +1,116 @@
-name: Test Workflow
+name: Test Workflows with Published Packages
 
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
-    branches: [ main, master ]
-  workflow_dispatch:
+    types: [labeled, unlabeled, opened, synchronize, reopened]
 
 jobs:
-  discover-test-cases:
+  discover:
+    uses: ./.github/workflows/_discover.yml
+
+  recompile-workflows:
+    needs: [discover]
+    uses: ./.github/workflows/_recompile.yml
+    with:
+      workflow_id: ${{ needs.discover.outputs.workflow_id }}
+      download-artifacts: false
+
+  validate-spec:
+    if: needs.discover.outputs.workflow_id != ''
+    needs: [discover]
     runs-on: ubuntu-latest
-    outputs:
-      test-cases: ${{ steps.find-cases.outputs.test-cases }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Find test cases
-        id: find-cases
+      - name: Validate spec.yaml requirements
         run: |
-          # Find all directories under test-cases that contain param.yaml
-          cases=$(find test-cases -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
-          echo "test-cases=$cases" >> $GITHUB_OUTPUT
-          echo "Found test cases: $cases"
+          SPEC_FILE="spec.yaml"
 
-  test:
-    needs: discover-test-cases
-    runs-on: ubuntu-latest
+          if [ ! -f "$SPEC_FILE" ]; then
+            echo "⚠️  Warning: spec.yaml not found at $SPEC_FILE"
+            exit 0
+          fi
+
+          echo "Validating $SPEC_FILE..."
+
+          # Check for wildcard versions in requirements
+          if grep -A 2 "^requirements:" "$SPEC_FILE" | grep -E '^\s+version:\s*["\x27]?\*["\x27]?\s*$'; then
+            echo "❌ Error: Found wildcard version (*) in requirements"
+            echo "When using published packages, all versions must be pinned to specific versions"
+            grep -B 1 -A 2 "version.*\*" "$SPEC_FILE" || true
+            exit 1
+          fi
+
+          # Check for file:// channels in requirements
+          if grep -A 2 "^requirements:" "$SPEC_FILE" | grep -E '^\s+channel:\s*["\x27]?file://'; then
+            echo "❌ Error: Found local file channel (file://) in requirements"
+            echo "When using published packages, all channels must be remote URLs"
+            grep -B 1 -A 2 "channel.*file://" "$SPEC_FILE" || true
+            exit 1
+          fi
+
+          echo "✅ spec.yaml validation passed"
+      
+      - name: Validate test-cases.yaml
+        run: |
+          TEST_CASES_FILE="test-cases.yaml"
+
+          # Validate test-cases.yaml exists
+          if [ ! -f "$TEST_CASES_FILE" ]; then
+            echo "❌ Error: test-cases.yaml not found at $TEST_CASES_FILE"
+            echo "Every workflow must have a test-cases.yaml file with at least one test case"
+            exit 1
+          fi
+
+          echo "Validating $TEST_CASES_FILE..."
+
+          # Check that test-cases.yaml has at least one top-level key (test case)
+          # Exclude commented lines and empty lines
+          TEST_CASE_COUNT=$(grep -E '^[a-zA-Z0-9_-]+:' "$TEST_CASES_FILE" | wc -l | tr -d ' ')
+
+          if [ "$TEST_CASE_COUNT" -eq 0 ]; then
+            echo "❌ Error: No test cases found in $TEST_CASES_FILE"
+            echo "test-cases.yaml must contain at least one test case"
+            echo "Example format:"
+            echo "  my-test-case:"
+            echo "    params:"
+            echo "      ..."
+            exit 1
+          fi
+
+          echo "✅ test-cases.yaml validation passed ($TEST_CASE_COUNT test case(s) found)"
+
+  test-workflows:
+    needs: [discover]
+    if: |
+      needs.discover.outputs.workflow_id != ''
+    runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
-        test-case: ${{ fromJson(needs.discover-test-cases.outputs.test-cases) }}
-
+        os: [ubuntu-latest, macos-latest, windows-latest]
+      fail-fast: false
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup pixi
-        uses: prefix-dev/setup-pixi@v0.8.1
+      - uses: prefix-dev/setup-pixi@v0.8.1
         with:
-          pixi-version: latest
-          manifest-path: ecoscope-workflows-er-events-workflow/pixi.toml
+          pixi-version: v0.60.0
 
-      - name: Create output directory
-        run: mkdir -p ${{ runner.temp }}/outputs
-
-      - name: Run workflow with ${{ matrix.test-case }} parameters
-        working-directory: ecoscope-workflows-er-events-workflow
+      - name: Write GEE key to file
         env:
-          ECOSCOPE_WORKFLOWS_RESULTS: file://${{ runner.temp }}/outputs
-          ecoscope_workflows__connections__earthranger__mep_dev__server: ${{ vars.MEP_DEV_SITE }}
-          ecoscope_workflows__connections__earthranger__mep_dev__username: ${{ vars.MEP_DEV_USER }}
-          ecoscope_workflows__connections__earthranger__mep_dev__password: ${{ secrets.MEP_DEV_PASSWORD }}
+          EE_KEY_JSON: ${{ secrets.EE_KEY_JSON }}
+        if: env.EE_KEY_JSON != ''
         run: |
-          pixi run -e default python \
-            -m ecoscope_workflows_er_events_workflow.cli run \
-            --config-file ../test-cases/${{ matrix.test-case }}/param.yaml \
-            --execution-mode sequential
+          echo "${{ secrets.EE_KEY_JSON }}" > gee-key.json
 
-      - name: Validate result.json
+      - name: Run all workflow test cases
+        shell: bash
+        env:
+          # Add your GitHub secrets here
+          # They will be available to the workflow
+          ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__SERVER: ${{ secrets.ER_SERVER }}
+          ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__PASSWORD: ${{ secrets.ER_PASSWORD }}
+          ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__USERNAME: ${{ secrets.ER_USERNAME }}
         run: |
-          # Check if result.json was created
-          if [ ! -f "${{ runner.temp }}/outputs/result.json" ]; then
-            echo "Error: result.json was not created"
-            exit 1
-          fi
-
-          # Validate that result is not empty and error is null
-          RESULT=$(jq -r '.result' ${{ runner.temp }}/outputs/result.json)
-          ERROR=$(jq -r '.error' ${{ runner.temp }}/outputs/result.json)
-
-          if [ "$RESULT" == "null" ] || [ "$RESULT" == "{}" ] || [ "$RESULT" == "[]" ]; then
-            echo "Error: result is empty or null"
-            echo "Actual result.json:"
-            cat ${{ runner.temp }}/outputs/result.json
-            exit 1
-          fi
-
-          if [ "$ERROR" != "null" ]; then
-            echo "Error: error field is not null"
-            echo "Error value: $ERROR"
-            echo "Actual result.json:"
-            cat ${{ runner.temp }}/outputs/result.json
-            exit 1
-          fi
-
-          echo "Success: result is not empty and error is null"
-          echo "Result.json:"
-          cat ${{ runner.temp }}/outputs/result.json
-
-      - name: Upload result artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results-${{ matrix.test-case }}
-          path: ${{ runner.temp }}/outputs/result.json
+          chmod +x dev/pytest-cli.sh || true
+          pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh ${{ needs.discover.outputs.workflow_id }} --all
