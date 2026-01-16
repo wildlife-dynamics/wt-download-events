@@ -83,6 +83,7 @@ workflow:
           use_index_as_id: false
           event_gdf: ${{ workflow.skip_attachment_download.return }}
           skip_download: false
+          attachments_subdir: "attachments"
 
   - title: Process Events
     type: task-group
