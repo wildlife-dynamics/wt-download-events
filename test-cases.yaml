@@ -6,8 +6,8 @@ base:
       name: "Events"
       description: "A workflow to download events."
     time_range:
-      since: "2025-08-01"
-      until: "2025-08-31"
+      since: "2015-08-01"
+      until: "2015-08-31"
     er_client_name:
       data_source:
         name: "mep_dev"
@@ -22,6 +22,7 @@ base:
       ]
     persist_events:
       filetypes: ["geoparquet", "csv"]
+      filename_prefix: "events"
     base_map_defs:
       base_maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
@@ -41,8 +42,8 @@ month-grouper:
       name: "Events"
       description: "A workflow to download events."
     time_range:
-      since: "2025-08-01"
-      until: "2025-08-31"
+      since: "2015-08-01"
+      until: "2015-08-31"
     er_client_name:
       data_source:
         name: "mep_dev"
@@ -60,6 +61,7 @@ month-grouper:
       ]
     persist_events:
       filetypes: ["geoparquet", "csv"]
+      filename_prefix: "events_monthly"
     base_map_defs:
       base_maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
