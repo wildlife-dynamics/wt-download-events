@@ -158,3 +158,229 @@ Customize the background maps for your visualizations.
   - Available options: Open Street Map, Roadmap, Satellite, Terrain, etc.
   - Default: Terrain and Satellite layers
   - The first layer will appear on the bottom
+
+## Running the Workflow
+
+Once you've configured all the settings:
+
+1. **Review your configuration**
+   - Double-check your time range, data source, and event types
+   - Verify your output format selections
+
+2. **Save and run**
+   - Click the "Save" or "Run Workflow" button in Ecoscope Desktop
+   - The workflow will begin processing
+
+3. **Monitor progress**
+   - You'll see status updates as the workflow runs
+   - Processing time depends on:
+     - The size of your date range
+     - Number of events in the system
+     - Whether you're downloading attachments
+     - Whether you're generating maps
+
+4. **Wait for completion**
+   - The workflow will notify you when it's finished
+   - Check for any error messages if the workflow fails
+
+## Understanding Your Results
+
+After the workflow completes successfully, you'll find your outputs in the designated output folder.
+
+### Data Outputs
+
+Your event data will be saved in the format(s) you selected:
+
+#### CSV Format
+- **File extension**: `.csv`
+- **Opens in**: Microsoft Excel, Google Sheets, or any spreadsheet application
+- **Best for**:
+  - Quick data review and analysis
+  - Sharing with non-technical users
+  - Creating pivot tables and charts
+  - Importing into other tools
+- **Contents**: All event data in tabular format with one row per event
+
+#### GeoParquet Format
+- **File extension**: `.geoparquet` or `.parquet`
+- **Opens in**: Python (pandas, geopandas), R, or GIS applications
+- **Best for**:
+  - Large datasets (more efficient than CSV)
+  - Programmatic analysis
+  - Preserving geospatial data types
+  - Long-term data storage
+- **Contents**: Compressed columnar format with full geospatial support
+
+#### GPKG Format (GeoPackage)
+- **File extension**: `.gpkg`
+- **Opens in**: QGIS, ArcGIS, or other GIS software
+- **Best for**:
+  - Spatial analysis and mapping
+  - Integration with other GIS layers
+  - Users familiar with GIS tools
+- **Contents**: Geospatial database format with geometry information
+
+### Visual Outputs (When Maps are Generated)
+
+If you didn't skip map generation, you'll also receive:
+
+#### Interactive Map
+- **Format**: HTML file or embedded in dashboard
+- **Features**:
+  - Event points plotted at their locations
+  - Points colored by event type (different colors for arrests, snares, camps, etc.)
+  - Interactive - click on points to see event details
+  - Base map layers you selected (satellite, terrain, etc.)
+  - Zoom and pan capabilities
+
+### Grouped Outputs
+
+If you configured data grouping:
+- You'll receive separate files for each group
+- File naming will indicate the group (e.g., `events_January.csv`, `events_February.csv`)
+- Each file contains only the events for that time period or category
+- Maps (if generated) will also be separated by group
+
+### Attachments (If Downloaded)
+
+If you enabled attachment downloads:
+- **Location**: `<output_folder>/attachments/<event_id>/`
+- **Organization**: Each event's attachments stored in its own folder
+- **File types**: Photos (JPG, PNG), documents (PDF), or other files uploaded to EarthRanger
+- **Naming**: Original filenames preserved
+
+## Common Use Cases & Examples
+
+Here are some typical scenarios and how to configure the workflow for each:
+
+### Example 1: Simple Monthly Report
+**Goal**: Download all events for a specific month to review in Excel
+
+**Configuration**:
+- **Time Range**:
+  - Since: `2025-08-01`
+  - Until: `2025-08-31`
+- **Event Types**: Leave empty (download all types)
+- **Event Columns**: Use defaults
+- **Filetypes**: Select `CSV`
+- **Skip Attachment Download**: Checked
+- **Skip Map Generation**: Checked (for faster processing)
+
+**Result**: Single CSV file with all events from August 2025
+
+---
+
+### Example 2: Specific Incident Types with Map
+**Goal**: Analyze arrest and snare reports with visual map
+
+**Configuration**:
+- **Time Range**: Your desired date range
+- **Event Types**: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
+- **Event Columns**:
+  - `["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]`
+- **Filetypes**: Select `CSV` and `GPKG`
+- **Skip Attachment Download**: Checked
+- **Skip Map Generation**: Unchecked
+
+**Result**:
+- CSV file for spreadsheet analysis
+- GPKG file for GIS analysis
+- Interactive map showing arrest and snare locations colored by event type
+
+---
+
+### Example 3: Monthly Grouped Reports
+**Goal**: Separate files for each month to track trends over time
+
+**Configuration**:
+- **Time Range**:
+  - Since: `2025-01-01`
+  - Until: `2025-12-31`
+- **Event Types**: Leave empty or specify types
+- **Group Data**:
+  - Select `"%B"` (Month name: January, February, etc.)
+- **Filetypes**: Select `CSV`
+- **Skip Attachment Download**: Checked
+
+**Result**: 12 separate CSV files, one for each month
+
+---
+
+### Example 4: Detailed Event Report with Photos
+**Goal**: Download events with all attachments for documentation
+
+**Configuration**:
+- **Time Range**: Your desired date range
+- **Event Types**: Specify relevant types
+- **Event Columns**: Include `event_details` to get additional information
+- **Filetypes**: Select `CSV`
+- **Skip Attachment Download**: Unchecked
+- **Skip Map Generation**: As needed
+
+**Result**:
+- CSV file with detailed event information
+- Attachments folder with all photos and documents organized by event ID
+
+---
+
+### Example 5: Filtered Geographic Area
+**Goal**: Download only events within a specific region
+
+**Configuration**:
+- **Time Range**: Your desired date range
+- **Event Types**: As needed
+- **Filter Event Relocations** (Advanced):
+  - Set **Bounding Box** coordinates for your area of interest
+  - Example: Min Longitude: 37.0, Max Longitude: 38.0, Min Latitude: -1.0, Max Latitude: 0.0
+- **Filetypes**: Select preferred formats
+
+**Result**: Events only from within your specified geographic boundaries
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### Workflow fails to start
+**Problem**: The workflow won't run or immediately fails
+
+**Solutions**:
+- Verify your EarthRanger data source is properly configured
+- Check that you have network connectivity to the EarthRanger server
+- Ensure your credentials haven't expired
+- Confirm the data source name matches exactly.
+
+#### No events returned
+**Problem**: Workflow completes but produces empty results
+
+**Solutions**:
+- Verify the date range is correct (start date should be before end date)
+- Check that the event types you specified actually exist in your EarthRanger system. Make sure you are using `VALUE`, not `DISPLAY`
+- Visit `https://<your-site>.pamdas.org/admin/activity/eventtype/` to confirm event type names
+- Remove any filters temporarily to see if they're excluding all data
+- Try a broader date range to verify events exist
+
+#### Workflow runs very slowly
+**Problem**: The workflow takes an extremely long time to complete
+
+**Solutions**:
+- Enable "Skip Map Generation" for large datasets
+- Enable "Skip Attachment Download" if you don't need photos/documents
+- Reduce the date range to smaller time periods
+- Limit the number of event types selected
+- Process data in smaller batches (by month or quarter)
+- The first run may take longer as the environment gets warmed up. The following ones should be faster.
+
+#### Authentication errors
+**Problem**: Errors related to login or permissions
+
+**Solutions**:
+- Re-configure your EarthRanger data source in Ecoscope Desktop
+- Verify your user account has permission to access event data in EarthRanger
+
+#### Map won't generate
+**Problem**: Data downloads successfully but no map is created
+
+**Solutions**:
+- Ensure "Skip Map Generation" is unchecked
+- Verify your events have valid geometry/location data
+- Try using default base map settings
