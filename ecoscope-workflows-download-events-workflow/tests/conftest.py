@@ -37,9 +37,10 @@ ARTIFACTS = Path(__file__).parent.parent
 SNAPSHOT_DIRNAME = ARTIFACTS.parent / "__results_snapshots__"
 SNAPSHOT_DIFF_OUTPUT_DIRNAME = ARTIFACTS.parent / "__diff_output__"
 TEST_CASES_YAML = ARTIFACTS.parent / "test-cases.yaml"
-MATCHSPEC_OVERRIDE = "ecoscope-workflows-er-events-workflow"
+MATCHSPEC_OVERRIDE = "ecoscope-workflows-download-events-workflow"
 IO_TASKS_IMPORTABLE_REFERENCES = [
     "ecoscope_workflows_ext_ecoscope.tasks.io.get_events",
+    "ecoscope_workflows_ext_custom.tasks.io.download_event_attachments",
 ]
 
 yaml = ruamel.yaml.YAML(typ="safe")
@@ -436,7 +437,7 @@ def _iframe_widgets_from_response_json(response_json: dict) -> list[dict]:
 
 
 async def _take_screenshot(widget: dict) -> tuple[str, bytes]:
-    assert widget["widget_type"] in ["map", "graph"]
+    assert widget["widget_type"] in ["map", "graph", "table"]
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         page = await browser.new_page()
