@@ -83,7 +83,6 @@ jobs:
   test-workflows:
     needs: [discover]
     if: |
-      contains(github.event.pull_request.labels.*.name, 'test:published') &&
       needs.discover.outputs.workflow_id != ''
     runs-on: ${{ matrix.os }}
     strategy:
