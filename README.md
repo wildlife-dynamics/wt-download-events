@@ -89,7 +89,7 @@ Control whether to download files attached to events (photos, documents, etc.). 
   - Check this to skip downloading attachments (default: checked)
   - Uncheck to download all attachments
 
-##### 6. Group Data (Optional)
+#### 6. Group Data (Optional)
 Organize your data into separate views based on time periods or categories.
 
 - **Group by**: Create separate outputs grouped by:
@@ -158,7 +158,7 @@ Advanced users can filter or transform data using SQL.
 Customize the background maps for your visualizations.
 
 - **Base Maps**: Select one or more base layers
-  - Available options: Open Street Map, Roadmap, Satellite, Terrain,  or custom layers with a URL
+  - Available options: Open Street Map, Roadmap, Satellite, Terrain, or custom layers with a URL
   - Default: Terrain and Satellite layers
   - The first layer will appear on the bottom
 
