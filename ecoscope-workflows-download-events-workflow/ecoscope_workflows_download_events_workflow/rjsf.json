@@ -132,6 +132,11 @@
           "type": "array",
           "description": "Choose the interested event columns. If none is chosen, all columns will be returned.",
           "uniqueItems": true
+        },
+        "include_null_geometry": {
+          "default": true,
+          "title": "Include Events Without a Geometry (point or polygon)",
+          "type": "boolean"
         }
       },
       "required": [
@@ -700,7 +705,7 @@
       "type": "string"
     },
     "ValueGrouper": {
-      "description": "Use a categorical event column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
+      "description": "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
       "title": "Category",
       "type": "string"
     }
@@ -722,7 +727,8 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
-        "event_columns"
+        "event_columns",
+        "include_null_geometry"
       ]
     },
     "Process Events": {

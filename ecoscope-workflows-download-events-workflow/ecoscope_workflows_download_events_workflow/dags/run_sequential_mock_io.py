@@ -174,7 +174,6 @@ def main(params: Params):
             include_details=True,
             include_updates=False,
             include_related_events=False,
-            include_null_geometry=True,
             include_display_values=True,
             **(params_dict.get("get_event_data") or {}),
         )

@@ -67,7 +67,7 @@ workflow:
       include_details: true
       include_updates: false
       include_related_events: false
-      include_null_geometry: true
+      # include_null_geometry: true
       include_display_values: true
   - title: Download Attachments
     type: task-group

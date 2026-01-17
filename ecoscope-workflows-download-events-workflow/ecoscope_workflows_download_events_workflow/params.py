@@ -77,6 +77,9 @@ class GetEventData(BaseModel):
         description="Choose the interested event columns. If none is chosen, all columns will be returned.",
         title="Event Columns",
     )
+    include_null_geometry: Optional[bool] = Field(
+        True, title="Include Events Without a Geometry (point or polygon)"
+    )
 
 
 class SkipAttachmentDownload(BaseModel):

@@ -206,6 +206,7 @@ er_client_name = (
 get_event_data_params = dict(
     event_types=...,
     event_columns=...,
+    include_null_geometry=...,
 )
 
 # %%
@@ -230,7 +231,6 @@ get_event_data = (
         include_details=True,
         include_updates=False,
         include_related_events=False,
-        include_null_geometry=True,
         include_display_values=True,
         **get_event_data_params,
     )

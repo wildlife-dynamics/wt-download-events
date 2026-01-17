@@ -132,6 +132,11 @@
           "type": "array",
           "description": "Choose the interested event columns. If none is chosen, all columns will be returned.",
           "uniqueItems": true
+        },
+        "include_null_geometry": {
+          "default": true,
+          "title": "Include Events Without a Geometry (point or polygon)",
+          "type": "boolean"
         }
       },
       "required": [
@@ -701,7 +706,8 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
-        "event_columns"
+        "event_columns",
+        "include_null_geometry"
       ]
     },
     "filter_events": {

@@ -78,6 +78,9 @@ Choose which events and columns to download.
   - Default includes: id, time, event_type, event_category, title, reported_by, created_at, serial_number, is_collection, event_details, geometry
   - Common columns: `id`, `time`, `event_type`, `event_category`, `reported_by`, `serial_number`, `geometry`
   - Include `event_details` if you need additional event-specific information
+- **Include Events Without a Geometry**: Include events that don't have a point or polygon location
+  - Default: `true`
+
 
 #### 5. Download Attachments
 Control whether to download files attached to events (photos, documents, etc.). All the files will be stored under <output_folder>/attachments/<event_id>

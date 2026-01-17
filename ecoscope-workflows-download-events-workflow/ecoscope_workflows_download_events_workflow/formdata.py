@@ -77,6 +77,9 @@ class GetEventData(BaseModel):
         description="Choose the interested event columns. If none is chosen, all columns will be returned.",
         title="Event Columns",
     )
+    include_null_geometry: Optional[bool] = Field(
+        True, title="Include Events Without a Geometry (point or polygon)"
+    )
 
 
 class SkipAttachmentDownload(BaseModel):
@@ -351,7 +354,7 @@ class TemporalGrouper(RootModel[str]):
 class ValueGrouper(RootModel[str]):
     root: str = Field(
         ...,
-        description="Use a categorical event column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
+        description="Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
         title="Category",
     )
 
