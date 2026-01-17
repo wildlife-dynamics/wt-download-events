@@ -165,23 +165,18 @@ Once you've configured all the settings:
 
 1. **Review your configuration**
    - Double-check your time range, data source, and event types
-   - Verify your output format selections
 
 2. **Save and run**
    - Click the "Submit" and the workflow will show up in "My Workflows" table button in Ecoscope Desktop
    - Click on "Run" and the workflow will begin processing
 
-3. **Monitor progress**
+3. **Monitor progress and wait for completion**
    - You'll see status updates as the workflow runs
    - Processing time depends on:
      - The size of your date range
-     - Number of events in the system
-     - Whether you're downloading attachments
-     - Whether you're generating maps
-
-4. **Wait for completion**
-   - The workflow will notify you when it's finished
-   - Check for any error messages if the workflow fails
+     - Number of weather stations
+     - Number of observations in the system
+   - The workflow completes with status "Success" or "Failed"
 
 ## Understanding Your Results
 
@@ -190,35 +185,13 @@ After the workflow completes successfully, you'll find your outputs in the desig
 ### Data Outputs
 
 Your event data will be saved in the format(s) you selected:
-
-#### CSV Format
-- **File extension**: `.csv`
-- **Opens in**: Microsoft Excel, Google Sheets, or any spreadsheet application
+- **File formats**: CSV, GeoParquet, and/or GPKG (based on your selection)
+- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (GeoParquet), QGIS/ArcGIS (GPKG)
 - **Best for**:
-  - Quick data review and analysis
-  - Sharing with non-technical users
-  - Creating pivot tables and charts
-  - Importing into other tools
-- **Contents**: All event data in tabular format with one row per event
-
-#### GeoParquet Format
-- **File extension**: `.geoparquet` or `.parquet`
-- **Opens in**: Python (pandas, geopandas), R, or GIS applications
-- **Best for**:
-  - Large datasets (more efficient than CSV)
-  - Programmatic analysis
-  - Preserving geospatial data types
-  - Long-term data storage
-- **Contents**: Compressed columnar format with full geospatial support
-
-#### GPKG Format (GeoPackage)
-- **File extension**: `.gpkg`
-- **Opens in**: QGIS, ArcGIS, or other GIS software
-- **Best for**:
-  - Spatial analysis and mapping
-  - Integration with other GIS layers
-  - Users familiar with GIS tools
-- **Contents**: Geospatial database format with geometry information
+  - CSV: Quick data review and analysis
+  - GeoParquet: Large datasets, programmatic analysis
+  - GPKG: Spatial analysis in GIS software
+- **Contents**: All event data with normalized event details
 
 ### Visual Outputs (When Maps are Generated)
 
