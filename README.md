@@ -34,8 +34,8 @@ Before using this workflow, you need:
 1. Open Ecoscope Desktop
 2. Select "Workflow Templates"
 3. Click "+ Add Template"
-4. Copy and paste this URL https://github.com/wildlife-dynamics/wt-download-events and wait for the workflow to be downloaded and initialized
-5. The workflow will now appear in your available template list
+4. Copy and paste this URL https://github.com/wildlife-dynamics/wt-download-events and wait for the workflow template to be downloaded and initialized
+5. The template will now appear in your available template list
 
 ## Configuration Guide
 
@@ -86,7 +86,7 @@ Control whether to download files attached to events (photos, documents, etc.). 
   - Check this to skip downloading attachments (default: checked)
   - Uncheck to download all attachments
 
-##### 6. Group Data
+##### 6. Group Data (Optional)
 Organize your data into separate views based on time periods or categories.
 
 - **Group by**: Create separate outputs grouped by:
@@ -128,8 +128,8 @@ Remove unwanted data points from your results.
 - **Bounding Box**: Limit events to a geographic area
   - Default: entire world (-180 to 180 longitude, -90 to 90 latitude)
 - **Filter Exact Point Coordinates**: Exclude events at specific coordinates
-  - Useful for filtering out test data or invalid locations
-  - Example: `[{"x": 0.0, "y": 0.0}, {"x": 180.0, "y": 90.0}]`
+  - Useful for filtering out test data or GPS outliers
+  - Example: `[{"Latitude": 0.0, "Longitude": 0.0}, {"Latitude": 180.0, "Longitude": 90.0}]`
 
 ##### Process Columns
 Customize which columns appear in your output.
@@ -155,7 +155,7 @@ Advanced users can filter or transform data using SQL.
 Customize the background maps for your visualizations.
 
 - **Base Maps**: Select one or more base layers
-  - Available options: Open Street Map, Roadmap, Satellite, Terrain, etc.
+  - Available options: Open Street Map, Roadmap, Satellite, Terrain,  or custom layers with a URL
   - Default: Terrain and Satellite layers
   - The first layer will appear on the bottom
 
@@ -168,8 +168,8 @@ Once you've configured all the settings:
    - Verify your output format selections
 
 2. **Save and run**
-   - Click the "Save" or "Run Workflow" button in Ecoscope Desktop
-   - The workflow will begin processing
+   - Click the "Submit" and the workflow will show up in "My Workflows" table button in Ecoscope Desktop
+   - Click on "Run" and the workflow will begin processing
 
 3. **Monitor progress**
    - You'll see status updates as the workflow runs
@@ -236,10 +236,8 @@ If you didn't skip map generation, you'll also receive:
 ### Grouped Outputs
 
 If you configured data grouping:
-- You'll receive separate files for each group
-- File naming will indicate the group (e.g., `events_January.csv`, `events_February.csv`)
-- Each file contains only the events for that time period or category
-- Maps (if generated) will also be separated by group
+- You'll receive separate files for each group. Each file contains only the events for that time period or category
+- Maps (if generated) will also be separated by group, with each group view selectable in the dashboard
 
 ### Attachments (If Downloaded)
 
@@ -258,8 +256,9 @@ Here are some typical scenarios and how to configure the workflow for each:
 
 **Configuration**:
 - **Time Range**:
-  - Since: `2025-08-01`
-  - Until: `2025-08-31`
+  - Since: `2025-08-01T00:00:00`
+  - Until: `2025-08-31T23:59:59`
+  - Timezone: `Africa/Nairobi (UTC+03:00)`
 - **Event Types**: Leave empty (download all types)
 - **Event Columns**: Use defaults
 - **Filetypes**: Select `CSV`
@@ -294,8 +293,9 @@ Here are some typical scenarios and how to configure the workflow for each:
 
 **Configuration**:
 - **Time Range**:
-  - Since: `2025-01-01`
-  - Until: `2025-12-31`
+  - Since: `2025-01-01T00:00:00`
+  - Until: `2025-12-31T23:59:59`
+  - Timezone: `Africa/Nairobi (UTC+03:00)`
 - **Event Types**: Leave empty or specify types
 - **Group Data**:
   - Select `"%B"` (Month name: January, February, etc.)
