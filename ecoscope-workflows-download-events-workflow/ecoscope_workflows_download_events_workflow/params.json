@@ -132,6 +132,11 @@
           "type": "array",
           "description": "Choose the interested event columns. If none is chosen, all columns will be returned.",
           "uniqueItems": true
+        },
+        "include_null_geometry": {
+          "default": true,
+          "title": "Include Events Without a Geometry (point or polygon)",
+          "type": "boolean"
         }
       },
       "required": [
@@ -153,21 +158,6 @@
       "required": [],
       "type": "object",
       "title": "Skip Attachment Download"
-    },
-    "download_attachments": {
-      "additionalProperties": false,
-      "properties": {
-        "attachments_subdir": {
-          "default": "attachments",
-          "title": "Attachments Subdirectory",
-          "type": "string",
-          "description": "Subdirectory inside the output directory to store attachments.",
-          "ecoscope:advanced": true
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Download Attachments"
     },
     "filter_events": {
       "additionalProperties": false,
@@ -196,6 +186,13 @@
           "title": "Filter Exact Point Coordinates",
           "type": "array",
           "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
+          "ecoscope:advanced": true
+        },
+        "reset_index": {
+          "default": true,
+          "title": "Reset Index",
+          "type": "boolean",
+          "description": "Reset index after filtering",
           "ecoscope:advanced": true
         }
       },
@@ -709,13 +706,15 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
-        "event_columns"
+        "event_columns",
+        "include_null_geometry"
       ]
     },
     "filter_events": {
       "ui:order": [
         "bounding_box",
-        "filter_point_coords"
+        "filter_point_coords",
+        "reset_index"
       ]
     },
     "customize_columns": {
@@ -743,7 +742,6 @@
       "er_client_name",
       "get_event_data",
       "skip_attachment_download",
-      "download_attachments",
       "filter_events",
       "customize_columns",
       "sql_query",

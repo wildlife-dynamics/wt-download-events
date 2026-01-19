@@ -206,6 +206,7 @@ er_client_name = (
 get_event_data_params = dict(
     event_types=...,
     event_columns=...,
+    include_null_geometry=...,
 )
 
 # %%
@@ -230,7 +231,6 @@ get_event_data = (
         include_details=True,
         include_updates=False,
         include_related_events=False,
-        include_null_geometry=True,
         include_display_values=True,
         **get_event_data_params,
     )
@@ -274,9 +274,7 @@ skip_attachment_download = (
 # %%
 # parameters
 
-download_attachments_params = dict(
-    attachments_subdir=...,
-)
+download_attachments_params = dict()
 
 # %%
 # call the task
@@ -299,6 +297,7 @@ download_attachments = (
         use_index_as_id=False,
         event_gdf=skip_attachment_download,
         skip_download=False,
+        attachments_subdir="attachments",
         **download_attachments_params,
     )
     .call()
@@ -450,6 +449,7 @@ normalize_event_details = (
 filter_events_params = dict(
     bounding_box=...,
     filter_point_coords=...,
+    reset_index=...,
 )
 
 # %%

@@ -76,6 +76,9 @@ class GetEventData(BaseModel):
         description="Choose the interested event columns. If none is chosen, all columns will be returned.",
         title="Event Columns",
     )
+    include_null_geometry: bool | None = Field(
+        True, title="Include Events Without a Geometry (point or polygon)"
+    )
 
 
 class SkipAttachmentDownload(BaseModel):
@@ -89,23 +92,9 @@ class SkipAttachmentDownload(BaseModel):
     )
 
 
-class DownloadAttachments1(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    attachments_subdir: str | None = Field(
-        "attachments",
-        description="Subdirectory inside the output directory to store attachments.",
-        title="Attachments Subdirectory",
-    )
-
-
 class DownloadAttachments(BaseModel):
     skip_attachment_download: SkipAttachmentDownload | None = Field(
         None, title="Skip Attachment Download"
-    )
-    download_attachments: DownloadAttachments1 | None = Field(
-        None, title="Download Attachments"
     )
 
 
@@ -369,7 +358,11 @@ class TemporalGrouper(str, Enum):
 
 
 class ValueGrouper(RootModel[str]):
-    root: str = Field(..., title="Category")
+    root: str = Field(
+        ...,
+        description="Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
+        title="Category",
+    )
 
 
 class TimeRange(BaseModel):
@@ -405,6 +398,9 @@ class FilterEvents(BaseModel):
         default_factory=list,
         description="By adding a filter, the workflow will not include events recorded at the specified coordinates.",
         title="Filter Exact Point Coordinates",
+    )
+    reset_index: bool | None = Field(
+        True, description="Reset index after filtering", title="Reset Index"
     )
 
 

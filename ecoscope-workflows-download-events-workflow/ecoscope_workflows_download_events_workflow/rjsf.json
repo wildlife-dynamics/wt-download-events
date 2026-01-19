@@ -132,6 +132,11 @@
           "type": "array",
           "description": "Choose the interested event columns. If none is chosen, all columns will be returned.",
           "uniqueItems": true
+        },
+        "include_null_geometry": {
+          "default": true,
+          "title": "Include Events Without a Geometry (point or polygon)",
+          "type": "boolean"
         }
       },
       "required": [
@@ -158,21 +163,6 @@
           "required": [],
           "type": "object",
           "title": "Skip Attachment Download"
-        },
-        "download_attachments": {
-          "additionalProperties": false,
-          "properties": {
-            "attachments_subdir": {
-              "default": "attachments",
-              "title": "Attachments Subdirectory",
-              "type": "string",
-              "description": "Subdirectory inside the output directory to store attachments.",
-              "ecoscope:advanced": true
-            }
-          },
-          "required": [],
-          "type": "object",
-          "title": "Download Attachments"
         }
       }
     },
@@ -208,6 +198,13 @@
               "title": "Filter Exact Point Coordinates",
               "type": "array",
               "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
+              "ecoscope:advanced": true
+            },
+            "reset_index": {
+              "default": true,
+              "title": "Reset Index",
+              "type": "boolean",
+              "description": "Reset index after filtering",
               "ecoscope:advanced": true
             }
           },
@@ -708,7 +705,7 @@
       "type": "string"
     },
     "ValueGrouper": {
-      "oneOf": [],
+      "description": "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
       "title": "Category",
       "type": "string"
     }
@@ -730,26 +727,9 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
-        "event_columns"
+        "event_columns",
+        "include_null_geometry"
       ]
-    },
-    "Download Attachments": {
-      "ui:order": [
-        "skip_attachment_download",
-        "download_attachments"
-      ],
-      "download_attachments": {
-        "ui:options": {
-          "label": false
-        },
-        "attachments_subdir": {
-          "items": {
-            "ui:options": {
-              "label": false
-            }
-          }
-        }
-      }
     },
     "Process Events": {
       "ui:order": [
@@ -761,7 +741,8 @@
       "filter_events": {
         "ui:order": [
           "bounding_box",
-          "filter_point_coords"
+          "filter_point_coords",
+          "reset_index"
         ],
         "filter_point_coords": {
           "items": {
@@ -813,7 +794,21 @@
       "Process Events",
       "persist_events",
       "Generate Maps"
-    ]
+    ],
+    "Download Attachments": {
+      "download_attachments": {
+        "ui:options": {
+          "label": false
+        },
+        "attachments_subdir": {
+          "items": {
+            "ui:options": {
+              "label": false
+            }
+          }
+        }
+      }
+    }
   },
   "additionalProperties": false
 }

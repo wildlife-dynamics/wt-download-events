@@ -76,6 +76,9 @@ class GetEventData(BaseModel):
         description="Choose the interested event columns. If none is chosen, all columns will be returned.",
         title="Event Columns",
     )
+    include_null_geometry: bool | None = Field(
+        True, title="Include Events Without a Geometry (point or polygon)"
+    )
 
 
 class SkipAttachmentDownload(BaseModel):
@@ -86,17 +89,6 @@ class SkipAttachmentDownload(BaseModel):
         False,
         description="Skip the following tasks if True, returning a sentinel value.",
         title="Skip",
-    )
-
-
-class DownloadAttachments(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    attachments_subdir: str | None = Field(
-        "attachments",
-        description="Subdirectory inside the output directory to store attachments.",
-        title="Attachments Subdirectory",
     )
 
 
@@ -390,6 +382,9 @@ class FilterEvents(BaseModel):
         description="By adding a filter, the workflow will not include events recorded at the specified coordinates.",
         title="Filter Exact Point Coordinates",
     )
+    reset_index: bool | None = Field(
+        True, description="Reset index after filtering", title="Reset Index"
+    )
 
 
 class CustomizeColumns(BaseModel):
@@ -436,9 +431,6 @@ class Params(BaseModel):
     get_event_data: GetEventData | None = Field(None, title="Get Event Data")
     skip_attachment_download: SkipAttachmentDownload | None = Field(
         None, title="Skip Attachment Download"
-    )
-    download_attachments: DownloadAttachments | None = Field(
-        None, title="Download Attachments"
     )
     filter_events: FilterEvents | None = Field(None, title="Filter Event Relocations")
     customize_columns: CustomizeColumns | None = Field(None, title="Process Columns")

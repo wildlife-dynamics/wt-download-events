@@ -1,13 +1,13 @@
 id: download_events
 requirements:
   - name: ecoscope-workflows-core
-    version: ">=0.20.2, <0.21.0"
+    version: ">=0.20.6, <0.21.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-ecoscope
-    version: ">=0.20.2, <0.21.0"
+    version: ">=0.20.6, <0.21.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: ">=0.0.13, <0.1.0"
+    version: ">=0.0.19, <0.1.0"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 rjsf-overrides:
   properties:
@@ -19,6 +19,12 @@ rjsf-overrides:
     Download Attachments.properties.skip_attachment_download.properties.skip.default: true
     persist_events.properties.filename_prefix.default: "events"
   
+  $defs:
+    ValueGrouper: {
+      description: "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
+      title: "Category",
+      "type": "string"
+    }
   uiSchema:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
@@ -61,7 +67,7 @@ workflow:
       include_details: true
       include_updates: false
       include_related_events: false
-      include_null_geometry: true
+      # include_null_geometry: true
       include_display_values: true
   - title: Download Attachments
     type: task-group
@@ -83,6 +89,7 @@ workflow:
           use_index_as_id: false
           event_gdf: ${{ workflow.skip_attachment_download.return }}
           skip_download: false
+          attachments_subdir: "attachments"
 
   - title: Process Events
     type: task-group

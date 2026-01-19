@@ -207,7 +207,6 @@ def main(params: Params):
                 "include_details": True,
                 "include_updates": False,
                 "include_related_events": False,
-                "include_null_geometry": True,
                 "include_display_values": True,
             }
             | (params_dict.get("get_event_data") or {}),
@@ -251,6 +250,7 @@ def main(params: Params):
                 "use_index_as_id": False,
                 "event_gdf": DependsOn("skip_attachment_download"),
                 "skip_download": False,
+                "attachments_subdir": "attachments",
             }
             | (params_dict.get("download_attachments") or {}),
             method="call",
