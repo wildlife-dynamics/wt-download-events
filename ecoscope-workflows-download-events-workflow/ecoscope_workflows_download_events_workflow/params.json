@@ -175,7 +175,7 @@
             "max_x": 180.0
           },
           "title": "Bounding Box",
-          "description": "Filter coordinates to be inside these bounding coordinates.",
+          "description": "Filter events to inside these bounding coordinates.",
           "ecoscope:advanced": true
         },
         "filter_point_coords": {
@@ -281,7 +281,7 @@
           },
           "title": " ",
           "type": "array",
-          "description": "            Specify how the data should be grouped to create the views for your dashboard or persisted data.\n            This field is optional; if left blank, all the data will appear in a single view.\n            "
+          "description": "            Specify how the data should be grouped to create the views for your dashboard.\n            This field is optional; if left blank, all the data will appear in a single view.\n            "
         }
       },
       "type": "object",
