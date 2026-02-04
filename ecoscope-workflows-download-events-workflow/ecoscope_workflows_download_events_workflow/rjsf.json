@@ -79,60 +79,6 @@
           "type": "array",
           "description": "Specify the event type(s) to analyze (optional). Leave this section empty to analyze all event types."
         },
-        "event_columns": {
-          "default": [
-            "id",
-            "time",
-            "event_type",
-            "event_category",
-            "title",
-            "reported_by",
-            "created_at",
-            "serial_number",
-            "is_collection",
-            "event_details",
-            "geometry"
-          ],
-          "items": {
-            "enum": [
-              "id",
-              "location",
-              "time",
-              "end_time",
-              "message",
-              "provenance",
-              "event_type",
-              "event_category",
-              "priority",
-              "priority_label",
-              "attributes",
-              "comment",
-              "title",
-              "reported_by",
-              "state",
-              "is_contained_in",
-              "sort_at",
-              "patrol_segments",
-              "geometry",
-              "updated_at",
-              "created_at",
-              "icon_id",
-              "serial_number",
-              "url",
-              "image_url",
-              "geojson",
-              "is_collection",
-              "event_details",
-              "related_subjects",
-              "patrols"
-            ],
-            "type": "string"
-          },
-          "title": "Event Columns",
-          "type": "array",
-          "description": "Choose the interested event columns. If none is chosen, all columns will be returned.",
-          "uniqueItems": true
-        },
         "include_null_geometry": {
           "default": true,
           "title": "Include Events Without a Geometry (point or polygon)",
@@ -199,63 +145,57 @@
               "type": "array",
               "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
               "ecoscope:advanced": true
-            },
-            "reset_index": {
-              "default": true,
-              "title": "Reset Index",
-              "type": "boolean",
-              "description": "Reset index after filtering",
-              "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
           "title": "Filter Event Relocations"
         },
-        "customize_columns": {
+        "process_columns": {
           "additionalProperties": false,
           "properties": {
             "drop_columns": {
-              "default": [],
+              "default": [
+                "location",
+                "end_time",
+                "message",
+                "provenance",
+                "priority",
+                "priority_label",
+                "attributes",
+                "comment",
+                "patrol_segments",
+                "updated_at",
+                "state",
+                "is_contained_in",
+                "sort_at",
+                "icon_id",
+                "url",
+                "image_url",
+                "geojson",
+                "related_subjects",
+                "patrols",
+                "reported_by"
+              ],
               "items": {
                 "type": "string"
               },
               "title": "Drop Columns",
               "type": "array",
-              "description": "List of columns to drop.",
-              "ecoscope:advanced": true
-            },
-            "retain_columns": {
-              "default": [],
-              "items": {
-                "type": "string"
-              },
-              "title": "Retain Columns",
-              "type": "array",
-              "description": "List of columns to retain with the order specified by the list.\n                        Keep all the columns if the list is empty.",
-              "ecoscope:advanced": true
-            },
-            "rename_columns": {
-              "default": {},
-              "items": {
-                "$ref": "#/$defs/RenameColumn"
-              },
-              "title": "Rename Columns",
-              "type": "array",
-              "description": "Dictionary of columns to rename.",
+              "description": "Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.",
               "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "Process Columns"
+          "title": "Preprocess Columns"
         },
         "sql_query": {
           "additionalProperties": false,
           "properties": {
             "query": {
               "default": "",
-              "title": "Query",
+              "title": "SQL Query",
               "type": "string",
               "description": "SQL query string to apply to the DataFrame. Leaves it unchanged when the field is emptyUse 'df' as the table name in the query.",
               "ecoscope:advanced": true
@@ -648,24 +588,6 @@
       "title": "Coordinate",
       "type": "object"
     },
-    "RenameColumn": {
-      "properties": {
-        "original_name": {
-          "title": "Original Name",
-          "type": "string"
-        },
-        "new_name": {
-          "title": "New Name",
-          "type": "string"
-        }
-      },
-      "required": [
-        "original_name",
-        "new_name"
-      ],
-      "title": "RenameColumn",
-      "type": "object"
-    },
     "TemporalGrouper": {
       "oneOf": [
         {
@@ -727,38 +649,22 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
-        "event_columns",
         "include_null_geometry"
       ]
     },
     "Process Events": {
       "ui:order": [
         "filter_events",
-        "customize_columns",
+        "process_columns",
         "sql_query",
         "groupers"
       ],
       "filter_events": {
         "ui:order": [
           "bounding_box",
-          "filter_point_coords",
-          "reset_index"
+          "filter_point_coords"
         ],
         "filter_point_coords": {
-          "items": {
-            "ui:options": {
-              "label": false
-            }
-          }
-        }
-      },
-      "customize_columns": {
-        "ui:order": [
-          "drop_columns",
-          "retain_columns",
-          "rename_columns"
-        ],
-        "rename_columns": {
           "items": {
             "ui:options": {
               "label": false

@@ -18,18 +18,18 @@ base:
         name: mep_dev
     get_event_data:
       event_types: []
-      event_columns:
-        - id
-        - time
-        - event_type
-        - event_category
-        - title
-        - reported_by
-        - created_at
-        - serial_number
-        - is_collection
-        - event_details
-        - geometry
+      # event_columns:
+      #   - id
+      #   - time
+      #   - event_type
+      #   - event_category
+      #   - title
+      #   - reported_by
+      #   - created_at
+      #   - serial_number
+      #   - is_collection
+      #   - event_details
+      #   - geometry
     skip_attachment_download:
       skip: true
     filter_events:
@@ -39,9 +39,6 @@ base:
         min_x: -180
         max_x: 180
       filter_point_coords: []
-    customize_columns:
-      drop_columns: []
-      retain_columns: []
     sql_query:
       query: ''
       columns: []
@@ -80,7 +77,7 @@ month-grouper:
       groupers:
         - "%B"
     get_event_data:
-      event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]
+      # event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]
       event_types: ["arrest_rep", "snare_rep", "poacher_camp_rep"]
     filter_events:
       filter_point_coords: [
@@ -116,7 +113,7 @@ with-details:
       data_source:
         name: "mep_dev"
     get_event_data:
-      event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
+      # event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
       event_types: ["arrest_rep", "accident_rep"]
     filter_events:
       filter_point_coords: [
@@ -126,6 +123,7 @@ with-details:
       ]
     persist_events:
       filetypes: ["geoparquet", "csv"]
+      filename_prefix: "events_with_details"
     base_map_defs:
       base_maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
@@ -151,7 +149,7 @@ empty-results:
       data_source:
         name: "mep_dev"
     get_event_data:
-      event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
+      # event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry", "event_details"]
       event_types: ["arrest_rep", "accident_rep"]
     filter_events:
       filter_point_coords: [
@@ -186,7 +184,7 @@ with-attachments:
       data_source:
         name: "mep_dev"
     get_event_data:
-      event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]
+      # event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]
       event_types: []
     filter_events:
       filter_point_coords: [
@@ -223,7 +221,7 @@ skip-maps:
       data_source:
         name: "mep_dev"
     get_event_data:
-      event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]
+      # event_columns: ["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]
       event_types: []
     filter_events:
       filter_point_coords: [

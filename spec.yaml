@@ -18,7 +18,9 @@ rjsf-overrides:
       Skip downloading all attachments associated with the events.
     Download Attachments.properties.skip_attachment_download.properties.skip.default: true
     persist_events.properties.filename_prefix.default: "events"
-  
+    Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "priority", "priority_label", "attributes", "comment", "patrol_segments", "updated_at", "state", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
+    Process Events.properties.process_columns.properties.drop_columns.description: >-
+      Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
   $defs:
     ValueGrouper: {
       description: "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
@@ -29,7 +31,6 @@ rjsf-overrides:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
     Process Events.filter_events.filter_point_coords.items.ui:options.label: false
-    Process Events.customize_columns.rename_columns.items.ui:options.label: false
 task-instance-defaults:
   skipif:
     conditions:
@@ -63,6 +64,7 @@ workflow:
     partial:
       client: ${{ workflow.er_client_name.return }}
       time_range: ${{ workflow.time_range.return }}
+      event_columns: []
       raise_on_empty: false
       include_details: true
       include_updates: false
@@ -96,28 +98,13 @@ workflow:
     description: >-
       Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.
     tasks:
-      # - name: Remove Column Prefix Event Details
-      #   id: drop_event_details_prefix
-      #   task: drop_column_prefix
-      #   partial:
-      #     df: ${{ workflow.normalize_event_details.return }}
-      #     prefix: "event_details__"
 
-      - name: Preprocess Columns
-        id: process_columns
-        task: map_columns
-        partial:
-          df: ${{ workflow.get_event_data.return }}
-          rename_columns:
-            time: event_time
-          drop_columns: []
-          retain_columns: []
 
       - name: "Convert to timezone"
         id: convert_to_user_timezone
         task: convert_values_to_timezone
         partial:
-          df: ${{ workflow.process_columns.return }}
+          df: ${{ workflow.get_event_data.return }}
           timezone: ${{ workflow.get_timezone.return }}
           columns: ["time"]
 
@@ -131,35 +118,55 @@ workflow:
           output_type: "str"
           output_column_name: "reported_by_name"
           
+      - name: Process Event Details
+        id: process_event_details
+        task: process_events_details
+        partial:
+          df: ${{ workflow.extract_reported_by.return }}
+          client: ${{ workflow.er_client_name.return }}
+          map_to_titles: true
+
       - name: Normalize Event Details
         id: normalize_event_details
         task: normalize_json_column
         partial:
-          df: ${{ workflow.extract_reported_by.return }}
+          df: ${{ workflow.process_event_details.return }}
           column: "event_details"
           skip_if_not_exists: true
           sort_columns: true
+
+      - name: Remove Column Prefix Event Details
+        id: drop_event_details_prefix
+        task: drop_column_prefix
+        partial:
+          df: ${{ workflow.normalize_event_details.return }}
+          prefix: "event_details__"
+          duplicate_strategy: "suffix"
 
       ## Custom Processing Steps ##
       - name: Filter Event Relocations
         id: filter_events
         task: apply_reloc_coord_filter
         partial:
-          df: ${{ workflow.normalize_event_details.return }}
+          df: ${{ workflow.drop_event_details_prefix.return }}
           roi_gdf: null
           roi_name: null
+          reset_index: true
 
-      - name: Process Columns
-        id: customize_columns
+      - name: Preprocess Columns
+        id: process_columns
         task: map_columns
         partial:
           df: ${{ workflow.filter_events.return }}
+          rename_columns:
+            time: event_time
+          retain_columns: []
 
       - name: Apply SQL Query
         id: sql_query
         task: apply_sql_query
         partial:
-          df: ${{ workflow.customize_columns.return }}
+          df: ${{ workflow.process_columns.return }}
 
       - name: Group Data
         id: groupers
