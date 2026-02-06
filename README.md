@@ -138,9 +138,6 @@ Customize which columns appear in your output.
 - **Drop Columns**: Remove specific columns you don't need
   - Default includes common internal/system columns: `location`, `end_time`, `message`, `provenance`, `priority`, `priority_label`, `attributes`, `comment`, `patrol_segments`, `updated_at`, `state`, `is_contained_in`, `sort_at`, `icon_id`, `url`, `image_url`, `geojson`, `related_subjects`, `patrols`, `reported_by`
   - Modify the list based on your requirements - add columns you want to hide or remove columns you want to keep
-- **Retain Columns**: Keep only specific columns in a specific order
-  - Leave empty to keep all columns (after dropping)
-  - Example: `["event_time", "event_type", "geometry"]`
 
 ##### Apply SQL Query
 Advanced users can filter or transform data using SQL.
