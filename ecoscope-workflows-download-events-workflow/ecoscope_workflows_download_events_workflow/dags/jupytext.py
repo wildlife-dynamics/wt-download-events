@@ -52,9 +52,15 @@ from ecoscope_workflows_ext_custom.tasks.io import (
 from ecoscope_workflows_ext_custom.tasks.io import (
     persist_df_wrapper as persist_df_wrapper,
 )
+from ecoscope_workflows_ext_custom.tasks.io import (
+    process_events_details as process_events_details,
+)
 from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     apply_sql_query as apply_sql_query,
+)
+from ecoscope_workflows_ext_custom.tasks.transformation import (
+    drop_column_prefix as drop_column_prefix,
 )
 from ecoscope_workflows_ext_ecoscope.tasks.io import get_events as get_events
 from ecoscope_workflows_ext_ecoscope.tasks.results import (
@@ -205,7 +211,6 @@ er_client_name = (
 
 get_event_data_params = dict(
     event_types=...,
-    event_columns=...,
     include_null_geometry=...,
 )
 
@@ -227,112 +232,13 @@ get_event_data = (
     .partial(
         client=er_client_name,
         time_range=time_range,
+        event_columns=None,
         raise_on_empty=False,
         include_details=True,
         include_updates=False,
         include_related_events=False,
         include_display_values=True,
         **get_event_data_params,
-    )
-    .call()
-)
-
-
-# %% [markdown]
-# ## Skip Attachment Download
-
-# %%
-# parameters
-
-skip_attachment_download_params = dict(
-    skip=...,
-)
-
-# %%
-# call the task
-
-
-skip_attachment_download = (
-    maybe_skip_df.set_task_instance_id("skip_attachment_download")
-    .handle_errors()
-    .with_tracing()
-    .skipif(
-        conditions=[
-            any_is_empty_df,
-            any_dependency_skipped,
-        ],
-        unpack_depth=1,
-    )
-    .partial(df=get_event_data, **skip_attachment_download_params)
-    .call()
-)
-
-
-# %% [markdown]
-# ## Download Attachments
-
-# %%
-# parameters
-
-download_attachments_params = dict()
-
-# %%
-# call the task
-
-
-download_attachments = (
-    download_event_attachments.set_task_instance_id("download_attachments")
-    .handle_errors()
-    .with_tracing()
-    .skipif(
-        conditions=[
-            any_is_empty_df,
-            any_dependency_skipped,
-        ],
-        unpack_depth=1,
-    )
-    .partial(
-        client=er_client_name,
-        output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
-        use_index_as_id=False,
-        event_gdf=skip_attachment_download,
-        skip_download=False,
-        attachments_subdir="attachments",
-        **download_attachments_params,
-    )
-    .call()
-)
-
-
-# %% [markdown]
-# ## Preprocess Columns
-
-# %%
-# parameters
-
-process_columns_params = dict()
-
-# %%
-# call the task
-
-
-process_columns = (
-    map_columns.set_task_instance_id("process_columns")
-    .handle_errors()
-    .with_tracing()
-    .skipif(
-        conditions=[
-            any_is_empty_df,
-            any_dependency_skipped,
-        ],
-        unpack_depth=1,
-    )
-    .partial(
-        df=get_event_data,
-        rename_columns={"time": "event_time"},
-        drop_columns=[],
-        retain_columns=[],
-        **process_columns_params,
     )
     .call()
 )
@@ -362,7 +268,7 @@ convert_to_user_timezone = (
         unpack_depth=1,
     )
     .partial(
-        df=process_columns,
+        df=get_event_data,
         timezone=get_timezone,
         columns=["time"],
         **convert_to_user_timezone_params,
@@ -407,6 +313,74 @@ extract_reported_by = (
 
 
 # %% [markdown]
+# ## Extract reported_by_subtype from Events
+
+# %%
+# parameters
+
+extract_reported_by_subtype_params = dict()
+
+# %%
+# call the task
+
+
+extract_reported_by_subtype = (
+    extract_value_from_json_column.set_task_instance_id("extract_reported_by_subtype")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(
+        df=extract_reported_by,
+        column_name="reported_by",
+        field_name_options=["subject_subtype"],
+        output_type="str",
+        output_column_name="reported_by_subtype",
+        **extract_reported_by_subtype_params,
+    )
+    .call()
+)
+
+
+# %% [markdown]
+# ## Process Event Details
+
+# %%
+# parameters
+
+process_event_details_params = dict()
+
+# %%
+# call the task
+
+
+process_event_details = (
+    process_events_details.set_task_instance_id("process_event_details")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(
+        df=extract_reported_by_subtype,
+        client=er_client_name,
+        map_to_titles=True,
+        **process_event_details_params,
+    )
+    .call()
+)
+
+
+# %% [markdown]
 # ## Normalize Event Details
 
 # %%
@@ -430,11 +404,44 @@ normalize_event_details = (
         unpack_depth=1,
     )
     .partial(
-        df=extract_reported_by,
+        df=process_event_details,
         column="event_details",
         skip_if_not_exists=True,
         sort_columns=True,
         **normalize_event_details_params,
+    )
+    .call()
+)
+
+
+# %% [markdown]
+# ## Remove Column Prefix Event Details
+
+# %%
+# parameters
+
+drop_event_details_prefix_params = dict()
+
+# %%
+# call the task
+
+
+drop_event_details_prefix = (
+    drop_column_prefix.set_task_instance_id("drop_event_details_prefix")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(
+        df=normalize_event_details,
+        prefix="event_details__",
+        duplicate_strategy="suffix",
+        **drop_event_details_prefix_params,
     )
     .call()
 )
@@ -449,7 +456,6 @@ normalize_event_details = (
 filter_events_params = dict(
     bounding_box=...,
     filter_point_coords=...,
-    reset_index=...,
 )
 
 # %%
@@ -468,30 +474,32 @@ filter_events = (
         unpack_depth=1,
     )
     .partial(
-        df=normalize_event_details, roi_gdf=None, roi_name=None, **filter_events_params
+        df=drop_event_details_prefix,
+        roi_gdf=None,
+        roi_name=None,
+        reset_index=True,
+        **filter_events_params,
     )
     .call()
 )
 
 
 # %% [markdown]
-# ## Process Columns
+# ## Preprocess Columns
 
 # %%
 # parameters
 
-customize_columns_params = dict(
+process_columns_params = dict(
     drop_columns=...,
-    retain_columns=...,
-    rename_columns=...,
 )
 
 # %%
 # call the task
 
 
-customize_columns = (
-    map_columns.set_task_instance_id("customize_columns")
+process_columns = (
+    map_columns.set_task_instance_id("process_columns")
     .handle_errors()
     .with_tracing()
     .skipif(
@@ -501,7 +509,12 @@ customize_columns = (
         ],
         unpack_depth=1,
     )
-    .partial(df=filter_events, **customize_columns_params)
+    .partial(
+        df=filter_events,
+        rename_columns={"time": "event_time"},
+        retain_columns=[],
+        **process_columns_params,
+    )
     .call()
 )
 
@@ -532,7 +545,7 @@ sql_query = (
         ],
         unpack_depth=1,
     )
-    .partial(df=customize_columns, **sql_query_params)
+    .partial(df=process_columns, **sql_query_params)
     .call()
 )
 
@@ -664,6 +677,72 @@ persist_events = (
         **persist_events_params,
     )
     .mapvalues(argnames=["df"], argvalues=split_event_groups)
+)
+
+
+# %% [markdown]
+# ## Skip Attachment Download
+
+# %%
+# parameters
+
+skip_attachment_download_params = dict(
+    skip=...,
+)
+
+# %%
+# call the task
+
+
+skip_attachment_download = (
+    maybe_skip_df.set_task_instance_id("skip_attachment_download")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(df=get_event_data, **skip_attachment_download_params)
+    .call()
+)
+
+
+# %% [markdown]
+# ## Download Attachments
+
+# %%
+# parameters
+
+download_attachments_params = dict()
+
+# %%
+# call the task
+
+
+download_attachments = (
+    download_event_attachments.set_task_instance_id("download_attachments")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(
+        client=er_client_name,
+        output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
+        use_index_as_id=False,
+        event_gdf=skip_attachment_download,
+        skip_download=False,
+        attachments_subdir="attachments",
+        **download_attachments_params,
+    )
+    .call()
 )
 
 

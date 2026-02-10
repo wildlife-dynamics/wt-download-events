@@ -17,39 +17,6 @@ class WorkflowDetails(BaseModel):
     description: str | None = Field("", title="Workflow Description")
 
 
-class EventColumn(str, Enum):
-    id = "id"
-    location = "location"
-    time = "time"
-    end_time = "end_time"
-    message = "message"
-    provenance = "provenance"
-    event_type = "event_type"
-    event_category = "event_category"
-    priority = "priority"
-    priority_label = "priority_label"
-    attributes = "attributes"
-    comment = "comment"
-    title_ = "title"
-    reported_by = "reported_by"
-    state = "state"
-    is_contained_in = "is_contained_in"
-    sort_at = "sort_at"
-    patrol_segments = "patrol_segments"
-    geometry = "geometry"
-    updated_at = "updated_at"
-    created_at = "created_at"
-    icon_id = "icon_id"
-    serial_number = "serial_number"
-    url = "url"
-    image_url = "image_url"
-    geojson = "geojson"
-    is_collection = "is_collection"
-    event_details = "event_details"
-    related_subjects = "related_subjects"
-    patrols = "patrols"
-
-
 class GetEventData(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -59,36 +26,17 @@ class GetEventData(BaseModel):
         description="Specify the event type(s) to analyze (optional). Leave this section empty to analyze all event types.",
         title="Event Types",
     )
-    event_columns: list[EventColumn] | None = Field(
-        [
-            "id",
-            "time",
-            "event_type",
-            "event_category",
-            "title",
-            "reported_by",
-            "created_at",
-            "serial_number",
-            "is_collection",
-            "event_details",
-            "geometry",
-        ],
-        description="Choose the interested event columns. If none is chosen, all columns will be returned.",
-        title="Event Columns",
-    )
     include_null_geometry: bool | None = Field(
         True, title="Include Events Without a Geometry (point or polygon)"
     )
 
 
-class SkipAttachmentDownload(BaseModel):
+class ProcessColumns(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
-    skip: bool | None = Field(
-        False,
-        description="Skip the following tasks if True, returning a sentinel value.",
-        title="Skip",
+    drop_columns: list[str] | None = Field(
+        [], description="List of columns to drop.", title="Drop Columns"
     )
 
 
@@ -99,7 +47,7 @@ class SqlQuery(BaseModel):
     query: str | None = Field(
         "",
         description="SQL query string to apply to the DataFrame. Leaves it unchanged when the field is emptyUse 'df' as the table name in the query.",
-        title="Query",
+        title="SQL Query",
     )
     columns: list[str] | None = Field(
         None,
@@ -125,6 +73,17 @@ class PersistEvents(BaseModel):
         None,
         description="            Optional filename prefix to persist text to within the `root_path`.\n            We will always add a suffix based on the dataframe content hash to avoid duplicates.\n            ",
         title="Filename Prefix",
+    )
+
+
+class SkipAttachmentDownload(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    skip: bool | None = Field(
+        False,
+        description="Skip the following tasks if True, returning a sentinel value.",
+        title="Skip",
     )
 
 
@@ -328,9 +287,8 @@ class Coordinate(BaseModel):
     x: float = Field(..., description="Example 37.30906", title="Longitude")
 
 
-class RenameColumn(BaseModel):
-    original_name: str = Field(..., title="Original Name")
-    new_name: str = Field(..., title="New Name")
+class SpatialGrouper(RootModel[str]):
+    root: str = Field(..., title="Spatial Regions")
 
 
 class TemporalGrouper(str, Enum):
@@ -382,33 +340,13 @@ class FilterEvents(BaseModel):
         description="By adding a filter, the workflow will not include events recorded at the specified coordinates.",
         title="Filter Exact Point Coordinates",
     )
-    reset_index: bool | None = Field(
-        True, description="Reset index after filtering", title="Reset Index"
-    )
-
-
-class CustomizeColumns(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    drop_columns: list[str] | None = Field(
-        [], description="List of columns to drop.", title="Drop Columns"
-    )
-    retain_columns: list[str] | None = Field(
-        [],
-        description="List of columns to retain with the order specified by the list.\n                        Keep all the columns if the list is empty.",
-        title="Retain Columns",
-    )
-    rename_columns: list[RenameColumn] | None = Field(
-        {}, description="Dictionary of columns to rename.", title="Rename Columns"
-    )
 
 
 class Groupers(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
-    groupers: list[ValueGrouper | TemporalGrouper] | None = Field(
+    groupers: list[ValueGrouper | TemporalGrouper | SpatialGrouper] | None = Field(
         None,
         description="            Specify how the data should be grouped to create the views for your dashboard.\n            This field is optional; if left blank, all the data will appear in a single view.\n            ",
         title=" ",
@@ -429,14 +367,14 @@ class Params(BaseModel):
     )
     er_client_name: ErClientName | None = Field(None, title="Data Source")
     get_event_data: GetEventData | None = Field(None, title="Get Event Data")
-    skip_attachment_download: SkipAttachmentDownload | None = Field(
-        None, title="Skip Attachment Download"
-    )
     filter_events: FilterEvents | None = Field(None, title="Filter Event Relocations")
-    customize_columns: CustomizeColumns | None = Field(None, title="Process Columns")
+    process_columns: ProcessColumns | None = Field(None, title="Preprocess Columns")
     sql_query: SqlQuery | None = Field(None, title="Apply SQL Query")
     groupers: Groupers | None = Field(None, title="Group Data")
     persist_events: PersistEvents | None = Field(None, title="Persist Events")
+    skip_attachment_download: SkipAttachmentDownload | None = Field(
+        None, title="Skip Attachment Download"
+    )
     skip_map_generation: SkipMapGeneration | None = Field(
         None, title="Skip Map Generation"
     )

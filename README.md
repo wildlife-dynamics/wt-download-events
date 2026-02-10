@@ -69,17 +69,15 @@ Select your EarthRanger connection.
   - Example: Select `mep_dev` from the dropdown
 
 #### 4. Get Event Data
-Choose which events and columns to download.
+Choose which events to download.
 
 - **Event Types**: Specify which event types to include. You can find them on your earthranger site: https://<your-site>.pamdas.org/admin/activity/eventtype/ and use the value here.
   - Leave empty to download all event types
   - Example: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
-- **Event Columns**: Select the data fields you want
-  - Default includes: id, time, event_type, event_category, title, reported_by, created_at, serial_number, is_collection, event_details, geometry
-  - Common columns: `id`, `time`, `event_type`, `event_category`, `reported_by`, `serial_number`, `geometry`
-  - Include `event_details` if you need additional event-specific information
 - **Include Events Without a Geometry**: Include events that don't have a point or polygon location
   - Default: `true`
+
+Note: The workflow automatically fetches all available columns and processes event details (mapping coded values to their display titles). You can control which columns appear in your final output using the **Drop Columns** option in the Advanced Configuration section.
 
 
 #### 5. Download Attachments
@@ -138,12 +136,8 @@ Remove unwanted data points from your results.
 Customize which columns appear in your output.
 
 - **Drop Columns**: Remove specific columns you don't need
-  - Example: `["icon_id", "url"]`
-- **Retain Columns**: Keep only specific columns in a specific order
-  - Leave empty to keep all columns
-  - Example: `["time", "event_type", "geometry"]`
-- **Rename Columns**: Change column names
-  - Example: Rename `reported_by` to `reporter`
+  - Default includes common internal/system columns: `location`, `end_time`, `message`, `provenance`, `priority`, `priority_label`, `attributes`, `comment`, `patrol_segments`, `updated_at`, `state`, `is_contained_in`, `sort_at`, `icon_id`, `url`, `image_url`, `geojson`, `related_subjects`, `patrols`, `reported_by`
+  - Modify the list based on your requirements - add columns you want to hide or remove columns you want to keep
 
 ##### Apply SQL Query
 Advanced users can filter or transform data using SQL.
@@ -194,7 +188,7 @@ Your event data will be saved in the format(s) you selected:
   - CSV: Quick data review and analysis
   - GeoParquet: Large datasets, programmatic analysis
   - GPKG: Spatial analysis in GIS software
-- **Contents**: All event data with normalized event details
+- **Contents**: All event data with normalized event details (coded values are automatically mapped to human-readable display titles)
 
 ### Visual Outputs (When Maps are Generated)
 
@@ -236,7 +230,6 @@ Here are some typical scenarios and how to configure the workflow for each:
   - Until: `2025-08-31T23:59:59`
   - Timezone: `Africa/Nairobi (UTC+03:00)`
 - **Event Types**: Leave empty (download all types)
-- **Event Columns**: Use defaults
 - **Filetypes**: Select `CSV`
 - **Skip Attachment Download**: Checked
 - **Skip Map Generation**: Checked (for faster processing)
@@ -251,8 +244,6 @@ Here are some typical scenarios and how to configure the workflow for each:
 **Configuration**:
 - **Time Range**: Your desired date range
 - **Event Types**: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
-- **Event Columns**:
-  - `["id", "time", "event_type", "event_category", "reported_by", "serial_number", "geometry"]`
 - **Filetypes**: Select `CSV` and `GPKG`
 - **Skip Attachment Download**: Checked
 - **Skip Map Generation**: Unchecked
@@ -288,13 +279,12 @@ Here are some typical scenarios and how to configure the workflow for each:
 **Configuration**:
 - **Time Range**: Your desired date range
 - **Event Types**: Specify relevant types
-- **Event Columns**: Include `event_details` to get additional information
 - **Filetypes**: Select `CSV`
 - **Skip Attachment Download**: Unchecked
 - **Skip Map Generation**: As needed
 
 **Result**:
-- CSV file with detailed event information
+- CSV file with detailed event information (event details are automatically expanded into separate columns with human-readable values)
 - Attachments folder with all photos and documents organized by event ID
 
 ---
