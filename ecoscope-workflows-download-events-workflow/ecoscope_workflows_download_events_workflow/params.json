@@ -91,20 +91,6 @@
       "type": "object",
       "title": "Get Event Data"
     },
-    "skip_attachment_download": {
-      "additionalProperties": false,
-      "properties": {
-        "skip": {
-          "default": false,
-          "title": "Skip",
-          "type": "boolean",
-          "description": "Skip the following tasks if True, returning a sentinel value."
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Skip Attachment Download"
-    },
     "filter_events": {
       "additionalProperties": false,
       "properties": {
@@ -241,6 +227,20 @@
       "required": [],
       "type": "object",
       "title": "Persist Events"
+    },
+    "skip_attachment_download": {
+      "additionalProperties": false,
+      "properties": {
+        "skip": {
+          "default": false,
+          "title": "Skip",
+          "type": "boolean",
+          "description": "Skip the following tasks if True, returning a sentinel value."
+        }
+      },
+      "required": [],
+      "type": "object",
+      "title": "Skip Attachment Download"
     },
     "skip_map_generation": {
       "additionalProperties": false,
@@ -647,12 +647,12 @@
       "time_range",
       "er_client_name",
       "get_event_data",
-      "skip_attachment_download",
       "filter_events",
       "process_columns",
       "sql_query",
       "groupers",
       "persist_events",
+      "skip_attachment_download",
       "skip_map_generation",
       "base_map_defs"
     ]

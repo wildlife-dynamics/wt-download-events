@@ -232,79 +232,13 @@ get_event_data = (
     .partial(
         client=er_client_name,
         time_range=time_range,
-        event_columns=[],
+        event_columns=None,
         raise_on_empty=False,
         include_details=True,
         include_updates=False,
         include_related_events=False,
         include_display_values=True,
         **get_event_data_params,
-    )
-    .call()
-)
-
-
-# %% [markdown]
-# ## Skip Attachment Download
-
-# %%
-# parameters
-
-skip_attachment_download_params = dict(
-    skip=...,
-)
-
-# %%
-# call the task
-
-
-skip_attachment_download = (
-    maybe_skip_df.set_task_instance_id("skip_attachment_download")
-    .handle_errors()
-    .with_tracing()
-    .skipif(
-        conditions=[
-            any_is_empty_df,
-            any_dependency_skipped,
-        ],
-        unpack_depth=1,
-    )
-    .partial(df=get_event_data, **skip_attachment_download_params)
-    .call()
-)
-
-
-# %% [markdown]
-# ## Download Attachments
-
-# %%
-# parameters
-
-download_attachments_params = dict()
-
-# %%
-# call the task
-
-
-download_attachments = (
-    download_event_attachments.set_task_instance_id("download_attachments")
-    .handle_errors()
-    .with_tracing()
-    .skipif(
-        conditions=[
-            any_is_empty_df,
-            any_dependency_skipped,
-        ],
-        unpack_depth=1,
-    )
-    .partial(
-        client=er_client_name,
-        output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
-        use_index_as_id=False,
-        event_gdf=skip_attachment_download,
-        skip_download=False,
-        attachments_subdir="attachments",
-        **download_attachments_params,
     )
     .call()
 )
@@ -743,6 +677,72 @@ persist_events = (
         **persist_events_params,
     )
     .mapvalues(argnames=["df"], argvalues=split_event_groups)
+)
+
+
+# %% [markdown]
+# ## Skip Attachment Download
+
+# %%
+# parameters
+
+skip_attachment_download_params = dict(
+    skip=...,
+)
+
+# %%
+# call the task
+
+
+skip_attachment_download = (
+    maybe_skip_df.set_task_instance_id("skip_attachment_download")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(df=get_event_data, **skip_attachment_download_params)
+    .call()
+)
+
+
+# %% [markdown]
+# ## Download Attachments
+
+# %%
+# parameters
+
+download_attachments_params = dict()
+
+# %%
+# call the task
+
+
+download_attachments = (
+    download_event_attachments.set_task_instance_id("download_attachments")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(
+        client=er_client_name,
+        output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
+        use_index_as_id=False,
+        event_gdf=skip_attachment_download,
+        skip_download=False,
+        attachments_subdir="attachments",
+        **download_attachments_params,
+    )
+    .call()
 )
 
 

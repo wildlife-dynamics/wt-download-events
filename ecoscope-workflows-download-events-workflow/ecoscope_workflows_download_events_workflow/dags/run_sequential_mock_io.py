@@ -29,23 +29,8 @@ get_events = create_task_magicmock(  # 🧪
     anchor="ecoscope_workflows_ext_ecoscope.tasks.io",  # 🧪
     func_name="get_events",  # 🧪
 )  # 🧪
-from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
-
-download_event_attachments = create_task_magicmock(  # 🧪
-    anchor="ecoscope_workflows_ext_custom.tasks.io",  # 🧪
-    func_name="download_event_attachments",  # 🧪
-)  # 🧪
-from ecoscope_workflows_core.tasks.config import set_string_var as set_string_var
 from ecoscope_workflows_core.tasks.groupby import set_groupers as set_groupers
 from ecoscope_workflows_core.tasks.groupby import split_groups as split_groups
-from ecoscope_workflows_core.tasks.io import persist_text as persist_text
-from ecoscope_workflows_core.tasks.results import (
-    create_map_widget_single_view as create_map_widget_single_view,
-)
-from ecoscope_workflows_core.tasks.results import gather_dashboard as gather_dashboard
-from ecoscope_workflows_core.tasks.results import (
-    merge_widget_views as merge_widget_views,
-)
 from ecoscope_workflows_core.tasks.skip import never as never
 from ecoscope_workflows_core.tasks.transformation import (
     add_temporal_index as add_temporal_index,
@@ -63,11 +48,32 @@ from ecoscope_workflows_ext_custom.tasks.io import (
 from ecoscope_workflows_ext_custom.tasks.io import (
     process_events_details as process_events_details,
 )
+from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     apply_sql_query as apply_sql_query,
 )
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_column_prefix as drop_column_prefix,
+)
+from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
+    apply_reloc_coord_filter as apply_reloc_coord_filter,
+)
+from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
+    normalize_json_column as normalize_json_column,
+)
+
+download_event_attachments = create_task_magicmock(  # 🧪
+    anchor="ecoscope_workflows_ext_custom.tasks.io",  # 🧪
+    func_name="download_event_attachments",  # 🧪
+)  # 🧪
+from ecoscope_workflows_core.tasks.config import set_string_var as set_string_var
+from ecoscope_workflows_core.tasks.io import persist_text as persist_text
+from ecoscope_workflows_core.tasks.results import (
+    create_map_widget_single_view as create_map_widget_single_view,
+)
+from ecoscope_workflows_core.tasks.results import gather_dashboard as gather_dashboard
+from ecoscope_workflows_core.tasks.results import (
+    merge_widget_views as merge_widget_views,
 )
 from ecoscope_workflows_ext_ecoscope.tasks.results import (
     create_point_layer as create_point_layer,
@@ -79,12 +85,6 @@ from ecoscope_workflows_ext_ecoscope.tasks.skip import (
 )
 from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
     apply_color_map as apply_color_map,
-)
-from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
-    apply_reloc_coord_filter as apply_reloc_coord_filter,
-)
-from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
-    normalize_json_column as normalize_json_column,
 )
 
 from ..params import Params
@@ -176,55 +176,13 @@ def main(params: Params):
         .partial(
             client=er_client_name,
             time_range=time_range,
-            event_columns=[],
+            event_columns=None,
             raise_on_empty=False,
             include_details=True,
             include_updates=False,
             include_related_events=False,
             include_display_values=True,
             **(params_dict.get("get_event_data") or {}),
-        )
-        .call()
-    )
-
-    skip_attachment_download = (
-        maybe_skip_df.validate()
-        .set_task_instance_id("skip_attachment_download")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            df=get_event_data, **(params_dict.get("skip_attachment_download") or {})
-        )
-        .call()
-    )
-
-    download_attachments = (
-        download_event_attachments.validate()
-        .set_task_instance_id("download_attachments")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            client=er_client_name,
-            output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
-            use_index_as_id=False,
-            event_gdf=skip_attachment_download,
-            skip_download=False,
-            attachments_subdir="attachments",
-            **(params_dict.get("download_attachments") or {}),
         )
         .call()
     )
@@ -495,6 +453,48 @@ def main(params: Params):
             **(params_dict.get("persist_events") or {}),
         )
         .mapvalues(argnames=["df"], argvalues=split_event_groups)
+    )
+
+    skip_attachment_download = (
+        maybe_skip_df.validate()
+        .set_task_instance_id("skip_attachment_download")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            df=get_event_data, **(params_dict.get("skip_attachment_download") or {})
+        )
+        .call()
+    )
+
+    download_attachments = (
+        download_event_attachments.validate()
+        .set_task_instance_id("download_attachments")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            client=er_client_name,
+            output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
+            use_index_as_id=False,
+            event_gdf=skip_attachment_download,
+            skip_download=False,
+            attachments_subdir="attachments",
+            **(params_dict.get("download_attachments") or {}),
+        )
+        .call()
     )
 
     skip_map_generation = (

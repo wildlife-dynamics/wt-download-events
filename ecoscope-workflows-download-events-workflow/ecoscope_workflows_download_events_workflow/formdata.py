@@ -32,23 +32,6 @@ class GetEventData(BaseModel):
     )
 
 
-class SkipAttachmentDownload(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    skip: Optional[bool] = Field(
-        True,
-        description="Skip downloading all attachments associated with the events.",
-        title="Skip",
-    )
-
-
-class DownloadAttachments(BaseModel):
-    skip_attachment_download: Optional[SkipAttachmentDownload] = Field(
-        None, title="Skip Attachment Download"
-    )
-
-
 class ProcessColumns(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -114,6 +97,23 @@ class PersistEvents(BaseModel):
         "events",
         description="            Optional filename prefix to persist text to within the `root_path`.\n            We will always add a suffix based on the dataframe content hash to avoid duplicates.\n            ",
         title="Filename Prefix",
+    )
+
+
+class SkipAttachmentDownload(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    skip: Optional[bool] = Field(
+        True,
+        description="Skip downloading all attachments associated with the events.",
+        title="Skip",
+    )
+
+
+class DownloadAttachments(BaseModel):
+    skip_attachment_download: Optional[SkipAttachmentDownload] = Field(
+        None, title="Skip Attachment Download"
     )
 
 
@@ -412,17 +412,17 @@ class FormData(BaseModel):
     )
     er_client_name: Optional[ErClientName] = Field(None, title="Data Source")
     get_event_data: Optional[GetEventData] = Field(None, title="Get Event Data")
-    Download_Attachments: Optional[DownloadAttachments] = Field(
-        None,
-        alias="Download Attachments",
-        description="Download attachments associated with the events.",
-    )
     Process_Events: Optional[ProcessEvents] = Field(
         None,
         alias="Process Events",
         description="Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.",
     )
     persist_events: Optional[PersistEvents] = Field(None, title="Persist Events")
+    Download_Attachments: Optional[DownloadAttachments] = Field(
+        None,
+        alias="Download Attachments",
+        description="Download attachments associated with the events.",
+    )
     Generate_Maps: Optional[GenerateMaps] = Field(
         None,
         alias="Generate Maps",

@@ -91,27 +91,6 @@
       "type": "object",
       "title": "Get Event Data"
     },
-    "Download Attachments": {
-      "type": "object",
-      "description": "Download attachments associated with the events.",
-      "ecoscope:task_group": true,
-      "properties": {
-        "skip_attachment_download": {
-          "additionalProperties": false,
-          "properties": {
-            "skip": {
-              "default": true,
-              "title": "Skip",
-              "type": "boolean",
-              "description": "Skip downloading all attachments associated with the events."
-            }
-          },
-          "required": [],
-          "type": "object",
-          "title": "Skip Attachment Download"
-        }
-      }
-    },
     "Process Events": {
       "type": "object",
       "description": "Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.",
@@ -276,6 +255,27 @@
       "required": [],
       "type": "object",
       "title": "Persist Events"
+    },
+    "Download Attachments": {
+      "type": "object",
+      "description": "Download attachments associated with the events.",
+      "ecoscope:task_group": true,
+      "properties": {
+        "skip_attachment_download": {
+          "additionalProperties": false,
+          "properties": {
+            "skip": {
+              "default": true,
+              "title": "Skip",
+              "type": "boolean",
+              "description": "Skip downloading all attachments associated with the events."
+            }
+          },
+          "required": [],
+          "type": "object",
+          "title": "Skip Attachment Download"
+        }
+      }
     },
     "Generate Maps": {
       "type": "object",
@@ -710,9 +710,9 @@
       "time_range",
       "er_client_name",
       "get_event_data",
-      "Download Attachments",
       "Process Events",
       "persist_events",
+      "Download Attachments",
       "Generate Maps"
     ],
     "Download Attachments": {

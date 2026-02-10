@@ -32,17 +32,6 @@ class GetEventData(BaseModel):
     )
 
 
-class SkipAttachmentDownload(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    skip: Optional[bool] = Field(
-        False,
-        description="Skip the following tasks if True, returning a sentinel value.",
-        title="Skip",
-    )
-
-
 class ProcessColumns(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -85,6 +74,17 @@ class PersistEvents(BaseModel):
         None,
         description="            Optional filename prefix to persist text to within the `root_path`.\n            We will always add a suffix based on the dataframe content hash to avoid duplicates.\n            ",
         title="Filename Prefix",
+    )
+
+
+class SkipAttachmentDownload(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    skip: Optional[bool] = Field(
+        False,
+        description="Skip the following tasks if True, returning a sentinel value.",
+        title="Skip",
     )
 
 
@@ -363,9 +363,6 @@ class Params(BaseModel):
     )
     er_client_name: Optional[ErClientName] = Field(None, title="Data Source")
     get_event_data: Optional[GetEventData] = Field(None, title="Get Event Data")
-    skip_attachment_download: Optional[SkipAttachmentDownload] = Field(
-        None, title="Skip Attachment Download"
-    )
     filter_events: Optional[FilterEvents] = Field(
         None, title="Filter Event Relocations"
     )
@@ -373,6 +370,9 @@ class Params(BaseModel):
     sql_query: Optional[SqlQuery] = Field(None, title="Apply SQL Query")
     groupers: Optional[Groupers] = Field(None, title="Group Data")
     persist_events: Optional[PersistEvents] = Field(None, title="Persist Events")
+    skip_attachment_download: Optional[SkipAttachmentDownload] = Field(
+        None, title="Skip Attachment Download"
+    )
     skip_map_generation: Optional[SkipMapGeneration] = Field(
         None, title="Skip Map Generation"
     )
