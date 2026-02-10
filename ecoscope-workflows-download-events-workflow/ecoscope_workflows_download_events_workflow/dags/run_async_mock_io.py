@@ -106,7 +106,8 @@ def main(params: Params):
         "download_attachments": ["er_client_name", "skip_attachment_download"],
         "convert_to_user_timezone": ["get_event_data", "get_timezone"],
         "extract_reported_by": ["convert_to_user_timezone"],
-        "process_event_details": ["extract_reported_by", "er_client_name"],
+        "extract_reported_by_subtype": ["extract_reported_by"],
+        "process_event_details": ["extract_reported_by_subtype", "er_client_name"],
         "normalize_event_details": ["process_event_details"],
         "drop_event_details_prefix": ["normalize_event_details"],
         "filter_events": ["drop_event_details_prefix"],
@@ -328,6 +329,31 @@ def main(params: Params):
             | (params_dict.get("extract_reported_by") or {}),
             method="call",
         ),
+        "extract_reported_by_subtype": Node(
+            async_task=extract_value_from_json_column.validate()
+            .set_task_instance_id("extract_reported_by_subtype")
+            .handle_errors()
+            .with_tracing()
+            .skipif(
+                conditions=[
+                    any_is_empty_df,
+                    any_dependency_skipped,
+                ],
+                unpack_depth=1,
+            )
+            .set_executor("lithops"),
+            partial={
+                "df": DependsOn("extract_reported_by"),
+                "column_name": "reported_by",
+                "field_name_options": [
+                    "subject_subtype",
+                ],
+                "output_type": "str",
+                "output_column_name": "reported_by_subtype",
+            }
+            | (params_dict.get("extract_reported_by_subtype") or {}),
+            method="call",
+        ),
         "process_event_details": Node(
             async_task=process_events_details.validate()
             .set_task_instance_id("process_event_details")
@@ -342,7 +368,7 @@ def main(params: Params):
             )
             .set_executor("lithops"),
             partial={
-                "df": DependsOn("extract_reported_by"),
+                "df": DependsOn("extract_reported_by_subtype"),
                 "client": DependsOn("er_client_name"),
                 "map_to_titles": True,
             }

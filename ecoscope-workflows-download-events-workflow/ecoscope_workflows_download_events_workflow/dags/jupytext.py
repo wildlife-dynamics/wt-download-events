@@ -379,6 +379,41 @@ extract_reported_by = (
 
 
 # %% [markdown]
+# ## Extract reported_by_subtype from Events
+
+# %%
+# parameters
+
+extract_reported_by_subtype_params = dict()
+
+# %%
+# call the task
+
+
+extract_reported_by_subtype = (
+    extract_value_from_json_column.set_task_instance_id("extract_reported_by_subtype")
+    .handle_errors()
+    .with_tracing()
+    .skipif(
+        conditions=[
+            any_is_empty_df,
+            any_dependency_skipped,
+        ],
+        unpack_depth=1,
+    )
+    .partial(
+        df=extract_reported_by,
+        column_name="reported_by",
+        field_name_options=["subject_subtype"],
+        output_type="str",
+        output_column_name="reported_by_subtype",
+        **extract_reported_by_subtype_params,
+    )
+    .call()
+)
+
+
+# %% [markdown]
 # ## Process Event Details
 
 # %%
@@ -402,7 +437,7 @@ process_event_details = (
         unpack_depth=1,
     )
     .partial(
-        df=extract_reported_by,
+        df=extract_reported_by_subtype,
         client=er_client_name,
         map_to_titles=True,
         **process_event_details_params,

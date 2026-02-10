@@ -273,6 +273,29 @@ def main(params: Params):
         .call()
     )
 
+    extract_reported_by_subtype = (
+        extract_value_from_json_column.validate()
+        .set_task_instance_id("extract_reported_by_subtype")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            df=extract_reported_by,
+            column_name="reported_by",
+            field_name_options=["subject_subtype"],
+            output_type="str",
+            output_column_name="reported_by_subtype",
+            **(params_dict.get("extract_reported_by_subtype") or {}),
+        )
+        .call()
+    )
+
     process_event_details = (
         process_events_details.validate()
         .set_task_instance_id("process_event_details")
@@ -286,7 +309,7 @@ def main(params: Params):
             unpack_depth=1,
         )
         .partial(
-            df=extract_reported_by,
+            df=extract_reported_by_subtype,
             client=er_client_name,
             map_to_titles=True,
             **(params_dict.get("process_event_details") or {}),

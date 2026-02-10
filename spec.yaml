@@ -118,11 +118,21 @@ workflow:
           output_type: "str"
           output_column_name: "reported_by_name"
           
+      - name: Extract reported_by_subtype from Events
+        id: extract_reported_by_subtype
+        task: extract_value_from_json_column
+        partial:
+          df: ${{ workflow.extract_reported_by.return }}
+          column_name: "reported_by"
+          field_name_options: ["subject_subtype"]
+          output_type: "str"
+          output_column_name: "reported_by_subtype"
+
       - name: Process Event Details
         id: process_event_details
         task: process_events_details
         partial:
-          df: ${{ workflow.extract_reported_by.return }}
+          df: ${{ workflow.extract_reported_by_subtype.return }}
           client: ${{ workflow.er_client_name.return }}
           map_to_titles: true
 

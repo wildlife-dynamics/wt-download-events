@@ -1,5 +1,5 @@
 [project]
-name = "general"
+name = "wt-download-events"
 channels = [
     # Uncomment the following lines to use local channels for development.
     # "file:///tmp/ecoscope-workflows/release/artifacts/",
