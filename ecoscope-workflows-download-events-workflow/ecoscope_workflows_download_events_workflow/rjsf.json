@@ -163,6 +163,12 @@
               "type": "array",
               "description": "Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.",
               "ecoscope:advanced": true
+            },
+            "raise_if_not_found": {
+              "default": true,
+              "title": "Raise If Not Found",
+              "type": "boolean",
+              "description": "Whether or not to raise if var is not in value_map."
             }
           },
           "required": [],
@@ -229,7 +235,7 @@
       "properties": {
         "filetypes": {
           "default": [
-            "csv"
+            "geoparquet"
           ],
           "items": {
             "enum": [
@@ -295,6 +301,20 @@
           "required": [],
           "type": "object",
           "title": "Skip Map Generation"
+        },
+        "rename_display_columns": {
+          "additionalProperties": false,
+          "properties": {
+            "raise_if_not_found": {
+              "default": true,
+              "title": "Raise If Not Found",
+              "type": "boolean",
+              "description": "Whether or not to raise if var is not in value_map."
+            }
+          },
+          "required": [],
+          "type": "object",
+          "title": "Rename columns for map tooltip display"
         },
         "base_map_defs": {
           "additionalProperties": false,
@@ -599,46 +619,64 @@
       "type": "object"
     },
     "SpatialGrouper": {
-      "title": "Spatial Regions",
-      "type": "string"
+      "properties": {
+        "spatial_index_name": {
+          "title": "Spatial Regions",
+          "type": "string"
+        }
+      },
+      "required": [
+        "spatial_index_name"
+      ],
+      "title": "Spatial",
+      "type": "object"
     },
     "TemporalGrouper": {
-      "oneOf": [
-        {
-          "const": "%Y",
-          "title": "Year (example: 2024)"
-        },
-        {
-          "const": "%B",
-          "title": "Month (example: September)"
-        },
-        {
-          "const": "%Y-%m",
-          "title": "Year and Month (example: 2023-01)"
-        },
-        {
-          "const": "%j",
-          "title": "Day of the year as a number (example: 365)"
-        },
-        {
-          "const": "%d",
-          "title": "Day of the month as a number (example: 31)"
-        },
-        {
-          "const": "%A",
-          "title": "Day of the week (example: Sunday)"
-        },
-        {
-          "const": "%H",
-          "title": "Hour (24-hour clock) as number (example: 22)"
-        },
-        {
-          "const": "%Y-%m-%d",
-          "title": "Date (example: 2025-01-31)"
+      "properties": {
+        "temporal_index": {
+          "oneOf": [
+            {
+              "const": "%Y",
+              "title": "Year (example: 2024)"
+            },
+            {
+              "const": "%B",
+              "title": "Month (example: September)"
+            },
+            {
+              "const": "%Y-%m",
+              "title": "Year and Month (example: 2023-01)"
+            },
+            {
+              "const": "%j",
+              "title": "Day of the year as a number (example: 365)"
+            },
+            {
+              "const": "%d",
+              "title": "Day of the month as a number (example: 31)"
+            },
+            {
+              "const": "%A",
+              "title": "Day of the week (example: Sunday)"
+            },
+            {
+              "const": "%H",
+              "title": "Hour (24-hour clock) as number (example: 22)"
+            },
+            {
+              "const": "%Y-%m-%d",
+              "title": "Date (example: 2025-01-31)"
+            }
+          ],
+          "title": "Time",
+          "type": "string"
         }
+      },
+      "required": [
+        "temporal_index"
       ],
       "title": "Time",
-      "type": "string"
+      "type": "object"
     },
     "ValueGrouper": {
       "description": "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
@@ -686,6 +724,12 @@
           }
         }
       },
+      "process_columns": {
+        "ui:order": [
+          "drop_columns",
+          "raise_if_not_found"
+        ]
+      },
       "sql_query": {
         "ui:order": [
           "query",
@@ -702,6 +746,7 @@
     "Generate Maps": {
       "ui:order": [
         "skip_map_generation",
+        "rename_display_columns",
         "base_map_defs"
       ]
     },

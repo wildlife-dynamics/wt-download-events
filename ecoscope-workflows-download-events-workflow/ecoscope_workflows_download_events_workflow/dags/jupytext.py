@@ -492,6 +492,7 @@ filter_events = (
 
 process_columns_params = dict(
     drop_columns=...,
+    raise_if_not_found=...,
 )
 
 # %%
@@ -815,7 +816,9 @@ events_colormap = (
 # %%
 # parameters
 
-rename_display_columns_params = dict()
+rename_display_columns_params = dict(
+    raise_if_not_found=...,
+)
 
 # %%
 # call the task

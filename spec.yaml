@@ -18,6 +18,7 @@ rjsf-overrides:
       Skip downloading all attachments associated with the events.
     Download Attachments.properties.skip_attachment_download.properties.skip.default: true
     persist_events.properties.filename_prefix.default: "events"
+    persist_events.properties.filetypes.default: ["geoparquet"]
     Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "priority", "priority_label", "attributes", "comment", "patrol_segments", "updated_at", "state", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Process Events.properties.process_columns.properties.drop_columns.description: >-
       Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
