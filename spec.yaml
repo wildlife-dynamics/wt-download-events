@@ -1,13 +1,13 @@
 id: download_events
 requirements:
   - name: ecoscope-workflows-core
-    version: ">=0.22.2, <0.23.0"
+    version: ">=0.22.12, <0.23.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-ecoscope
-    version: ">=0.22.2, <0.23.0"
+    version: ">=0.22.12, <0.23.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: ">=0.0.24, <0.1.0"
+    version: ">=0.0.28, <0.1.0"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 rjsf-overrides:
   properties:
