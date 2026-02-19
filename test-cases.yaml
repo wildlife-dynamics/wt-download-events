@@ -63,7 +63,7 @@ month-grouper:
         name: "mep_dev"
     groupers:
       groupers:
-        - "%B"
+        - temporal_index: "%B"
     get_event_data:
       event_types: ["arrest_rep", "snare_rep", "poacher_camp_rep"]
     filter_events:
