@@ -137,12 +137,6 @@
           "type": "array",
           "description": "List of columns to drop.",
           "ecoscope:advanced": true
-        },
-        "raise_if_not_found": {
-          "default": true,
-          "title": "Raise If Not Found",
-          "type": "boolean",
-          "description": "Whether or not to raise if var is not in value_map."
         }
       },
       "required": [],
@@ -261,20 +255,6 @@
       "required": [],
       "type": "object",
       "title": "Skip Map Generation"
-    },
-    "rename_display_columns": {
-      "additionalProperties": false,
-      "properties": {
-        "raise_if_not_found": {
-          "default": true,
-          "title": "Raise If Not Found",
-          "type": "boolean",
-          "description": "Whether or not to raise if var is not in value_map."
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Rename columns for map tooltip display"
     },
     "base_map_defs": {
       "additionalProperties": false,
@@ -677,12 +657,6 @@
         "filter_point_coords"
       ]
     },
-    "process_columns": {
-      "ui:order": [
-        "drop_columns",
-        "raise_if_not_found"
-      ]
-    },
     "sql_query": {
       "ui:order": [
         "query",
@@ -707,7 +681,6 @@
       "persist_events",
       "skip_attachment_download",
       "skip_map_generation",
-      "rename_display_columns",
       "base_map_defs"
     ]
   },

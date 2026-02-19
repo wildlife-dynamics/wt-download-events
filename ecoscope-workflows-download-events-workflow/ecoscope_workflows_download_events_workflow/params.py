@@ -39,11 +39,6 @@ class ProcessColumns(BaseModel):
     drop_columns: Optional[List[str]] = Field(
         [], description="List of columns to drop.", title="Drop Columns"
     )
-    raise_if_not_found: Optional[bool] = Field(
-        True,
-        description="Whether or not to raise if var is not in value_map.",
-        title="Raise If Not Found",
-    )
 
 
 class SqlQuery(BaseModel):
@@ -101,17 +96,6 @@ class SkipMapGeneration(BaseModel):
         False,
         description="Skip the following tasks if True, returning a sentinel value.",
         title="Skip",
-    )
-
-
-class RenameDisplayColumns(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    raise_if_not_found: Optional[bool] = Field(
-        True,
-        description="Whether or not to raise if var is not in value_map.",
-        title="Raise If Not Found",
     )
 
 
@@ -391,8 +375,5 @@ class Params(BaseModel):
     )
     skip_map_generation: Optional[SkipMapGeneration] = Field(
         None, title="Skip Map Generation"
-    )
-    rename_display_columns: Optional[RenameDisplayColumns] = Field(
-        None, title="Rename columns for map tooltip display"
     )
     base_map_defs: Optional[BaseMapDefs] = Field(None, title=" ")

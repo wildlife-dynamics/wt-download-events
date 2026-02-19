@@ -153,6 +153,7 @@ workflow:
           rename_columns:
             time: event_time
           retain_columns: []
+          raise_if_not_found: true
 
       - name: Apply SQL Query
         id: sql_query
@@ -253,6 +254,7 @@ workflow:
             event_time: "Event Time"
             event_type_display: "Event Type"
             reported_by_name: "Reported By"
+          raise_if_not_found: true
         mapvalues:
           argnames: df
           argvalues: ${{ workflow.events_colormap.return }}

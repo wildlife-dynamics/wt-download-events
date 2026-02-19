@@ -492,7 +492,6 @@ filter_events = (
 
 process_columns_params = dict(
     drop_columns=...,
-    raise_if_not_found=...,
 )
 
 # %%
@@ -514,6 +513,7 @@ process_columns = (
         df=filter_events,
         rename_columns={"time": "event_time"},
         retain_columns=[],
+        raise_if_not_found=True,
         **process_columns_params,
     )
     .call()
@@ -816,9 +816,7 @@ events_colormap = (
 # %%
 # parameters
 
-rename_display_columns_params = dict(
-    raise_if_not_found=...,
-)
+rename_display_columns_params = dict()
 
 # %%
 # call the task
@@ -844,6 +842,7 @@ rename_display_columns = (
             "event_type_display": "Event Type",
             "reported_by_name": "Reported By",
         },
+        raise_if_not_found=True,
         **rename_display_columns_params,
     )
     .mapvalues(argnames=["df"], argvalues=events_colormap)

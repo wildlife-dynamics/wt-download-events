@@ -163,12 +163,6 @@
               "type": "array",
               "description": "Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.",
               "ecoscope:advanced": true
-            },
-            "raise_if_not_found": {
-              "default": true,
-              "title": "Raise If Not Found",
-              "type": "boolean",
-              "description": "Whether or not to raise if var is not in value_map."
             }
           },
           "required": [],
@@ -298,20 +292,6 @@
           "required": [],
           "type": "object",
           "title": "Skip Map Generation"
-        },
-        "rename_display_columns": {
-          "additionalProperties": false,
-          "properties": {
-            "raise_if_not_found": {
-              "default": true,
-              "title": "Raise If Not Found",
-              "type": "boolean",
-              "description": "Whether or not to raise if var is not in value_map."
-            }
-          },
-          "required": [],
-          "type": "object",
-          "title": "Rename columns for map tooltip display"
         },
         "base_map_defs": {
           "additionalProperties": false,
@@ -721,12 +701,6 @@
           }
         }
       },
-      "process_columns": {
-        "ui:order": [
-          "drop_columns",
-          "raise_if_not_found"
-        ]
-      },
       "sql_query": {
         "ui:order": [
           "query",
@@ -743,7 +717,6 @@
     "Generate Maps": {
       "ui:order": [
         "skip_map_generation",
-        "rename_display_columns",
         "base_map_defs"
       ]
     },
