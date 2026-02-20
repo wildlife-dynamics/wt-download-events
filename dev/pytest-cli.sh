@@ -9,6 +9,7 @@ shift  # Remove first argument to process remaining flags
 skip_setup=false
 local_mode=false
 run_all=false
+quiet=false
 test_case=""
 
 # Check for flags
@@ -27,6 +28,10 @@ while [[ $# -gt 0 ]]; do
             run_all=true
             shift
             ;;
+        --quiet|-q)
+            quiet=true
+            shift
+            ;;
         --case)
             test_case="$2"
             shift 2
@@ -39,15 +44,17 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ -z "$workflow_name" ]; then
-    echo "Usage: $0 <workflow_name> <--all | --case test_case_name> [--skip-setup] [--local]"
+    echo "Usage: $0 <workflow_name> <--all | --case test_case_name> [--skip-setup] [--local] [--quiet|-q]"
     echo "Examples:"
     echo "  $0 download-events --case with-attachments    # Run single test case"
     echo "  $0 download-events --all                       # Run all test cases"
+    echo "  $0 download-events --all --quiet               # Minimal output"
     echo "Options:"
     echo "  --case <name>   Run a specific test case"
     echo "  --all           Run all test cases for the workflow"
     echo "  --skip-setup    Skip pixi update and playwright-install steps"
     echo "  --local         Run commands directly without pixi (implies --skip-setup)"
+    echo "  --quiet, -q     Minimal output: only show pass/fail and errors"
     exit 1
 fi
 
@@ -69,15 +76,17 @@ workflow_dir="${repo_root}/ecoscope-workflows-${workflow_dash}-workflow"
 manifest_path="${workflow_dir}/pixi.toml"
 test_cases_file="${repo_root}/test-cases.yaml"
 
-echo "=========================================="
-echo "Workflow: $workflow_name"
-if [ "$run_all" = true ]; then
-    echo "Running: ALL test cases"
-else
-    echo "Test case: $test_case"
+if [ "$quiet" = false ]; then
+    echo "=========================================="
+    echo "Workflow: $workflow_name"
+    if [ "$run_all" = true ]; then
+        echo "Running: ALL test cases"
+    else
+        echo "Test case: $test_case"
+    fi
+    echo "Mode: $([ "$local_mode" = true ] && echo "local" || echo "pixi")"
+    echo "=========================================="
 fi
-echo "Mode: $([ "$local_mode" = true ] && echo "local" || echo "pixi")"
-echo "=========================================="
 
 # Helper function to run commands with or without pixi
 run_cmd() {
@@ -92,27 +101,29 @@ run_cmd() {
 
 # Optional setup steps
 if [ "$skip_setup" = false ]; then
-    echo "Updating pixi environment..."
+    [ "$quiet" = false ] && echo "Updating pixi environment..."
     pixi update --manifest-path $manifest_path
-    echo "Installing playwright..."
+    [ "$quiet" = false ] && echo "Installing playwright..."
     run_cmd pip install playwright
     run_cmd bash -c "playwright install --with-deps chromium"
 else
-    echo "Skipping pixi update and playwright-install (--skip-setup or --local flag provided)"
+    [ "$quiet" = false ] && echo "Skipping pixi update and playwright-install (--skip-setup or --local flag provided)"
 fi
 
 # Function to run a single test case
 run_single_test_case() {
     local test_case=$1
 
-    echo ""
-    echo "=========================================="
-    echo "Running test case: $test_case"
-    echo "=========================================="
+    if [ "$quiet" = false ]; then
+        echo ""
+        echo "=========================================="
+        echo "Running test case: $test_case"
+        echo "=========================================="
+    fi
 
     # Verify test case exists
     if ! yq -e ".\"${test_case}\"" "$test_cases_file" > /dev/null 2>&1; then
-        echo "ERROR: Test case '${test_case}' not found in $test_cases_file"
+        echo "✗ $test_case — ERROR: test case not found in $test_cases_file"
         return 1
     fi
 
@@ -122,7 +133,7 @@ run_single_test_case() {
     else
         use_mock_io="true"
     fi
-    echo "Mock IO mode: $use_mock_io"
+    [ "$quiet" = false ] && echo "Mock IO mode: $use_mock_io"
 
     # Create temporary results directory (cross-platform compatible)
     # Use RUNNER_TEMP if available (GitHub Actions), otherwise fall back to /tmp
@@ -130,8 +141,8 @@ run_single_test_case() {
     results_dir="${temp_base}/workflow-test-results/${workflow_name}/${test_case}"
     rm -rf "$results_dir"
     mkdir -p "$results_dir"
-    echo "Created results directory: $results_dir"
-    echo ""
+    [ "$quiet" = false ] && echo "Created results directory: $results_dir"
+    [ "$quiet" = false ] && echo ""
 
     # Export ECOSCOPE_WORKFLOWS_RESULTS for workflow to use
     export ECOSCOPE_WORKFLOWS_RESULTS="file://${results_dir}"
@@ -140,14 +151,18 @@ run_single_test_case() {
     params_file="${results_dir}/params.yaml"
     yq ".\"${test_case}\".params" "$test_cases_file" > "$params_file"
 
-    echo "Extracted params:"
-    cat "$params_file"
-    echo ""
+    if [ "$quiet" = false ]; then
+        echo "Extracted params:"
+        cat "$params_file"
+        echo ""
+    fi
 
     # Run workflow CLI directly
-    echo "Executing workflow..."
-    echo "Results will be written to: $ECOSCOPE_WORKFLOWS_RESULTS"
-    echo ""
+    if [ "$quiet" = false ]; then
+        echo "Executing workflow..."
+        echo "Results will be written to: $ECOSCOPE_WORKFLOWS_RESULTS"
+        echo ""
+    fi
 
     cd "$workflow_dir"
     workflow_underscore=$(echo $workflow_name | tr '-' '_')
@@ -158,14 +173,24 @@ run_single_test_case() {
         cmd="$cmd --mock-io"
     fi
 
-    echo "Command: $cmd"
-    echo ""
+    if [ "$quiet" = false ]; then
+        echo "Command: $cmd"
+        echo ""
+    fi
 
     # Run the command and capture exit code
-    if run_cmd $cmd; then
-        cmd_exit_code=0
+    if [ "$quiet" = true ]; then
+        if run_cmd $cmd > /dev/null 2>&1; then
+            cmd_exit_code=0
+        else
+            cmd_exit_code=$?
+        fi
     else
-        cmd_exit_code=$?
+        if run_cmd $cmd; then
+            cmd_exit_code=0
+        else
+            cmd_exit_code=$?
+        fi
     fi
 
     # Return to repo root
@@ -174,30 +199,29 @@ run_single_test_case() {
     # Validate result.json
     result_json="${results_dir}/result.json"
     if [ ! -f "$result_json" ]; then
-        echo "ERROR: result.json not found at $result_json"
+        echo "✗ $test_case — result.json not found at $result_json"
         return 1
     fi
 
-    echo ""
-    echo "Validating result.json..."
+    [ "$quiet" = false ] && echo ""
+    [ "$quiet" = false ] && echo "Validating result.json..."
     error_value=$(jq -r '.error // "null"' "$result_json")
 
     if [ "$error_value" != "null" ] || [ $cmd_exit_code -ne 0 ]; then
-        echo "ERROR: Workflow failed"
+        echo "✗ $test_case — FAILED"
         if [ "$error_value" != "null" ]; then
-            echo "Error details:"
-            jq -r '.error' "$result_json"
+            echo "  Error: $(jq -r '.error' "$result_json")"
         fi
-        echo ""
-        echo "Full result.json:"
-        cat "$result_json"
+        [ "$quiet" = false ] && echo "" && echo "Full result.json:" && cat "$result_json"
         return 1
     fi
 
-    echo "✓ Test passed - workflow completed without errors"
-    echo ""
-    echo "Full result.json:"
-    cat "$result_json"
+    echo "✓ $test_case — passed"
+    if [ "$quiet" = false ]; then
+        echo ""
+        echo "Full result.json:"
+        cat "$result_json"
+    fi
 
     return 0
 }
@@ -208,9 +232,11 @@ if [ "$run_all" = true ]; then
     # tr -d '\r' removes carriage returns for Windows compatibility
     test_cases=($(yq 'keys | .[]' "$test_cases_file" | tr -d '"\r'))
 
-    echo ""
-    echo "Found ${#test_cases[@]} test cases: ${test_cases[*]}"
-    echo ""
+    if [ "$quiet" = false ]; then
+        echo ""
+        echo "Found ${#test_cases[@]} test cases: ${test_cases[*]}"
+        echo ""
+    fi
 
     # Track results
     declare -a failed_cases
