@@ -356,6 +356,7 @@ def main(params: Params):
             df=filter_events,
             rename_columns={"time": "event_time"},
             retain_columns=[],
+            raise_if_not_found=True,
             **(params_dict.get("process_columns") or {}),
         )
         .call()
@@ -555,6 +556,7 @@ def main(params: Params):
                 "event_type_display": "Event Type",
                 "reported_by_name": "Reported By",
             },
+            raise_if_not_found=True,
             **(params_dict.get("rename_display_columns") or {}),
         )
         .mapvalues(argnames=["df"], argvalues=events_colormap)

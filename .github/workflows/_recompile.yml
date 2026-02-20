@@ -66,3 +66,22 @@ jobs:
           else
             echo "No differences found - generated files are up to date!"
           fi
+
+      - name: Validate excluded files exist
+        run: |
+          WORKFLOW_DIR_NAME=$(echo "${{ inputs.workflow_id }}" | tr '_' '-')
+          GENERATED_DIR="ecoscope-workflows-${WORKFLOW_DIR_NAME}-workflow"
+          errors=0
+
+          for file in pixi.lock VERSION.yaml README.md; do
+            if [ ! -f "${GENERATED_DIR}/${file}" ]; then
+              echo "::error::${GENERATED_DIR}/${file} does not exist!"
+              errors=$((errors + 1))
+            else
+              echo "OK: ${GENERATED_DIR}/${file}"
+            fi
+          done
+
+          if [ $errors -gt 0 ]; then
+            exit 1
+          fi

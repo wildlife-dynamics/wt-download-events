@@ -398,6 +398,7 @@ def main(params: Params):
                 "rename_columns": {
                     "time": "event_time",
                 },
+                "raise_if_not_found": True,
             }
             | (params_dict.get("process_columns") or {}),
             method="call",
@@ -611,6 +612,7 @@ def main(params: Params):
                     "event_type_display": "Event Type",
                     "reported_by_name": "Reported By",
                 },
+                "raise_if_not_found": True,
             }
             | (params_dict.get("rename_display_columns") or {}),
             method="mapvalues",

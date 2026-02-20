@@ -6,7 +6,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, RootModel, confloat, constr
+from pydantic import BaseModel, ConfigDict, Field, confloat, constr
 
 
 class WorkflowDetails(BaseModel):
@@ -287,23 +287,27 @@ class Coordinate(BaseModel):
     x: float = Field(..., description="Example 37.30906", title="Longitude")
 
 
-class SpatialGrouper(RootModel[str]):
-    root: str = Field(..., title="Spatial Regions")
+class SpatialGrouper(BaseModel):
+    spatial_index_name: str = Field(..., title="Spatial Regions")
 
 
-class TemporalGrouper(str, Enum):
-    field_Y = "%Y"
-    field_B = "%B"
-    field_Y__m = "%Y-%m"
-    field_j = "%j"
-    field_d = "%d"
-    field_A = "%A"
-    field_H = "%H"
-    field_Y__m__d = "%Y-%m-%d"
+class TemporalIndex(str, Enum):
+    Year__example__2024_ = "%Y"
+    Month__example__September_ = "%B"
+    Year_and_Month__example__2023_01_ = "%Y-%m"
+    Day_of_the_year_as_a_number__example__365_ = "%j"
+    Day_of_the_month_as_a_number__example__31_ = "%d"
+    Day_of_the_week__example__Sunday_ = "%A"
+    Hour__24_hour_clock__as_number__example__22_ = "%H"
+    Date__example__2025_01_31_ = "%Y-%m-%d"
 
 
-class ValueGrouper(RootModel[str]):
-    root: str = Field(..., title="Category")
+class TemporalGrouper(BaseModel):
+    temporal_index: TemporalIndex = Field(..., title="Time")
+
+
+class ValueGrouper(BaseModel):
+    index_name: str = Field(..., title="Category")
 
 
 class TimeRange(BaseModel):
