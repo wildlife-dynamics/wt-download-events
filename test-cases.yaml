@@ -121,6 +121,41 @@ with-details:
     skip_attachment_download:
       skip: true
 
+with-v2-details:
+  name: With V2 Event Details
+  mock_io: false
+  params:
+    workflow_details:
+      name: "Events"
+      description: "A workflow to download events with v2 event type schema."
+    time_range:
+      since: "2025-06-27T00:00:00Z"
+      until: "2025-06-28T00:00:00Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: ["elephant_sigthing_test"]
+    filter_events:
+      filter_point_coords: [
+        {"x": 180.0, "y": 90.0},
+        {"x": 0.0, "y": 0.0},
+        {"x": 1.0, "y": 1.0},
+      ]
+    persist_events:
+      filetypes: ["geoparquet", "csv"]
+      filename_prefix: "events_v2_details"
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+          opacity: 0.5
+          max_zoom: 17
+          min_zoom: null
+    skip_attachment_download:
+      skip: true
+
 empty-results:
   name: Empty Results
   mock_io: false
