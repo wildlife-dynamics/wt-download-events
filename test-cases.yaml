@@ -226,6 +226,39 @@ with-attachments:
       skip: false
 
 
+gpkg-export:
+  name: Export Events as GPKG
+  mock_io: true
+  params:
+    workflow_details:
+      name: "Events"
+      description: "A workflow to download events as GPKG."
+    time_range:
+      since: "2015-03-04T00:00:00Z"
+      until: "2015-03-06T23:59:59Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: []
+    filter_events:
+      filter_point_coords: [
+        {"x": 180.0, "y": 90.0},
+        {"x": 0.0, "y": 0.0},
+        {"x": 1.0, "y": 1.0},
+      ]
+    persist_events:
+      filetypes: ["gpkg", "csv"]
+      filename_prefix: "events_gpkg"
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0
+    skip_attachment_download:
+      skip: true
+    skip_map_generation:
+      skip: true
+
 skip-maps:
   name: Download Events without generating maps
   mock_io: true
