@@ -108,7 +108,7 @@ with-details:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv"]
+      filetypes: ["geoparquet", "csv", "gpkg"]
       filename_prefix: "events_with_details"
     base_map_defs:
       base_maps:
@@ -228,17 +228,17 @@ with-attachments:
 
 gpkg-export:
   name: Export Events as GPKG
-  mock_io: true
+  mock_io: false
   params:
     workflow_details:
       name: "Events"
       description: "A workflow to download events as GPKG."
     time_range:
-      since: "2015-03-04T00:00:00Z"
-      until: "2015-03-06T23:59:59Z"
+      since: "2026-01-24T00:00:00Z"
+      until: "2026-02-23T23:59:59Z"
     er_client_name:
       data_source:
-        name: "mep_dev"
+        name: "er_asia"
     get_event_data:
       event_types: []
     filter_events:
@@ -248,12 +248,8 @@ gpkg-export:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["gpkg", "csv"]
-      filename_prefix: "events_gpkg"
-    base_map_defs:
-      base_maps:
-        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-          opacity: 1.0
+      filetypes: ["gpkg"]
+      filename_prefix: "events"
     skip_attachment_download:
       skip: true
     skip_map_generation:
