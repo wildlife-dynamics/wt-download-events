@@ -96,6 +96,19 @@
       "description": "Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.",
       "ecoscope:task_group": true,
       "properties": {
+        "process_event_details": {
+          "additionalProperties": false,
+          "properties": {
+            "ordered": {
+              "default": true,
+              "title": "Ordered",
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "type": "object",
+          "title": "Process Event Details"
+        },
         "filter_events": {
           "additionalProperties": false,
           "properties": {
@@ -231,7 +244,6 @@
           "items": {
             "enum": [
               "csv",
-              "gpkg",
               "geoparquet"
             ],
             "type": "string"
@@ -683,6 +695,7 @@
     },
     "Process Events": {
       "ui:order": [
+        "process_event_details",
         "filter_events",
         "process_columns",
         "sql_query",

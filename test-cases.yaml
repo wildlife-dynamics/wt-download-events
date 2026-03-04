@@ -108,7 +108,7 @@ with-details:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv", "gpkg"]
+      filetypes: ["geoparquet", "csv"]
       filename_prefix: "events_with_details"
     base_map_defs:
       base_maps:
@@ -225,35 +225,6 @@ with-attachments:
     skip_attachment_download:
       skip: false
 
-
-gpkg-export:
-  name: Export Events as GPKG
-  mock_io: false
-  params:
-    workflow_details:
-      name: "Events"
-      description: "A workflow to download events as GPKG."
-    time_range:
-      since: "2026-01-24T00:00:00Z"
-      until: "2026-02-23T23:59:59Z"
-    er_client_name:
-      data_source:
-        name: "er_asia"
-    get_event_data:
-      event_types: []
-    filter_events:
-      filter_point_coords: [
-        {"x": 180.0, "y": 90.0},
-        {"x": 0.0, "y": 0.0},
-        {"x": 1.0, "y": 1.0},
-      ]
-    persist_events:
-      filetypes: ["gpkg"]
-      filename_prefix: "events"
-    skip_attachment_download:
-      skip: true
-    skip_map_generation:
-      skip: true
 
 skip-maps:
   name: Download Events without generating maps

@@ -353,7 +353,9 @@ extract_reported_by_subtype = (
 # %%
 # parameters
 
-process_event_details_params = dict()
+process_event_details_params = dict(
+    ordered=...,
+)
 
 # %%
 # call the task
