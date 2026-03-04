@@ -7,7 +7,7 @@ This workflow allows you to download and analyze event data from EarthRanger.
 **What this workflow does:**
 - Downloads event data from EarthRanger for a specified time period
 - Filters and processes events based on your criteria
-- Exports data in multiple formats (CSV, GeoParquet, GPKG)
+- Exports data in multiple formats (CSV, GeoParquet)
 - Optionally creates visual maps showing event locations
 - Optionally downloads attachments (photos, documents) associated with events
 
@@ -100,7 +100,6 @@ Choose how to save your data.
 - **Filetypes**: Select one or more output formats
   - **CSV**: Standard spreadsheet format, opens in Excel
   - **GeoParquet**: Efficient format for geospatial data
-  - **GPKG**: GeoPackage format, opens in GIS software like QGIS
   - Example: Select both `CSV` and `GeoParquet`
 - **Filename Prefix** (optional): Custom prefix for output files. Ecoscope will attach a hash code to keep it unique
   - Default: `"events"`
@@ -182,12 +181,11 @@ After the workflow completes successfully, you'll find your outputs in the desig
 ### Data Outputs
 
 Your event data will be saved in the format(s) you selected:
-- **File formats**: CSV, GeoParquet, and/or GPKG (based on your selection)
-- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (GeoParquet), QGIS/ArcGIS (GPKG)
+- **File formats**: CSV and/or GeoParquet (based on your selection)
+- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (GeoParquet)
 - **Best for**:
   - CSV: Quick data review and analysis
   - GeoParquet: Large datasets, programmatic analysis
-  - GPKG: Spatial analysis in GIS software
 - **Contents**: All event data with normalized event details (coded values are automatically mapped to human-readable display titles)
 
 ### Visual Outputs (When Maps are Generated)
@@ -244,13 +242,13 @@ Here are some typical scenarios and how to configure the workflow for each:
 **Configuration**:
 - **Time Range**: Your desired date range
 - **Event Types**: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
-- **Filetypes**: Select `CSV` and `GPKG`
+- **Filetypes**: Select `CSV` and `GeoParquet`
 - **Skip Attachment Download**: Checked
 - **Skip Map Generation**: Unchecked
 
 **Result**:
 - CSV file for spreadsheet analysis
-- GPKG file for GIS analysis
+- GeoParquet file for programmatic analysis
 - Interactive map showing arrest and snare locations colored by event type
 
 ---
