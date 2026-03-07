@@ -67,6 +67,7 @@ class Filetype(str, Enum):
     csv = "csv"
     gpkg = "gpkg"
     geoparquet = "geoparquet"
+    parquet = "parquet"
 
 
 class PersistEvents(BaseModel):

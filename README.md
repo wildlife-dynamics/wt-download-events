@@ -99,7 +99,8 @@ Choose how to save your data.
 
 - **Filetypes**: Select one or more output formats
   - **CSV**: Standard spreadsheet format, opens in Excel
-  - **GeoParquet**: Efficient format for geospatial data
+  - **GeoParquet**: Efficient format for geospatial data, preserves geometry
+  - **Parquet**: Efficient columnar format without geometry (smaller file size)
   - Example: Select both `CSV` and `GeoParquet`
 - **Filename Prefix** (optional): Custom prefix for output files. Ecoscope will attach a hash code to keep it unique
   - Default: `"events"`
@@ -181,11 +182,12 @@ After the workflow completes successfully, you'll find your outputs in the desig
 ### Data Outputs
 
 Your event data will be saved in the format(s) you selected:
-- **File formats**: CSV and/or GeoParquet (based on your selection)
-- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (GeoParquet)
+- **File formats**: CSV, GeoParquet, and/or Parquet (based on your selection)
+- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (GeoParquet, Parquet)
 - **Best for**:
   - CSV: Quick data review and analysis
-  - GeoParquet: Large datasets, programmatic analysis
+  - GeoParquet: Large datasets with spatial data, programmatic analysis
+  - Parquet: Large datasets without geometry, efficient storage
 - **Contents**: All event data with normalized event details (coded values are automatically mapped to human-readable display titles)
 
 ### Visual Outputs (When Maps are Generated)

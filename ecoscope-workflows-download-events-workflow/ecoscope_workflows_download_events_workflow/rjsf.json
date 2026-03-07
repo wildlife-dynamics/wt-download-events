@@ -244,7 +244,8 @@
           "items": {
             "enum": [
               "csv",
-              "geoparquet"
+              "geoparquet",
+              "parquet"
             ],
             "type": "string"
           },
