@@ -144,10 +144,8 @@ workflow:
           input_column_name: "event_type"
           colormap: "tab20b"
           output_column_name: "event_type_colormap"
-        mapvalues:
-          argnames: df
-          argvalues: ${{ workflow.drop_event_details_prefix.return }}
-
+          df: ${{ workflow.drop_event_details_prefix.return }}
+          
       ## Custom Processing Steps ##
       - name: Filter Event Relocations
         id: filter_events

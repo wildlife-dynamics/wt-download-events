@@ -475,9 +475,10 @@ events_colormap = (
         input_column_name="event_type",
         colormap="tab20b",
         output_column_name="event_type_colormap",
+        df=drop_event_details_prefix,
         **events_colormap_params,
     )
-    .mapvalues(argnames=["df"], argvalues=drop_event_details_prefix)
+    .call()
 )
 
 

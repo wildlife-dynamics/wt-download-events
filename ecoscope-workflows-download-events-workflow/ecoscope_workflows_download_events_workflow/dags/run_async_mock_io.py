@@ -394,13 +394,10 @@ def main(params: Params):
                 "input_column_name": "event_type",
                 "colormap": "tab20b",
                 "output_column_name": "event_type_colormap",
+                "df": DependsOn("drop_event_details_prefix"),
             }
             | (params_dict.get("events_colormap") or {}),
-            method="mapvalues",
-            kwargs={
-                "argnames": ["df"],
-                "argvalues": DependsOn("drop_event_details_prefix"),
-            },
+            method="call",
         ),
         "filter_events": Node(
             async_task=apply_reloc_coord_filter.validate()

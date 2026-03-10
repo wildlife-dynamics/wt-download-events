@@ -335,9 +335,10 @@ def main(params: Params):
             input_column_name="event_type",
             colormap="tab20b",
             output_column_name="event_type_colormap",
+            df=drop_event_details_prefix,
             **(params_dict.get("events_colormap") or {}),
         )
-        .mapvalues(argnames=["df"], argvalues=drop_event_details_prefix)
+        .call()
     )
 
     filter_events = (
