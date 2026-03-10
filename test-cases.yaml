@@ -226,6 +226,42 @@ with-attachments:
       skip: false
 
 
+sql-aggregate:
+  name: SQL Aggregate Accidents by Day
+  mock_io: true
+  params:
+    workflow_details:
+      name: "Events"
+      description: "Aggregate accident events by day."
+    time_range:
+      since: "2025-12-07T00:00:00Z"
+      until: "2025-12-09T23:59:59Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: []
+    filter_events:
+      filter_point_coords: []
+    sql_query:
+      query: >-
+        SELECT DATE(event_time) as event_time, SUM("Number of people involved") as total_people
+        FROM df WHERE event_type = "accident_rep" GROUP BY DATE(event_time)
+      columns: []
+    groupers:
+      groupers: []
+    persist_events:
+      filetypes: ["csv"]
+      filename_prefix: "accidents_daily"
+    skip_attachment_download:
+      skip: true
+    skip_map_generation:
+      skip: true
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0
+
 skip-maps:
   name: Download Events without generating maps
   mock_io: true
