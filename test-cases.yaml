@@ -73,7 +73,7 @@ month-grouper:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv"]
+      filetypes: ["parquet", "csv"]
       filename_prefix: "events_monthly"
     base_map_defs:
       base_maps:
@@ -108,7 +108,7 @@ with-details:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv"]
+      filetypes: ["parquet", "csv"]
       filename_prefix: "events_with_details"
     base_map_defs:
       base_maps:
@@ -143,7 +143,7 @@ with-v2-details:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv"]
+      filetypes: ["parquet", "csv"]
       filename_prefix: "events_v2_details"
     base_map_defs:
       base_maps:
@@ -178,7 +178,7 @@ empty-results:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv"]
+      filetypes: ["parquet", "csv"]
       filename_prefix: "events_with_details"
     base_map_defs:
       base_maps:
@@ -212,7 +212,7 @@ with-attachments:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv"]
+      filetypes: ["parquet", "csv"]
       filename_prefix: "events"
     base_map_defs:
       base_maps:
@@ -248,7 +248,7 @@ skip-maps:
         {"x": 1.0, "y": 1.0},
       ]
     persist_events:
-      filetypes: ["geoparquet", "csv"]
+      filetypes: ["parquet", "csv"]
       filename_prefix: "events"
     base_map_defs:
       base_maps:

@@ -7,7 +7,7 @@ This workflow allows you to download and analyze event data from EarthRanger.
 **What this workflow does:**
 - Downloads event data from EarthRanger for a specified time period
 - Filters and processes events based on your criteria
-- Exports data in multiple formats (CSV, GeoParquet)
+- Exports data in multiple formats (CSV, Parquet)
 - Optionally creates visual maps showing event locations
 - Optionally downloads attachments (photos, documents) associated with events
 
@@ -99,9 +99,9 @@ Choose how to save your data.
 
 - **Filetypes**: Select one or more output formats
   - **CSV**: Standard spreadsheet format, opens in Excel
-  - **GeoParquet**: Efficient format for geospatial data, preserves geometry
+  - **Parquet**: Efficient format for geospatial data, preserves geometry
   - **Parquet**: Efficient columnar format without geometry (smaller file size)
-  - Example: Select both `CSV` and `GeoParquet`
+  - Example: Select both `CSV` and `Parquet`
 - **Filename Prefix** (optional): Custom prefix for output files. Ecoscope will attach a hash code to keep it unique
   - Default: `"events"`
   - Example: `"events_monthly"` will create files like `events_monthly_abc123.csv`
@@ -182,11 +182,11 @@ After the workflow completes successfully, you'll find your outputs in the desig
 ### Data Outputs
 
 Your event data will be saved in the format(s) you selected:
-- **File formats**: CSV, GeoParquet, and/or Parquet (based on your selection)
-- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (GeoParquet, Parquet)
+- **File formats**: CSV, Parquet, and/or Parquet (based on your selection)
+- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (Parquet, Parquet)
 - **Best for**:
   - CSV: Quick data review and analysis
-  - GeoParquet: Large datasets with spatial data, programmatic analysis
+  - Parquet: Large datasets with spatial data, programmatic analysis
   - Parquet: Large datasets without geometry, efficient storage
 - **Contents**: All event data with normalized event details (coded values are automatically mapped to human-readable display titles)
 
@@ -244,13 +244,13 @@ Here are some typical scenarios and how to configure the workflow for each:
 **Configuration**:
 - **Time Range**: Your desired date range
 - **Event Types**: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
-- **Filetypes**: Select `CSV` and `GeoParquet`
+- **Filetypes**: Select `CSV` and `Parquet`
 - **Skip Attachment Download**: Checked
 - **Skip Map Generation**: Unchecked
 
 **Result**:
 - CSV file for spreadsheet analysis
-- GeoParquet file for programmatic analysis
+- Parquet file for programmatic analysis
 - Interactive map showing arrest and snare locations colored by event type
 
 ---
