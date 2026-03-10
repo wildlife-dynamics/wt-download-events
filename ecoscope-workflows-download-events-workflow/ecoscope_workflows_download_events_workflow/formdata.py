@@ -31,13 +31,6 @@ class GetEventData(BaseModel):
     )
 
 
-class ProcessEventDetails(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    ordered: bool | None = Field(True, title="Ordered")
-
-
 class ProcessColumns(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -96,7 +89,7 @@ class PersistEvents(BaseModel):
         extra="forbid",
     )
     filetypes: list[Filetype] | None = Field(
-        ["geoparquet"], description="The output format", title="Filetypes"
+        ["parquet"], description="The output format", title="Filetypes"
     )
     filename_prefix: str | None = Field(
         "events",
@@ -404,9 +397,6 @@ class Groupers(BaseModel):
 
 
 class ProcessEvents(BaseModel):
-    process_event_details: ProcessEventDetails | None = Field(
-        None, title="Process Event Details"
-    )
     filter_events: FilterEvents | None = Field(None, title="Filter Event Relocations")
     process_columns: ProcessColumns | None = Field(None, title="Preprocess Columns")
     sql_query: SqlQuery | None = Field(None, title="Apply SQL Query")

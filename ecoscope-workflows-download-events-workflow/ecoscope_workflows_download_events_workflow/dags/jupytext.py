@@ -353,9 +353,7 @@ extract_reported_by_subtype = (
 # %%
 # parameters
 
-process_event_details_params = dict(
-    ordered=...,
-)
+process_event_details_params = dict()
 
 # %%
 # call the task
@@ -376,6 +374,7 @@ process_event_details = (
         df=extract_reported_by_subtype,
         client=er_client_name,
         map_to_titles=True,
+        ordered=True,
         **process_event_details_params,
     )
     .call()

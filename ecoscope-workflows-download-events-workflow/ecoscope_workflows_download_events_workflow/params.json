@@ -91,19 +91,6 @@
       "type": "object",
       "title": "Get Event Data"
     },
-    "process_event_details": {
-      "additionalProperties": false,
-      "properties": {
-        "ordered": {
-          "default": true,
-          "title": "Ordered",
-          "type": "boolean"
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Process Event Details"
-    },
     "filter_events": {
       "additionalProperties": false,
       "properties": {
@@ -688,7 +675,6 @@
       "time_range",
       "er_client_name",
       "get_event_data",
-      "process_event_details",
       "filter_events",
       "process_columns",
       "sql_query",

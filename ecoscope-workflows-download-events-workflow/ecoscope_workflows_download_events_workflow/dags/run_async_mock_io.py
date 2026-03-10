@@ -329,6 +329,7 @@ def main(params: Params):
                 "df": DependsOn("extract_reported_by_subtype"),
                 "client": DependsOn("er_client_name"),
                 "map_to_titles": True,
+                "ordered": True,
             }
             | (params_dict.get("process_event_details") or {}),
             method="call",

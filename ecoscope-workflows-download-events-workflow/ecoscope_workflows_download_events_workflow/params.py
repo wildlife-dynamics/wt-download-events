@@ -31,13 +31,6 @@ class GetEventData(BaseModel):
     )
 
 
-class ProcessEventDetails(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    ordered: bool | None = Field(True, title="Ordered")
-
-
 class ProcessColumns(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -379,9 +372,6 @@ class Params(BaseModel):
     )
     er_client_name: ErClientName | None = Field(None, title="Data Source")
     get_event_data: GetEventData | None = Field(None, title="Get Event Data")
-    process_event_details: ProcessEventDetails | None = Field(
-        None, title="Process Event Details"
-    )
     filter_events: FilterEvents | None = Field(None, title="Filter Event Relocations")
     process_columns: ProcessColumns | None = Field(None, title="Preprocess Columns")
     sql_query: SqlQuery | None = Field(None, title="Apply SQL Query")
