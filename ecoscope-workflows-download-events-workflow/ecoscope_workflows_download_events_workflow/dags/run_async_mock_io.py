@@ -57,6 +57,9 @@ from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_column_prefix as drop_column_prefix,
 )
 from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
+    apply_color_map as apply_color_map,
+)
+from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
     apply_reloc_coord_filter as apply_reloc_coord_filter,
 )
 from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
@@ -84,9 +87,6 @@ from ecoscope_workflows_ext_ecoscope.tasks.results import set_base_maps as set_b
 from ecoscope_workflows_ext_ecoscope.tasks.skip import (
     all_geometry_are_none as all_geometry_are_none,
 )
-from ecoscope_workflows_ext_ecoscope.tasks.transformation import (
-    apply_color_map as apply_color_map,
-)
 
 from ..params import Params
 
@@ -108,7 +108,8 @@ def main(params: Params):
         "process_event_details": ["extract_reported_by_subtype", "er_client_name"],
         "normalize_event_details": ["process_event_details"],
         "drop_event_details_prefix": ["normalize_event_details"],
-        "filter_events": ["drop_event_details_prefix"],
+        "events_colormap": ["drop_event_details_prefix"],
+        "filter_events": ["events_colormap"],
         "process_columns": ["filter_events"],
         "sql_query": ["process_columns"],
         "groupers": [],
@@ -118,8 +119,7 @@ def main(params: Params):
         "skip_attachment_download": ["get_event_data"],
         "download_attachments": ["er_client_name", "skip_attachment_download"],
         "skip_map_generation": ["split_event_groups"],
-        "events_colormap": ["skip_map_generation"],
-        "rename_display_columns": ["events_colormap"],
+        "rename_display_columns": ["skip_map_generation"],
         "set_events_map_title": [],
         "base_map_defs": [],
         "grouped_events_map_layer": ["rename_display_columns"],
@@ -376,6 +376,31 @@ def main(params: Params):
             | (params_dict.get("drop_event_details_prefix") or {}),
             method="call",
         ),
+        "events_colormap": Node(
+            async_task=apply_color_map.validate()
+            .set_task_instance_id("events_colormap")
+            .handle_errors()
+            .with_tracing()
+            .skipif(
+                conditions=[
+                    any_is_empty_df,
+                    any_dependency_skipped,
+                ],
+                unpack_depth=1,
+            )
+            .set_executor("lithops"),
+            partial={
+                "input_column_name": "event_type",
+                "colormap": "tab20b",
+                "output_column_name": "event_type_colormap",
+            }
+            | (params_dict.get("events_colormap") or {}),
+            method="mapvalues",
+            kwargs={
+                "argnames": ["df"],
+                "argvalues": DependsOn("drop_event_details_prefix"),
+            },
+        ),
         "filter_events": Node(
             async_task=apply_reloc_coord_filter.validate()
             .set_task_instance_id("filter_events")
@@ -390,7 +415,7 @@ def main(params: Params):
             )
             .set_executor("lithops"),
             partial={
-                "df": DependsOn("drop_event_details_prefix"),
+                "df": DependsOn("events_colormap"),
                 "roi_gdf": None,
                 "roi_name": None,
                 "reset_index": True,
@@ -585,31 +610,6 @@ def main(params: Params):
                 "argvalues": DependsOn("split_event_groups"),
             },
         ),
-        "events_colormap": Node(
-            async_task=apply_color_map.validate()
-            .set_task_instance_id("events_colormap")
-            .handle_errors()
-            .with_tracing()
-            .skipif(
-                conditions=[
-                    any_is_empty_df,
-                    any_dependency_skipped,
-                ],
-                unpack_depth=1,
-            )
-            .set_executor("lithops"),
-            partial={
-                "input_column_name": "event_type",
-                "colormap": "tab20b",
-                "output_column_name": "event_type_colormap",
-            }
-            | (params_dict.get("events_colormap") or {}),
-            method="mapvalues",
-            kwargs={
-                "argnames": ["df"],
-                "argvalues": DependsOn("skip_map_generation"),
-            },
-        ),
         "rename_display_columns": Node(
             async_task=map_columns.validate()
             .set_task_instance_id("rename_display_columns")
@@ -636,7 +636,7 @@ def main(params: Params):
             method="mapvalues",
             kwargs={
                 "argnames": ["df"],
-                "argvalues": DependsOn("events_colormap"),
+                "argvalues": DependsOn("skip_map_generation"),
             },
         ),
         "set_events_map_title": Node(

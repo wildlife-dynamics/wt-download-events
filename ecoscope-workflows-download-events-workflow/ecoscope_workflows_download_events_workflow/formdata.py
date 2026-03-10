@@ -88,7 +88,6 @@ class SqlQuery(BaseModel):
 
 class Filetype(str, Enum):
     csv = "csv"
-    geoparquet = "geoparquet"
     parquet = "parquet"
 
 

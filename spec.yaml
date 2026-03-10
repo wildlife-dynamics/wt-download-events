@@ -1,13 +1,13 @@
 id: download_events
 requirements:
   - name: ecoscope-workflows-core
-    version: ">=0.22.12, <0.23.0"
+    version: ">=0.22.16, <0.23.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-ecoscope
-    version: ">=0.22.12, <0.23.0"
+    version: ">=0.22.16, <0.23.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: ">=0.0.28, <0.1.0"
+    version: ">=0.0.34, <0.1.0"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 rjsf-overrides:
   properties:
@@ -19,7 +19,7 @@ rjsf-overrides:
     Download Attachments.properties.skip_attachment_download.properties.skip.default: true
     persist_events.properties.filename_prefix.default: "events"
     persist_events.properties.filetypes.default: ["geoparquet"]
-    persist_events.properties.filetypes.items.enum: ["csv", "geoparquet", "parquet"]
+    persist_events.properties.filetypes.items.enum: ["csv", "parquet"]
     Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "priority", "priority_label", "attributes", "comment", "patrol_segments", "updated_at", "state", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Process Events.properties.process_columns.properties.drop_columns.description: >-
       Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
@@ -136,12 +136,23 @@ workflow:
           prefix: "event_details__"
           duplicate_strategy: "suffix"
 
+      - name: Events Colormap
+        id: events_colormap
+        task: apply_color_map
+        partial:
+          input_column_name: "event_type"
+          colormap: "tab20b"
+          output_column_name: "event_type_colormap"
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.drop_event_details_prefix.return }}
+
       ## Custom Processing Steps ##
       - name: Filter Event Relocations
         id: filter_events
         task: apply_reloc_coord_filter
         partial:
-          df: ${{ workflow.drop_event_details_prefix.return }}
+          df: ${{ workflow.events_colormap.return }}
           roi_gdf: null
           roi_name: null
           reset_index: true
@@ -231,18 +242,6 @@ workflow:
           argnames: df
           argvalues: ${{ workflow.split_event_groups.return }}
 
-      - name: Events Colormap
-        id: events_colormap
-        task: apply_color_map
-        partial:
-          input_column_name: "event_type"
-          colormap: "tab20b"
-          output_column_name: "event_type_colormap"
-        mapvalues:
-          argnames: df
-          argvalues: ${{ workflow.skip_map_generation.return }}
-      
-
       # Rename columns for display
       - name: Rename columns for map tooltip display
         id: rename_display_columns
@@ -258,7 +257,7 @@ workflow:
           raise_if_not_found: true
         mapvalues:
           argnames: df
-          argvalues: ${{ workflow.events_colormap.return }}
+          argvalues: ${{ workflow.skip_map_generation.return }}
 
       - name: "Set Events Map Title"
         id: set_events_map_title
