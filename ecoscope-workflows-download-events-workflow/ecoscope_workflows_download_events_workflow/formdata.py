@@ -24,7 +24,7 @@ class GetEventData(BaseModel):
     )
     event_types: List[str] = Field(
         ...,
-        description="Specify the event type(s) to analyze (optional). Leave this section empty to analyze all event types.",
+        description='Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types',
         title="Event Types",
     )
     include_null_geometry: Optional[bool] = Field(

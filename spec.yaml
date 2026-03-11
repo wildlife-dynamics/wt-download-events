@@ -11,6 +11,8 @@ requirements:
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 rjsf-overrides:
   properties:
+    get_event_data.properties.event_types.description: >-
+      Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
     Generate Maps.properties.skip_map_generation.properties.skip.description: >-
       Skip generating maps for the events data. Recommended for large datasets to improve performance.
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
