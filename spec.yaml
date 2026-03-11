@@ -129,7 +129,7 @@ workflow:
           df: ${{ workflow.process_event_details.return }}
           column: "event_details"
           skip_if_not_exists: true
-          sort_columns: true
+          sort_columns: false
 
       - name: Remove Column Prefix Event Details
         id: drop_event_details_prefix

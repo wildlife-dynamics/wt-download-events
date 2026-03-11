@@ -245,9 +245,9 @@ sql-aggregate:
       filter_point_coords: []
     sql_query:
       query: >-
-        SELECT DATE(event_time) as event_time, SUM("Number of people involved") as total_people
-        FROM df WHERE event_type = "accident_rep" GROUP BY DATE(event_time)
-      columns: []
+        SELECT DATE(event_time) as event_time, SUM("Count") as total_birds
+        FROM df WHERE event_type = "bird_sighting_rep" GROUP BY DATE(event_time)
+      columns: ["event_time", "Count", "event_type"]
     groupers:
       groupers: []
     persist_events:

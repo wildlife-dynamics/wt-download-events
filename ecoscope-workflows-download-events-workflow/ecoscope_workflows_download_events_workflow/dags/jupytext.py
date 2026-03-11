@@ -408,7 +408,7 @@ normalize_event_details = (
         df=process_event_details,
         column="event_details",
         skip_if_not_exists=True,
-        sort_columns=True,
+        sort_columns=False,
         **normalize_event_details_params,
     )
     .call()

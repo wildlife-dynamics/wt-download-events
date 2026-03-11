@@ -274,7 +274,7 @@ def main(params: Params):
             df=process_event_details,
             column="event_details",
             skip_if_not_exists=True,
-            sort_columns=True,
+            sort_columns=False,
             **(params_dict.get("normalize_event_details") or {}),
         )
         .call()
