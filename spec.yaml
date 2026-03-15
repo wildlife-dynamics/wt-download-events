@@ -35,6 +35,8 @@ rjsf-overrides:
       type: "object"
       properties:
         index_name:
+          title: "Index Name"
+          type: "string"
           oneOf:
             - const: "event_category"
               title: "Event Type Category"

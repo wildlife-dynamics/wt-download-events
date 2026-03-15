@@ -341,8 +341,14 @@ class TemporalGrouper(BaseModel):
     temporal_index: TemporalIndex = Field(..., title="Time")
 
 
+class IndexName(str, Enum):
+    Event_Type_Category = "event_category"
+    Event_Type = "event_type"
+    Reported_By_Name = "reported_by_name"
+
+
 class ValueGrouper(BaseModel):
-    pass
+    index_name: IndexName | None = Field(None, title="Index Name")
 
 
 class TimeRange(BaseModel):
