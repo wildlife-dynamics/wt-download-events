@@ -29,11 +29,19 @@ rjsf-overrides:
       - {"$ref": "#/$defs/ValueGrouper"}
       - {"$ref": "#/$defs/TemporalGrouper"}
   $defs:
-    ValueGrouper: {
-      description: "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.",
-      title: "Category",
-      "type": "string"
-    }
+    ValueGrouper:
+      description: "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run."
+      title: "Category"
+      type: "object"
+      properties:
+        index_name:
+          oneOf:
+            - const: "event_category"
+              title: "Event Type Category"
+            - const: "event_type"
+              title: "Event Type"
+            - const: "reported_by_name"
+              title: "Reported By Name"
   uiSchema:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false

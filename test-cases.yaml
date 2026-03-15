@@ -226,6 +226,36 @@ with-attachments:
       skip: false
 
 
+value-grouper:
+  name: Value Grouper by Event Type
+  mock_io: true
+  params:
+    workflow_details:
+      name: "Events"
+      description: "A workflow to download events grouped by event type."
+    time_range:
+      since: "2025-12-21T00:00:00Z"
+      until: "2025-12-23T23:59:59Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: []
+    filter_events:
+      filter_point_coords: []
+    groupers:
+      groupers:
+        - index_name: "event_type"
+    persist_events:
+      filetypes: ["csv"]
+      filename_prefix: "events_by_type"
+    skip_attachment_download:
+      skip: true
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0
+
 sql-aggregate:
   name: SQL Aggregate Accidents by Day
   mock_io: true
