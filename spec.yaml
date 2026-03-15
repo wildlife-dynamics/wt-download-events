@@ -30,7 +30,6 @@ rjsf-overrides:
       - {"$ref": "#/$defs/TemporalGrouper"}
   $defs:
     ValueGrouper:
-      description: "Use a categorical column to group data by. If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run."
       title: "Category"
       type: "object"
       properties:
