@@ -1,14 +1,11 @@
 id: download_events
 requirements:
-  - name: ecoscope-workflows-core
-    version: ">=0.22.16, <0.23.0"
-    channel: https://repo.prefix.dev/ecoscope-workflows/
-  - name: ecoscope-workflows-ext-ecoscope
-    version: ">=0.22.16, <0.23.0"
+  - name: ecoscope-platform
+    version: "2.11.6"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: ">=0.0.36, <0.1.0"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+    path: /Users/yunwu/MEP/wt-infra/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
+    editable: true
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-

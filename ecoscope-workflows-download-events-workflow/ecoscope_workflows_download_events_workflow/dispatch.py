@@ -3,8 +3,6 @@
 
 import traceback
 
-from pydantic import BaseModel
-
 from .params import Params
 from .response import ResponseModel
 
@@ -15,14 +13,6 @@ def dispatch(
     params: Params,
 ) -> ResponseModel:
     match execution_mode, mock_io:
-        case ("async", True):
-            from .dags import run_async_mock_io
-
-            dispatcher = run_async_mock_io
-        case ("async", False):
-            from .dags import run_async
-
-            dispatcher = run_async
         case ("sequential", True):
             from .dags import run_sequential_mock_io
 
@@ -35,10 +25,11 @@ def dispatch(
             raise ValueError(f"Invalid execution mode: {execution_mode}")
 
     try:
-        result: BaseModel = dispatcher(params=params)
-        resp = {"result": result.model_dump()}
+        result = dispatcher(params=params)
+        response = ResponseModel(result=result)
+        response.model_dump_json()  # eagerly validate JSON-serializability
     except Exception as e:
         trace = traceback.format_exc()
-        resp = {"error": str(e), "trace": trace}
+        response = ResponseModel(error=str(e), trace=trace)
 
-    return ResponseModel(**resp)
+    return response

@@ -282,10 +282,10 @@
           "additionalProperties": false,
           "properties": {
             "skip": {
-              "default": false,
+              "default": true,
               "title": "Skip",
               "type": "boolean",
-              "description": "Skip generating maps for the events data. Recommended for large datasets to improve performance."
+              "description": "Skip downloading all attachments associated with the events."
             }
           },
           "required": [],
