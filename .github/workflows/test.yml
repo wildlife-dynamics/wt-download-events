@@ -147,4 +147,4 @@ jobs:
           ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__USERNAME: ${{ secrets.ER_USERNAME }}
         run: |
           chmod +x dev/pytest-cli.sh || true
-          pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh ${{ needs.discover.outputs.workflow_id }} --all
+          bash dev/pytest-cli.sh ${{ needs.discover.outputs.workflow_id }} --all
