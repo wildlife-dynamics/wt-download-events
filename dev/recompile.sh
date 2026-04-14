@@ -16,7 +16,7 @@ run_cmd() {
     if [ "$local_mode" = true ]; then
         "$@"
     else
-        pixi run --manifest-path pixi.toml -e compile "$@"
+        pixi run --manifest-path pixi.toml "$@"
     fi
 }
 
@@ -25,7 +25,7 @@ WORKFLOW_ID=$(grep '^id:' spec.yaml | sed 's/^id: *//' | tr '_' '-')
 GENERATED_DIR="ecoscope-workflows-${WORKFLOW_ID}-workflow"
 
 if [ "$local_mode" = false ]; then
-    pixi update --manifest-path pixi.toml -e compile
+    pixi update --manifest-path pixi.toml
 fi
 
 # (re)initialize dot executable to ensure graphviz is available
