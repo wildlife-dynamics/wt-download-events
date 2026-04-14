@@ -121,8 +121,8 @@ class SkipMapGeneration(BaseModel):
         extra="forbid",
     )
     skip: Optional[bool] = Field(
-        True,
-        description="Skip downloading all attachments associated with the events.",
+        False,
+        description="Skip generating maps for the events data. Recommended for large datasets to improve performance.",
         title="Skip",
     )
 
