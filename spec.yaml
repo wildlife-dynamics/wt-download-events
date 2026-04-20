@@ -2,15 +2,13 @@ id: download_events
 requirements:
   - name: python
     version: "3.12.*"
-  - name: wt-registry
-    version: ">=0.2.0,<0.3.0"
-    channel: https://repo.prefix.dev/ecoscope-workflows/
-  - name: ecoscope-platform
-    editable: true
+  - name: ecoscope
     path: /Users/yunwu/MEP/wt-infra/ecoscope
-  - name: ecoscope-workflows-ext-custom
     editable: true
+    extras: ["platform", "mapping", "analysis"]
+  - name: ecoscope-workflows-ext-custom
     path: /Users/yunwu/MEP/wt-infra/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
+    editable: true
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
@@ -265,7 +263,7 @@ workflow:
 
       # Drop duplicate columns from event detail normalization before renaming
       - name: Drop duplicate columns
-        id: drop_duplicate_columns
+        id: dedup_columns
         task: drop_duplicate_columns
         partial:
           strategy: "drop_last"
@@ -288,7 +286,7 @@ workflow:
           raise_if_not_found: false
         mapvalues:
           argnames: df
-          argvalues: ${{ workflow.drop_duplicate_columns.return }}
+          argvalues: ${{ workflow.dedup_columns.return }}
 
       - name: "Set Events Map Title"
         id: set_events_map_title

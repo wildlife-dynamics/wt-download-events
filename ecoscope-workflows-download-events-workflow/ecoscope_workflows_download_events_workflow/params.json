@@ -91,6 +91,20 @@
       "type": "object",
       "title": "Get Event Data"
     },
+    "convert_to_user_timezone": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_detect": {
+          "default": false,
+          "title": "Auto Detect",
+          "type": "boolean",
+          "description": "Auto-detect all timezone-aware datetime columns to convert, ignoring the columns list."
+        }
+      },
+      "required": [],
+      "type": "object",
+      "title": "Convert to timezone"
+    },
     "filter_events": {
       "additionalProperties": false,
       "properties": {
@@ -675,6 +689,7 @@
       "time_range",
       "er_client_name",
       "get_event_data",
+      "convert_to_user_timezone",
       "filter_events",
       "process_columns",
       "sql_query",

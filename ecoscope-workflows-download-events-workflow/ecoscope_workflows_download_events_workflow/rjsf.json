@@ -96,6 +96,20 @@
       "description": "Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.",
       "ecoscope:task_group": true,
       "properties": {
+        "convert_to_user_timezone": {
+          "additionalProperties": false,
+          "properties": {
+            "auto_detect": {
+              "default": false,
+              "title": "Auto Detect",
+              "type": "boolean",
+              "description": "Auto-detect all timezone-aware datetime columns to convert, ignoring the columns list."
+            }
+          },
+          "required": [],
+          "type": "object",
+          "title": "Convert to timezone"
+        },
         "filter_events": {
           "additionalProperties": false,
           "properties": {
@@ -701,6 +715,7 @@
     },
     "Process Events": {
       "ui:order": [
+        "convert_to_user_timezone",
         "filter_events",
         "process_columns",
         "sql_query",

@@ -32,6 +32,17 @@ class GetEventData(BaseModel):
     )
 
 
+class ConvertToUserTimezone(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    auto_detect: Optional[bool] = Field(
+        False,
+        description="Auto-detect all timezone-aware datetime columns to convert, ignoring the columns list.",
+        title="Auto Detect",
+    )
+
+
 class ProcessColumns(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -383,6 +394,9 @@ class Groupers(BaseModel):
 
 
 class ProcessEvents(BaseModel):
+    convert_to_user_timezone: Optional[ConvertToUserTimezone] = Field(
+        None, title="Convert to timezone"
+    )
     filter_events: Optional[FilterEvents] = Field(
         None, title="Filter Event Relocations"
     )
