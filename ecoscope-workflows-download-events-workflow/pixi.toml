@@ -22,6 +22,10 @@ linux = "4.4.0"
 version = "3.12.*"
 channel = "https://conda.anaconda.org/conda-forge/"
 
+[dependencies.rasterio]
+version = "==1.5.0"
+channel = "https://conda.anaconda.org/conda-forge/"
+
 [dependencies.click]
 version = ">=8.0.0,<9.0.0"
 channel = "https://conda.anaconda.org/conda-forge/"
@@ -31,7 +35,7 @@ version = ">=0.6.0,<0.7.0"
 channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies.pydantic]
-version = ">=2.0.0,<3.0.0"
+version = ">=2.0.0,<2.9.0"  # ecoscope[platform] requires pydantic<2.9.0
 channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies."ruamel.yaml"]

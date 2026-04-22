@@ -6,11 +6,14 @@
 ```yaml
 # fingerprint:
 artifacts_sha256_basic: 94fa75cd0e727988dd583ec504b7f633b0030586193a9f08145af04c2a75dc27
-artifacts_sha256_strict: 9009adcdd245ac9445315b58689a1639b2dc1bb1be03c7852fc2e62472b57793
+artifacts_sha256_strict: 16b99e065b974e6b8f965348abb1e8f6c3dab9e8c706b62e7af580a6cda66818
 installed_requirements:
 - channel: conda-forge
   name: python
   version: {version: ==3.12.13}
+- channel: conda-forge
+  name: rasterio
+  version: {version: ==1.5.0}
 params_sha256: 4c5c581084dc93917235aafb78ba11b2afb7596734f5832e8c0def91bdaf2d6e
 spec_sha256: 410bf686faa35a9f27204757f4d3c8641b0bec26143db8b72a852f403f2c9a52
 
