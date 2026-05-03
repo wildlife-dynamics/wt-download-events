@@ -86,7 +86,7 @@ if [ "$update" = true ] && [ "$frozen" = true ]; then
 fi
 
 # Preflight: required tools
-required=(yq jq)
+required=(yq)
 [ "$local_mode" = false ] && required+=(pixi)
 missing=()
 for tool in "${required[@]}"; do
@@ -264,12 +264,12 @@ run_single_test_case() {
 
     [ "$quiet" = false ] && echo ""
     [ "$quiet" = false ] && echo "Validating result.json..."
-    error_value=$(jq -r '.error // "null"' "$result_json")
+    error_value=$(yq -p json -r '.error // "null"' "$result_json")
 
     if [ "$error_value" != "null" ] || [ $cmd_exit_code -ne 0 ]; then
         echo "✗ $test_case — FAILED"
         if [ "$error_value" != "null" ]; then
-            echo "  Error: $(jq -r '.error' "$result_json")"
+            echo "  Error: $(yq -p json -r '.error' "$result_json")"
         fi
         [ "$quiet" = false ] && echo "" && echo "Full result.json:" && cat "$result_json"
         return 1

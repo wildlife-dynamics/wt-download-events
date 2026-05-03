@@ -147,4 +147,4 @@ jobs:
           ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__USERNAME: ${{ secrets.ER_USERNAME }}
         run: |
           chmod +x dev/run-test-cases.sh || true
-          bash dev/run-test-cases.sh --all
+          pixi run bash dev/run-test-cases.sh --all
