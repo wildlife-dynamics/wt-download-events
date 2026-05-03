@@ -292,6 +292,71 @@ sql-aggregate:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
           opacity: 1.0
 
+tz-conversion:
+  name: Timezone Conversion
+  mock_io: false
+  params:
+    workflow_details:
+      name: "Events"
+      description: "Test timezone conversion of all datetime columns."
+    time_range:
+      timezone:
+        label: East Africa Time (UTC+03:00)
+        tzCode: Africa/Nairobi
+        name: (UTC+03:00) East Africa Time
+        utc: '+03:00'
+      since: "2025-12-21T00:00:00Z"
+      until: "2025-12-23T23:59:59Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: ["arrest_rep", "accident_rep"]
+    filter_events:
+      filter_point_coords: []
+    persist_events:
+      filetypes: ["csv"]
+      filename_prefix: "events_tz"
+    skip_attachment_download:
+      skip: true
+    skip_map_generation:
+      skip: true
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0
+
+duplicate-columns:
+  name: Duplicate Columns with Maps
+  mock_io: false
+  params:
+    workflow_details:
+      name: "Events"
+      description: "Test duplicate column handling with all event types and maps enabled."
+    time_range:
+      since: "2025-12-21T00:00:00Z"
+      until: "2025-12-23T23:59:59Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: []
+    filter_events:
+      filter_point_coords: []
+    persist_events:
+      filetypes: ["csv"]
+      filename_prefix: "events_dedup"
+    skip_attachment_download:
+      skip: true
+    skip_map_generation:
+      skip: false
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+          opacity: 0.5
+
 skip-maps:
   name: Download Events without generating maps
   mock_io: true

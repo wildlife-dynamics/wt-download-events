@@ -1,11 +1,21 @@
 id: download_events
 requirements:
-  - name: ecoscope-platform
-    version: "2.11.6"
-    channel: https://repo.prefix.dev/ecoscope-workflows/
+  - name: python
+    version: "3.12.*"
+  - name: rasterio
+    version: 1.5.0
+    channel: conda-forge
+  - name: numpy
+    version: ">=2,<2.1"
+  - name: ecoscope
+    path: /Users/yunwu/MEP/wt-tasks/ecoscope
+    editable: true
+    extras: ["platform", "mapping", "analysis"]
+  - name: setuptools
+    version: "<=81.0.0"
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc2"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+    path: /Users/yunwu/MEP/wt-tasks/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
+    editable: true
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
@@ -98,6 +108,7 @@ workflow:
           df: ${{ workflow.get_event_data.return }}
           timezone: ${{ workflow.get_timezone.return }}
           columns: ["time"]
+          auto_detect: false
 
       - name: Extract reported_by_name from Events
         id: extract_reported_by
@@ -145,6 +156,15 @@ workflow:
           prefix: "event_details__"
           duplicate_strategy: "suffix"
 
+      - name: "Convert event detail datetimes to timezone"
+        id: convert_event_details_timezone
+        task: convert_values_to_timezone
+        partial:
+          df: ${{ workflow.drop_event_details_prefix.return }}
+          timezone: ${{ workflow.get_timezone.return }}
+          columns: []
+          auto_detect: true
+
       - name: Events Colormap
         id: events_colormap
         task: apply_color_map
@@ -152,7 +172,7 @@ workflow:
           input_column_name: "event_type"
           colormap: "tab20b"
           output_column_name: "event_type_colormap"
-          df: ${{ workflow.drop_event_details_prefix.return }}
+          df: ${{ workflow.convert_event_details_timezone.return }}
           
       ## Custom Processing Steps ##
       - name: Filter Event Relocations
@@ -249,6 +269,16 @@ workflow:
           argnames: df
           argvalues: ${{ workflow.split_event_groups.return }}
 
+      # Drop duplicate columns from event detail normalization before renaming
+      - name: Drop duplicate columns
+        id: dedup_columns
+        task: drop_duplicate_columns
+        partial:
+          strategy: "drop_last"
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.skip_map_generation.return }}
+
       # Rename columns for display
       - name: Rename columns for map tooltip display
         id: rename_display_columns
@@ -261,10 +291,10 @@ workflow:
             event_time: "Event Time"
             event_type_display: "Event Type"
             reported_by_name: "Reported By"
-          raise_if_not_found: true
+          raise_if_not_found: false
         mapvalues:
           argnames: df
-          argvalues: ${{ workflow.skip_map_generation.return }}
+          argvalues: ${{ workflow.dedup_columns.return }}
 
       - name: "Set Events Map Title"
         id: set_events_map_title
