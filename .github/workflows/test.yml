@@ -146,5 +146,5 @@ jobs:
           ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__PASSWORD: ${{ secrets.ER_PASSWORD }}
           ECOSCOPE_WORKFLOWS__CONNECTIONS__EARTHRANGER__MEP_DEV__USERNAME: ${{ secrets.ER_USERNAME }}
         run: |
-          chmod +x dev/pytest-cli.sh || true
-          bash dev/pytest-cli.sh ${{ needs.discover.outputs.workflow_id }} --all
+          chmod +x dev/run-test-cases.sh || true
+          bash dev/run-test-cases.sh --all
