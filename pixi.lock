@@ -37,13 +37,19 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/genson-1.3.0-pyhd8ed1ab_0.conda
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-hcfc306f_1.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-h040f060_0.conda
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-hcfc306f_1.conda
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/linux-64/go-yq-4.53.2-h280c20c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/graphite2-1.3.14-hecca717_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/graphviz-14.1.2-h8b86629_0.conda
@@ -77,13 +83,19 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgl-devel-1.7.0-ha4b6fd6_2.conda
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h0d30a3d_1.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h6705ce6_0.conda
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h0d30a3d_1.conda
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglvnd-1.7.0-ha4b6fd6_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglx-1.7.0-ha4b6fd6_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglx-devel-1.7.0-ha4b6fd6_2.conda
@@ -194,13 +206,19 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/genson-1.3.0-pyhd8ed1ab_0.conda
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glib-tools-2.88.1-h357b478_1.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glib-tools-2.88.1-h281fc19_0.conda
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glib-tools-2.88.1-h357b478_1.conda
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/go-yq-4.53.2-h1a92334_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/graphite2-1.3.14-hec049ff_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/graphviz-14.1.2-hec8c438_0.conda
@@ -223,13 +241,19 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libgd-2.3.3-h05bcc79_12.conda
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.88.1-ha08bb59_1.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.88.1-hc04fd66_0.conda
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.88.1-ha08bb59_1.conda
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libiconv-1.18-h23cfdf5_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libintl-0.25.1-h493aca8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libjpeg-turbo-3.1.4.1-h84a0fba_0.conda
@@ -327,15 +351,28 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgd-2.3.3-h4974f7c_12.conda
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h7ce1215_1.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h822be2e_0.conda
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_18.conda
 =======
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h7ce1215_1.conda
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_19.conda
+<<<<<<< HEAD
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+=======
+=======
+      - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h822be2e_0.conda
+>>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+      - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_18.conda
+>>>>>>> f7f0e19 (fix: timezone auto-detect and duplicate column handling (#27))
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/win-64/libiconv-1.18-hc1393d2_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libintl-0.22.5-h5728263_3.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libjpeg-turbo-3.1.4.1-hfd05255_0.conda
@@ -930,6 +967,9 @@ packages:
   timestamp: 1750744808182
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
 - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-hcfc306f_1.conda
   sha256: 628015696c106665ae0043f7e9f51298ec9e8f11573734ad67a849c8279cbe33
   md5: ff216b19c24f3a46e9d17ebcf2f96390
@@ -942,6 +982,7 @@ packages:
   depends:
   - libglib ==2.88.1 h6705ce6_0
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
 - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-hcfc306f_1.conda
   sha256: 628015696c106665ae0043f7e9f51298ec9e8f11573734ad67a849c8279cbe33
@@ -949,14 +990,19 @@ packages:
   depends:
   - libglib ==2.88.1 h0d30a3d_1
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   - libffi
   - libgcc >=14
   - __glibc >=2.17,<3.0.a0
   license: LGPL-2.1-or-later
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   size: 237141
   timestamp: 1777904907738
 - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glib-tools-2.88.1-h357b478_1.conda
@@ -974,26 +1020,35 @@ packages:
   depends:
   - libglib ==2.88.1 hc04fd66_0
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
   depends:
   - libglib ==2.88.1 ha08bb59_1
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   - libffi
   - __osx >=11.0
   - libintl >=0.25.1,<1.0a0
   license: LGPL-2.1-or-later
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   size: 204878
   timestamp: 1777905039771
 =======
   size: 204959
   timestamp: 1777848219084
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
   size: 204878
   timestamp: 1777905039771
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
 - conda: https://conda.anaconda.org/conda-forge/linux-64/go-yq-4.53.2-h280c20c_0.conda
   sha256: 302739db1489198c5733df19a666086913f1d92d3d03ff14fee305424c016f51
   md5: 652617a9aa3d4b768cb97e967538e009
@@ -1784,6 +1839,9 @@ packages:
   timestamp: 1731331012126
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h0d30a3d_1.conda
   sha256: a0899efbae2a6a9102c796c0b11ac371a3190da5afa28512eeb2879c65d1419c
   md5: 6016ea5ee9e986bc683879408cc87529
@@ -1811,6 +1869,7 @@ packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h6705ce6_0.conda
   sha256: d81bb2fd3b339009ddbf642c0569be1459ee0b9e5829d47651c0c0003c0e1ec8
   md5: 42c424ab163c576c7fb5981f7fb379cf
+<<<<<<< HEAD
 =======
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h0d30a3d_1.conda
   sha256: a0899efbae2a6a9102c796c0b11ac371a3190da5afa28512eeb2879c65d1419c
@@ -1840,6 +1899,29 @@ packages:
 =======
   - libintl >=0.25.1,<1.0a0
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=14
+  - libzlib >=1.3.2,<2.0a0
+  - libffi >=3.5.2,<3.6.0a0
+  - libiconv >=1.18,<2.0a0
+  - pcre2 >=10.47,<10.48.0a0
+  constrains:
+  - glib >2.66
+  license: LGPL-2.1-or-later
+  size: 4754361
+  timestamp: 1777848149975
+- conda: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.88.1-hc04fd66_0.conda
+  sha256: d03637a2a452c5b4673ec2fd822d9b7e4e9c8f015946eeea9d04e42854841d90
+  md5: a34aa67a26e7bd373c7a34ec6550bd23
+  depends:
+  - __osx >=11.0
+  - pcre2 >=10.47,<10.48.0a0
+  - libintl >=0.25.1,<1.0a0
+  - libiconv >=1.18,<2.0a0
+>>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   - libffi >=3.5.2,<3.6.0a0
   - libzlib >=1.3.2,<2.0a0
   constrains:
@@ -1847,14 +1929,20 @@ packages:
   license: LGPL-2.1-or-later
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   size: 4439433
   timestamp: 1777905039771
 - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h7ce1215_1.conda
   sha256: f05f64b735dec24297d120d5e7b6b7299dda0df50bc2ae309808c4aa345c06ba
   md5: 574ba3f468b639cfaf65c0f2b04d8e9d
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
 =======
   size: 4439531
   timestamp: 1777848219084
@@ -1862,20 +1950,27 @@ packages:
   sha256: 0a30470cbc6841cb045b281e1bb089d0eaf5f208040d71999b95f035dee6dde1
   md5: 76f642848b6cac29977dbb8b66d4f29c
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   depends:
   - vc >=14.3,<15
   - vc14_runtime >=14.44.35208
   - ucrt >=10.0.20348.0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   - libzlib >=1.3.2,<2.0a0
   - libiconv >=1.18,<2.0a0
   - libintl >=0.22.5,<1.0a0
   - libffi >=3.5.2,<3.6.0a0
 =======
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
   - pcre2 >=10.47,<10.48.0a0
 =======
   - libzlib >=1.3.2,<2.0a0
@@ -1883,22 +1978,34 @@ packages:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
   - libintl >=0.22.5,<1.0a0
   - libffi >=3.5.2,<3.6.0a0
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   - pcre2 >=10.47,<10.48.0a0
+  - libintl >=0.22.5,<1.0a0
+  - libffi >=3.5.2,<3.6.0a0
+  - libiconv >=1.18,<2.0a0
+  - libzlib >=1.3.2,<2.0a0
   constrains:
   - glib >2.66
   license: LGPL-2.1-or-later
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
   size: 4522879
   timestamp: 1777904959903
 =======
   size: 4522907
   timestamp: 1777848201597
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 =======
   size: 4522879
   timestamp: 1777904959903
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libglvnd-1.7.0-ha4b6fd6_2.conda
   sha256: 1175f8a7a0c68b7f81962699751bb6574e6f07db4c9f72825f978e3016f46850
   md5: 434ca7e50e40f4918ab701e3facd59a0
