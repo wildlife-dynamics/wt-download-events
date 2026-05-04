@@ -79,6 +79,9 @@ from ecoscope.platform.tasks.results import gather_dashboard as gather_dashboard
 from ecoscope.platform.tasks.results import merge_widget_views as merge_widget_views
 from ecoscope.platform.tasks.results import set_base_maps as set_base_maps
 from ecoscope.platform.tasks.skip import all_geometry_are_none as all_geometry_are_none
+from ecoscope_workflows_ext_custom.tasks.transformation import (
+    drop_duplicate_columns as drop_duplicate_columns,
+)
 
 from ..params import Params
 
@@ -202,6 +205,7 @@ def main(params: Params):
             df=get_event_data,
             timezone=get_timezone,
             columns=["time"],
+            auto_detect=False,
             **(params_dict.get("convert_to_user_timezone") or {}),
         )
         .call()
@@ -323,6 +327,29 @@ def main(params: Params):
         .call()
     )
 
+    convert_event_details_timezone = (
+        task(convert_values_to_timezone)
+        .validate()
+        .set_task_instance_id("convert_event_details_timezone")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            df=drop_event_details_prefix,
+            timezone=get_timezone,
+            columns=[],
+            auto_detect=True,
+            **(params_dict.get("convert_event_details_timezone") or {}),
+        )
+        .call()
+    )
+
     events_colormap = (
         task(apply_color_map)
         .validate()
@@ -340,7 +367,7 @@ def main(params: Params):
             input_column_name="event_type",
             colormap="tab20b",
             output_column_name="event_type_colormap",
-            df=drop_event_details_prefix,
+            df=convert_event_details_timezone,
             **(params_dict.get("events_colormap") or {}),
         )
         .call()
@@ -552,6 +579,23 @@ def main(params: Params):
         .mapvalues(argnames=["df"], argvalues=split_event_groups)
     )
 
+    dedup_columns = (
+        task(drop_duplicate_columns)
+        .validate()
+        .set_task_instance_id("dedup_columns")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(strategy="drop_last", **(params_dict.get("dedup_columns") or {}))
+        .mapvalues(argnames=["df"], argvalues=skip_map_generation)
+    )
+
     rename_display_columns = (
         task(map_columns)
         .validate()
@@ -574,10 +618,10 @@ def main(params: Params):
                 "event_type_display": "Event Type",
                 "reported_by_name": "Reported By",
             },
-            raise_if_not_found=True,
+            raise_if_not_found=False,
             **(params_dict.get("rename_display_columns") or {}),
         )
-        .mapvalues(argnames=["df"], argvalues=skip_map_generation)
+        .mapvalues(argnames=["df"], argvalues=dedup_columns)
     )
 
     set_events_map_title = (
