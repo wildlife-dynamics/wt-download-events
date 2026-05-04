@@ -19,7 +19,7 @@ platforms = [
 [system-requirements]
 linux = "4.4.0"
 
-[dependencies.ecoscope]
+[dependencies.ecoscope-platform]
 version = ">=2.11.11,<2.12.0"
 channel = "https://repo.prefix.dev/ecoscope-workflows/"
 
