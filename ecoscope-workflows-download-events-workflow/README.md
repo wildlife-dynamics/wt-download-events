@@ -6,20 +6,14 @@
 ```yaml
 # fingerprint:
 artifacts_sha256_basic: 9747150a735383389e6e7fff19255f2c679b92ad5ab5252b5b1666c00509cdd0
-artifacts_sha256_strict: 8c05611054249ba58a3efe5906d5a12c6d24e1ce5c2684fd9dbd8c2352044400
+artifacts_sha256_strict: b8fd489570e08d88eca79cd54880b6ca77e7f887b24821604575d4a38324ce61
 installed_requirements:
-- channel: conda-forge
-  name: python
-  version: {version: ==3.12.13}
-- channel: conda-forge
-  name: rasterio
-  version: {version: ==1.5.0}
-- channel: conda-forge
-  name: numpy
-  version: {version: ==2.0.2}
-- channel: conda-forge
-  name: setuptools
-  version: {version: ==81.0.0}
+- channel: https://repo.prefix.dev/ecoscope-workflows/
+  name: ecoscope
+  version: {version: ==2.11.11}
+- channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+  name: ecoscope-workflows-ext-custom
+  version: {version: ==0.1.0rc3}
 params_sha256: 57c44104c2169691a8abc235c37b7f8461e2e484c338655ab56be61807f9b6e9
 spec_sha256: 156963bce773530dc9c922f58bfbb29bde69fbddc8774d28d47507ab8e1dc89d
 

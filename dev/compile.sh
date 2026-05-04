@@ -37,6 +37,7 @@ run_cmd wt-compiler compile \
   --spec spec.yaml \
   --pkg-name-prefix=ecoscope-workflows \
   --results-env-var=ECOSCOPE_WORKFLOWS_RESULTS \
+  --no-progress \
   --clobber ${flags}
 compile_exit=$?
 
