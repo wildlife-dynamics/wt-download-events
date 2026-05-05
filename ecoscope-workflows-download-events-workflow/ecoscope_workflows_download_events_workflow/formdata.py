@@ -30,6 +30,11 @@ class GetEventData(BaseModel):
     include_null_geometry: Optional[bool] = Field(
         True, title="Include Events Without a Geometry (point or polygon)"
     )
+    force_point_geometry: Optional[bool] = Field(
+        True,
+        description="If True, polygon/multipolygon event geometries are reduced to their centroid. Set False to preserve native geometry types.",
+        title="Force Point Geometry",
+    )
 
 
 class ProcessColumns(BaseModel):

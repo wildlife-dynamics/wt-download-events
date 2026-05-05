@@ -3,7 +3,6 @@
 [workspace]
 name = "ecoscope-workflows-download-events-workflow"
 channels = [
-    "https://repo.prefix.dev/ecoscope-workflows-custom/",
     "https://repo.prefix.dev/ecoscope-workflows/",
     "conda-forge",
     "microsoft",
@@ -19,13 +18,21 @@ platforms = [
 [system-requirements]
 linux = "4.4.0"
 
-[dependencies.ecoscope-platform]
-version = ">=2.11.11,<2.12.0"
-channel = "https://repo.prefix.dev/ecoscope-workflows/"
+[dependencies.python]
+version = "3.12.*"
+channel = "https://conda.anaconda.org/conda-forge/"
 
-[dependencies.ecoscope-workflows-ext-custom]
-version = "==0.1.0rc3"
-channel = "https://repo.prefix.dev/ecoscope-workflows-custom/"
+[dependencies.rasterio]
+version = "==1.5.0"
+channel = "https://conda.anaconda.org/conda-forge/"
+
+[dependencies.numpy]
+version = ">=2,<2.1"
+channel = "https://conda.anaconda.org/conda-forge/"
+
+[dependencies.setuptools]
+version = "<=81.0.0"
+channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies.click]
 version = ">=8.0.0,<9.0.0"
@@ -36,7 +43,7 @@ version = ">=0.6.0,<0.7.0"
 channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies.pydantic]
-version = ">=2.0.0,<3.0.0"
+version = ">=2.0.0,<2.9.0"
 channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies."ruamel.yaml"]
@@ -47,13 +54,28 @@ channel = "https://conda.anaconda.org/conda-forge/"
 version = ">=1.20.0,<2.0.0"
 channel = "https://conda.anaconda.org/conda-forge/"
 
-[dependencies.wt-task]
-version = ">=0.1.2,<1.0.0"
-channel = "https://repo.prefix.dev/ecoscope-workflows/"
+[pypi-dependencies]
+wt-task = "*"
 
-[feature.runner.dependencies.wt-runner]
-version = ">=0.1.5,<1.0.0"
-channel = "https://repo.prefix.dev/ecoscope-workflows/"
+[pypi-dependencies.ecoscope]
+path = "/Users/yunwu/MEP/wt-tasks/ecoscope"
+editable = true
+extras = [
+    "platform",
+    "mapping",
+    "analysis",
+]
+
+[pypi-dependencies.ecoscope-workflows-ext-custom]
+path = "/Users/yunwu/MEP/wt-tasks/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom"
+editable = true
+
+[feature.runner.dependencies.python]
+version = ">=3.10,<4.0"
+channel = "https://conda.anaconda.org/conda-forge/"
+
+[feature.runner.pypi-dependencies]
+wt-runner = "*"
 
 [feature.runner.tasks]
 

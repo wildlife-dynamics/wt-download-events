@@ -83,6 +83,13 @@
           "default": true,
           "title": "Include Events Without a Geometry (point or polygon)",
           "type": "boolean"
+        },
+        "force_point_geometry": {
+          "default": true,
+          "title": "Force Point Geometry",
+          "type": "boolean",
+          "description": "If True, polygon/multipolygon event geometries are reduced to their centroid. Set False to preserve native geometry types.",
+          "ecoscope:advanced": true
         }
       },
       "required": [
@@ -696,7 +703,8 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
-        "include_null_geometry"
+        "include_null_geometry",
+        "force_point_geometry"
       ]
     },
     "Process Events": {

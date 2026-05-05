@@ -1,11 +1,26 @@
 id: download_events
+# DEV: editable paths for unreleased changes on
+#   ecoscope: feat/get-events-force-point-geometry (PR #684)
+#   ecoscope-workflow-task-library: feat/filter-by-geometry-type
+# Revert to versioned channels before publish.
 requirements:
-  - name: ecoscope-platform
-    version: ">=2.11.11, <2.12.0"
-    channel: https://repo.prefix.dev/ecoscope-workflows/
+  - name: python
+    version: "3.12.*"
+  - name: rasterio
+    version: "1.5.0"
+    channel: conda-forge
+  - name: numpy
+    version: ">=2,<2.1"
+    channel: conda-forge
+  - name: ecoscope
+    path: /Users/yunwu/MEP/wt-tasks/ecoscope
+    editable: true
+    extras: ["platform", "mapping", "analysis"]
+  - name: setuptools
+    version: "<=81.0.0"
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc3"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+    path: /Users/yunwu/MEP/wt-tasks/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
+    editable: true
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
