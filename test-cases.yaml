@@ -1,3 +1,59 @@
+polygon-events:
+  name: Polygon Events
+  mock_io: true
+  # Both get_events (platform) and process_events_details (custom-ext) are
+  # tagged "io" and so are intercepted by the mock-io system. Override both
+  # so our 5 mixed-geometry rows survive the chain into the rendering tasks.
+  mock_io_overrides:
+    ecoscope.platform.tasks.io.get_events: /Users/yunwu/MEP/wt-workflows/wt-download-events/dev/fixtures/get-events-polygon.example-return.parquet
+    ecoscope_workflows_ext_custom.tasks.io.process_events_details: /Users/yunwu/MEP/wt-workflows/wt-download-events/dev/fixtures/process-events-details-polygon.example-return.parquet
+  params:
+    workflow_details:
+      description: Mixed Point + Polygon events from a mocked get_events return.
+      name: Polygon Events Test
+    time_range:
+      timezone:
+        label: UTC (UTC+00:00)
+        tzCode: UTC
+        name: (UTC+00:00) UTC
+        utc: '+00:00'
+      since: '2026-01-01T00:00:00.000Z'
+      until: '2026-01-16T00:00:00.000Z'
+    er_client_name:
+      data_source:
+        name: mep_dev
+    get_event_data:
+      event_types: []
+    skip_attachment_download:
+      skip: true
+    filter_events:
+      bounding_box:
+        min_y: -90
+        max_y: 90
+        min_x: -180
+        max_x: 180
+      filter_point_coords: []
+    sql_query:
+      query: ''
+      columns: []
+    groupers:
+      groupers: []
+    persist_events:
+      filetypes:
+        - parquet
+        - csv
+      filename_prefix: events_polygon
+    skip_map_generation:
+      skip: false
+    base_map_defs:
+      base_maps:
+        - url: >-
+            https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}
+          opacity: 1
+        - url: >-
+            https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
+          opacity: 0.5
+
 base:
   name: Base Test Case
   mock_io: true
