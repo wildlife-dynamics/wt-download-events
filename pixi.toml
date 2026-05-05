@@ -6,7 +6,6 @@ platforms = ['linux-64', 'osx-arm64', 'win-64']
 [dependencies]
 # required for compilation
 wt-compiler = ">=0.5.2, <0.6.0"
-graphviz = "*"
 
-# required for testing (mikefarah/yq, not Python kislyuk/yq)
+# required for testing
 go-yq = "*"
