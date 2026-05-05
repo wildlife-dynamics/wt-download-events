@@ -8,6 +8,7 @@ from ecoscope.platform.tasks.filter import (
     get_timezone_from_time_range as get_timezone_from_time_range,
 )
 from ecoscope.platform.tasks.filter import set_time_range as set_time_range
+from ecoscope.platform.tasks.groupby import groupbykey as groupbykey
 from ecoscope.platform.tasks.groupby import set_groupers as set_groupers
 from ecoscope.platform.tasks.groupby import split_groups as split_groups
 from ecoscope.platform.tasks.io import get_events as get_events
@@ -17,11 +18,15 @@ from ecoscope.platform.tasks.results import (
     create_map_widget_single_view as create_map_widget_single_view,
 )
 from ecoscope.platform.tasks.results import create_point_layer as create_point_layer
+from ecoscope.platform.tasks.results import create_polygon_layer as create_polygon_layer
 from ecoscope.platform.tasks.results import draw_ecomap as draw_ecomap
 from ecoscope.platform.tasks.results import gather_dashboard as gather_dashboard
 from ecoscope.platform.tasks.results import merge_widget_views as merge_widget_views
 from ecoscope.platform.tasks.results import set_base_maps as set_base_maps
 from ecoscope.platform.tasks.skip import all_geometry_are_none as all_geometry_are_none
+from ecoscope.platform.tasks.skip import (
+    all_keyed_iterables_are_skips as all_keyed_iterables_are_skips,
+)
 from ecoscope.platform.tasks.skip import (
     any_dependency_skipped as any_dependency_skipped,
 )
@@ -62,6 +67,9 @@ from ecoscope_workflows_ext_custom.tasks.transformation import (
 )
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_duplicate_columns as drop_duplicate_columns,
+)
+from ecoscope_workflows_ext_custom.tasks.transformation import (
+    filter_by_geometry_type as filter_by_geometry_type,
 )
 from wt_task import task
 
@@ -163,6 +171,7 @@ def main(params: Params):
             include_updates=False,
             include_related_events=False,
             include_display_values=True,
+            force_point_geometry=False,
             **(params_dict.get("get_event_data") or {}),
         )
         .call()
@@ -604,6 +613,45 @@ def main(params: Params):
         .mapvalues(argnames=["df"], argvalues=dedup_columns)
     )
 
+    filter_points_for_map = (
+        task(filter_by_geometry_type)
+        .validate()
+        .set_task_instance_id("filter_points_for_map")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            geometry_types=["Point"], **(params_dict.get("filter_points_for_map") or {})
+        )
+        .mapvalues(argnames=["df"], argvalues=rename_display_columns)
+    )
+
+    filter_polygons_for_map = (
+        task(filter_by_geometry_type)
+        .validate()
+        .set_task_instance_id("filter_polygons_for_map")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            geometry_types=["Polygon", "MultiPolygon"],
+            **(params_dict.get("filter_polygons_for_map") or {}),
+        )
+        .mapvalues(argnames=["df"], argvalues=rename_display_columns)
+    )
+
     set_events_map_title = (
         task(set_string_var)
         .validate()
@@ -661,7 +709,56 @@ def main(params: Params):
             tooltip_columns=["Event Serial", "Event Time", "Event Type", "Reported By"],
             **(params_dict.get("grouped_events_map_layer") or {}),
         )
-        .mapvalues(argnames=["geodataframe"], argvalues=rename_display_columns)
+        .mapvalues(argnames=["geodataframe"], argvalues=filter_points_for_map)
+    )
+
+    grouped_events_polygon_layer = (
+        task(create_polygon_layer)
+        .validate()
+        .set_task_instance_id("grouped_events_polygon_layer")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+                all_geometry_are_none,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            layer_style={
+                "fill_color_column": "event_type_colormap",
+                "get_line_width": 2,
+                "opacity": 0.4,
+            },
+            legend={
+                "label_column": "Event Type",
+                "color_column": "event_type_colormap",
+            },
+            tooltip_columns=["Event Serial", "Event Time", "Event Type", "Reported By"],
+            **(params_dict.get("grouped_events_polygon_layer") or {}),
+        )
+        .mapvalues(argnames=["geodataframe"], argvalues=filter_polygons_for_map)
+    )
+
+    combined_event_map_layers = (
+        task(groupbykey)
+        .validate()
+        .set_task_instance_id("combined_event_map_layers")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                all_keyed_iterables_are_skips,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            iterables=[grouped_events_polygon_layer, grouped_events_map_layer],
+            **(params_dict.get("combined_event_map_layers") or {}),
+        )
+        .call()
     )
 
     grouped_events_ecomap = (
@@ -691,7 +788,7 @@ def main(params: Params):
             widget_id=set_events_map_title,
             **(params_dict.get("grouped_events_ecomap") or {}),
         )
-        .mapvalues(argnames=["geo_layers"], argvalues=grouped_events_map_layer)
+        .mapvalues(argnames=["geo_layers"], argvalues=combined_event_map_layers)
     )
 
     grouped_events_ecomap_html_url = (

@@ -98,6 +98,7 @@ workflow:
       include_updates: false
       include_related_events: false
       include_display_values: true
+      force_point_geometry: false
 
   - title: Process Events
     type: task-group
@@ -301,6 +302,26 @@ workflow:
           argnames: df
           argvalues: ${{ workflow.dedup_columns.return }}
 
+      # Split mixed-geometry events into a Point branch and a Polygon branch
+      # for layer rendering. Persist still sees the unified mixed-geometry GDF.
+      - name: Filter Points for Map Layer
+        id: filter_points_for_map
+        task: filter_by_geometry_type
+        partial:
+          geometry_types: ["Point"]
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.rename_display_columns.return }}
+
+      - name: Filter Polygons for Map Layer
+        id: filter_polygons_for_map
+        task: filter_by_geometry_type
+        partial:
+          geometry_types: ["Polygon", "MultiPolygon"]
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.rename_display_columns.return }}
+
       - name: "Set Events Map Title"
         id: set_events_map_title
         task: set_string_var
@@ -331,7 +352,43 @@ workflow:
           tooltip_columns: ["Event Serial", "Event Time", "Event Type", "Reported By"]
         mapvalues:
           argnames: geodataframe
-          argvalues: ${{ workflow.rename_display_columns.return }}
+          argvalues: ${{ workflow.filter_points_for_map.return }}
+
+      - name: Create polygon layer from grouped Events
+        id: grouped_events_polygon_layer
+        task: create_polygon_layer
+        skipif:
+          conditions:
+            - any_is_empty_df
+            - any_dependency_skipped
+            - all_geometry_are_none
+        partial:
+          layer_style:
+            fill_color_column: "event_type_colormap"
+            get_line_width: 2
+            opacity: 0.4
+          legend:
+            label_column: "Event Type"
+            color_column: "event_type_colormap"
+          tooltip_columns: ["Event Serial", "Event Time", "Event Type", "Reported By"]
+        mapvalues:
+          argnames: geodataframe
+          argvalues: ${{ workflow.filter_polygons_for_map.return }}
+
+      # Polygon layer FIRST so points sit visually on top of polygon fills
+      # (deck.gl renders later layers above earlier ones).
+      - name: Combine Point and Polygon layers per group
+        id: combined_event_map_layers
+        task: groupbykey
+        skipif:
+          conditions:
+            - all_keyed_iterables_are_skips
+          unpack_depth: 1
+        partial:
+          iterables:
+            - ${{ workflow.grouped_events_polygon_layer.return }}
+            - ${{ workflow.grouped_events_map_layer.return }}
+
       - name: Draw Ecomap from grouped Events
         id: grouped_events_ecomap
         task: draw_ecomap
@@ -349,7 +406,7 @@ workflow:
           widget_id: ${{ workflow.set_events_map_title.return }}
         mapvalues:
           argnames: geo_layers
-          argvalues: ${{ workflow.grouped_events_map_layer.return }}
+          argvalues: ${{ workflow.combined_event_map_layers.return }}
       - name: Persist grouped Events Ecomap as Text
         id: grouped_events_ecomap_html_url
         task: persist_text
