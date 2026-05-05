@@ -237,7 +237,7 @@
           },
           "title": "Filetypes",
           "type": "array",
-          "description": "The output format",
+          "description": "Output filetypes for the events dataset. Parquet preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) \u2014 readable but not directly round-trippable into all GIS tools.",
           "uniqueItems": true
         },
         "filename_prefix": {

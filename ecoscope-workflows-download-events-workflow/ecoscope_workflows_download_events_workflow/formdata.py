@@ -90,7 +90,9 @@ class PersistEvents(BaseModel):
         extra="forbid",
     )
     filetypes: Optional[List[Filetype]] = Field(
-        ["parquet"], description="The output format", title="Filetypes"
+        ["parquet"],
+        description="Output filetypes for the events dataset. Parquet preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) — readable but not directly round-trippable into all GIS tools.",
+        title="Filetypes",
     )
     filename_prefix: Optional[str] = Field(
         "events",
