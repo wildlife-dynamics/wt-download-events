@@ -8,7 +8,8 @@ This workflow allows you to download and analyze event data from EarthRanger.
 - Downloads event data from EarthRanger for a specified time period
 - Filters and processes events based on your criteria
 - Exports data in multiple formats (CSV, Parquet)
-- Optionally creates visual maps showing event locations
+- Optionally creates visual maps showing event locations, including polygon events
+  (e.g. project boundaries, fire perimeters) rendered as filled polygon layers
 - Optionally downloads attachments (photos, documents) associated with events
 
 **Who should use this:**
@@ -76,6 +77,10 @@ Choose which events to download.
   - Example: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
 - **Include Events Without a Geometry**: Include events that don't have a point or polygon location
   - Default: `true`
+- **Reduce Polygon Events to Points**: When checked, polygon and multipolygon
+  event geometries are reduced to their centroid (point geometry). Leave
+  unchecked to preserve polygon events as polygons on maps and exports.
+  - Default: unchecked (polygon events are preserved as polygons)
 
 Note: The workflow automatically fetches all available columns and processes event details (mapping coded values to their display titles). You can control which columns appear in your final output using the **Drop Columns** option in the Advanced Configuration section.
 
@@ -98,9 +103,11 @@ Organize your data into separate views based on time periods or categories.
 Choose how to save your data.
 
 - **Filetypes**: Select one or more output formats
-  - **CSV**: Standard spreadsheet format, opens in Excel
-  - **Parquet**: Efficient format for geospatial data, preserves geometry
-  - **Parquet**: Efficient columnar format without geometry (smaller file size)
+  - **CSV**: Standard spreadsheet format, opens in Excel. Geometry is written as
+    Well-Known Text (WKT) — readable but not directly round-trippable into all
+    GIS tools.
+  - **Parquet** (recommended for polygon events): Efficient format for geospatial
+    data; preserves all geometry types natively (Point, Polygon, MultiPolygon).
   - Example: Select both `CSV` and `Parquet`
 - **Filename Prefix** (optional): Custom prefix for output files. Ecoscope will attach a hash code to keep it unique
   - Default: `"events"`
@@ -197,9 +204,12 @@ If you didn't skip map generation, you'll also receive:
 #### Interactive Map
 - **Format**: HTML file or embedded in dashboard
 - **Features**:
-  - Event points plotted at their locations
-  - Points colored by event type (different colors for arrests, snares, camps, etc.)
-  - Interactive - click on points to see event details
+  - Event points plotted at their locations, with polygon events rendered as
+    filled polygon layers in the same color scheme. When both geometry types
+    are present, polygons are drawn underneath with point markers on top.
+  - Points and polygons colored by event type (different colors for arrests,
+    snares, camps, project boundaries, etc.)
+  - Interactive - click on points or polygons to see event details
   - Base map layers you selected (satellite, terrain, etc.)
   - Zoom and pan capabilities
 
@@ -289,7 +299,27 @@ Here are some typical scenarios and how to configure the workflow for each:
 
 ---
 
-### Example 5: Filtered Geographic Area
+### Example 5: Mixed Point and Polygon Events
+**Goal**: Download events that include polygon geometries (e.g. project
+boundaries, fire perimeters) alongside point events, and visualize both on
+a single map.
+
+**Configuration**:
+- **Time Range**: Your desired date range
+- **Event Types**: Include both point and polygon event types
+  (e.g. `["arrest_rep", "arr_project_boundary"]`)
+- **Reduce Polygon Events to Points**: Unchecked (preserve polygons)
+- **Filetypes**: Select `Parquet` (recommended for polygon geometry)
+- **Skip Map Generation**: Unchecked
+
+**Result**:
+- Parquet file with mixed Point and Polygon geometry rows
+- Interactive map with point markers drawn on top of filled polygon layers,
+  both colored by event type
+
+---
+
+### Example 6: Filtered Geographic Area
 **Goal**: Download only events within a specific region
 
 **Configuration**:

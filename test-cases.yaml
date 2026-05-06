@@ -5,8 +5,8 @@ polygon-events:
   # tagged "io" and so are intercepted by the mock-io system. Override both
   # so our 5 mixed-geometry rows survive the chain into the rendering tasks.
   mock_io_overrides:
-    ecoscope.platform.tasks.io.get_events: ../dev/fixtures/get-events-polygon.example-return.parquet
-    ecoscope_workflows_ext_custom.tasks.io.process_events_details: ../dev/fixtures/process-events-details-polygon.example-return.parquet
+    ecoscope.platform.tasks.io.get_events: dev/fixtures/get-events-polygon.example-return.parquet
+    ecoscope_workflows_ext_custom.tasks.io.process_events_details: dev/fixtures/process-events-details-polygon.example-return.parquet
   params:
     workflow_details:
       description: Mixed Point + Polygon events from a mocked get_events return.

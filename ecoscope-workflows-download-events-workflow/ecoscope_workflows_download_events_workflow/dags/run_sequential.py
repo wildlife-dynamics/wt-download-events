@@ -171,7 +171,6 @@ def main(params: Params):
             include_updates=False,
             include_related_events=False,
             include_display_values=True,
-            force_point_geometry=False,
             **(params_dict.get("get_event_data") or {}),
         )
         .call()

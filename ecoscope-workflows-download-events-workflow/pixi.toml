@@ -19,24 +19,8 @@ platforms = [
 [system-requirements]
 linux = "4.4.0"
 
-[dependencies.python]
-version = "3.12.*"
-channel = "https://conda.anaconda.org/conda-forge/"
-
-[dependencies.numpy]
-version = ">=2,<2.1"
-channel = "https://conda.anaconda.org/conda-forge/"
-
-[dependencies.pyarrow]
-version = ">=20,<24"
-channel = "https://conda.anaconda.org/conda-forge/"
-
-[dependencies.pydeck]
-version = "==0.0.2"
-channel = "https://repo.prefix.dev/ecoscope-workflows-custom/"
-
-[dependencies.lonboard]
-version = "==0.0.8"
+[dependencies.ecoscope-platform]
+version = ">=2.11.14,<2.12.0"
 channel = "https://repo.prefix.dev/ecoscope-workflows/"
 
 [dependencies.ecoscope-workflows-ext-custom]
@@ -52,7 +36,7 @@ version = ">=0.6.0,<0.7.0"
 channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies.pydantic]
-version = ">=2.0.0,<2.9.0"
+version = ">=2.0.0,<3.0.0"
 channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies."ruamel.yaml"]
@@ -66,15 +50,6 @@ channel = "https://conda.anaconda.org/conda-forge/"
 [dependencies.wt-task]
 version = ">=0.1.2,<1.0.0"
 channel = "https://repo.prefix.dev/ecoscope-workflows/"
-
-[pypi-dependencies.ecoscope]
-path = "/Users/yunwu/MEP/wt-tasks/ecoscope"
-editable = true
-extras = [
-    "platform",
-    "mapping",
-    "analysis",
-]
 
 [feature.runner.dependencies.wt-runner]
 version = ">=0.1.5,<1.0.0"
