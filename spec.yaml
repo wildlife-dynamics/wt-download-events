@@ -1,30 +1,9 @@
 id: download_events
-# DEV: editable path for unreleased changes on ecoscope
-# (feat/get-events-force-point-geometry — PR #684 — which now also carries
-# the filter_by_geometry_type platform task and polygon-aware bbox filtering
-# in apply_reloc_coord_filter). Revert to a versioned channel before publish.
 requirements:
   - name: python
     version: "3.12.*"
-  - name: numpy
-    version: ">=2,<2.1"
-    channel: conda-forge
-  - name: pyarrow
-    version: ">=20,<24"
-    channel: conda-forge
-  - name: ecoscope
-    path: /Users/yunwu/MEP/wt-tasks/ecoscope
-    editable: true
-    extras: ["platform", "mapping", "analysis"]
-  # Channel-priority overrides: with editable ecoscope on the PyPI side, the
-  # conda solver puts conda-forge first, locking out custom-channel-only
-  # versions that ext-custom (and the ecoscope-platform conda dep it pulls)
-  # need transitively. Pin them explicitly so the right channel is selected.
-  - name: pydeck
-    version: "==0.0.2"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
-  - name: lonboard
-    version: "==0.0.8"
+  - name: ecoscope-platform
+    version: ">=2.11.14, <2.12.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
     version: "0.1.0rc3"
@@ -33,6 +12,11 @@ rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
       Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
+    get_event_data.properties.force_point_geometry.title: "Reduce Polygon Events to Points"
+    get_event_data.properties.force_point_geometry.default: false
+    get_event_data.properties.force_point_geometry.ecoscope:advanced: false
+    get_event_data.properties.force_point_geometry.description: >-
+      When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.
     Generate Maps.properties.skip_map_generation.properties.skip.description: >-
       Skip generating maps for the events data. Recommended for large datasets to improve performance.
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
@@ -111,7 +95,6 @@ workflow:
       include_updates: false
       include_related_events: false
       include_display_values: true
-      force_point_geometry: false
 
   - title: Process Events
     type: task-group
