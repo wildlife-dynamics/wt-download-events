@@ -83,6 +83,13 @@
           "default": true,
           "title": "Include Events Without a Geometry (point or polygon)",
           "type": "boolean"
+        },
+        "force_point_geometry": {
+          "default": false,
+          "title": "Reduce Polygon Events to Points",
+          "type": "boolean",
+          "description": "When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.",
+          "ecoscope:advanced": false
         }
       },
       "required": [
@@ -237,7 +244,7 @@
           },
           "title": "Filetypes",
           "type": "array",
-          "description": "The output format",
+          "description": "Output filetypes for the events dataset. Parquet preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) \u2014 readable but not directly round-trippable into all GIS tools.",
           "uniqueItems": true
         },
         "filename_prefix": {
@@ -696,7 +703,8 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
-        "include_null_geometry"
+        "include_null_geometry",
+        "force_point_geometry"
       ]
     },
     "Process Events": {

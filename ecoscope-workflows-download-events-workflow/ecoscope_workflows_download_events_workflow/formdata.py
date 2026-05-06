@@ -30,6 +30,11 @@ class GetEventData(BaseModel):
     include_null_geometry: Optional[bool] = Field(
         True, title="Include Events Without a Geometry (point or polygon)"
     )
+    force_point_geometry: Optional[bool] = Field(
+        False,
+        description="When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.",
+        title="Reduce Polygon Events to Points",
+    )
 
 
 class ProcessColumns(BaseModel):
@@ -90,7 +95,9 @@ class PersistEvents(BaseModel):
         extra="forbid",
     )
     filetypes: Optional[List[Filetype]] = Field(
-        ["parquet"], description="The output format", title="Filetypes"
+        ["parquet"],
+        description="Output filetypes for the events dataset. Parquet preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) — readable but not directly round-trippable into all GIS tools.",
+        title="Filetypes",
     )
     filename_prefix: Optional[str] = Field(
         "events",
