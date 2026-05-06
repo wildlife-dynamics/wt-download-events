@@ -643,7 +643,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
+<<<<<<< HEAD
             geometry_types=["Point"], **(params.get("filter_points_for_map") or {})
+=======
+            geometry_types=["Point"], **(params_dict.get("filter_points_for_map") or {})
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         )
         .mapvalues(argnames=["df"], argvalues=rename_display_columns)
     )
@@ -663,7 +667,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             geometry_types=["Polygon", "MultiPolygon"],
+<<<<<<< HEAD
             **(params.get("filter_polygons_for_map") or {}),
+=======
+            **(params_dict.get("filter_polygons_for_map") or {}),
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         )
         .mapvalues(argnames=["df"], argvalues=rename_display_columns)
     )
@@ -755,7 +763,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
                 "color_column": "event_type_colormap",
             },
             tooltip_columns=["Event Serial", "Event Time", "Event Type", "Reported By"],
+<<<<<<< HEAD
             **(params.get("grouped_events_polygon_layer") or {}),
+=======
+            **(params_dict.get("grouped_events_polygon_layer") or {}),
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         )
         .mapvalues(argnames=["geodataframe"], argvalues=filter_polygons_for_map)
     )
@@ -774,7 +786,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             iterables=[grouped_events_polygon_layer, grouped_events_map_layer],
+<<<<<<< HEAD
             **(params.get("combined_event_map_layers") or {}),
+=======
+            **(params_dict.get("combined_event_map_layers") or {}),
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         )
         .call()
     )
