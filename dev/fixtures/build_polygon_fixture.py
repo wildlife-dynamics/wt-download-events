@@ -50,10 +50,13 @@ rows = [
         "time": "2026-01-03T08:00:00Z",
         "event_type": "arr_project_boundary",
         "event_category": "monitoring",
+<<<<<<< HEAD
         "title": "Boundary survey #1",
         "priority": 100,
         "priority_label": "Green",
         "state": "new",
+=======
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         "reported_by": reporter,
         "geometry": Polygon([(36.80, -1.30), (36.85, -1.30), (36.85, -1.25), (36.80, -1.25)]),
         "serial_number": "1001",
@@ -64,10 +67,13 @@ rows = [
         "time": "2026-01-05T10:30:00Z",
         "event_type": "arr_project_boundary",
         "event_category": "monitoring",
+<<<<<<< HEAD
         "title": "Boundary survey #2",
         "priority": 200,
         "priority_label": "Amber",
         "state": "active",
+=======
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         "reported_by": reporter,
         "geometry": Polygon(
             [(36.90, -1.35), (36.95, -1.35), (36.96, -1.31), (36.93, -1.29), (36.89, -1.32)]
@@ -80,10 +86,13 @@ rows = [
         "time": "2026-01-07T14:15:00Z",
         "event_type": "wildlife_sighting_rep",
         "event_category": "wildlife",
+<<<<<<< HEAD
         "title": "Elephant herd near river",
         "priority": 300,
         "priority_label": "Red",
         "state": "resolved",
+=======
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         "reported_by": reporter,
         "geometry": Point(36.82, -1.28),
         "serial_number": "1003",
@@ -94,10 +103,13 @@ rows = [
         "time": "2026-01-09T09:45:00Z",
         "event_type": "wildlife_sighting_rep",
         "event_category": "wildlife",
+<<<<<<< HEAD
         "title": "Lion pride sighting",
         "priority": 100,
         "priority_label": "Green",
         "state": "active",
+=======
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         "reported_by": reporter,
         "geometry": Point(36.93, -1.33),
         "serial_number": "1004",
@@ -108,10 +120,13 @@ rows = [
         "time": "2026-01-12T16:00:00Z",
         "event_type": "wildlife_sighting_rep",
         "event_category": "wildlife",
+<<<<<<< HEAD
         "title": "Carcass found",
         "priority": 0,
         "priority_label": "Gray",
         "state": "resolved",
+=======
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
         "reported_by": reporter,
         "geometry": None,
         "serial_number": "1005",

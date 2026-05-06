@@ -5,6 +5,7 @@
 
 ```yaml
 # fingerprint:
+<<<<<<< HEAD
 artifacts_sha256_basic: fdd186a98dbb6b377943a8f0e32cde23acc787474dbeebe6e54da81e132d4a41
 artifacts_sha256_strict: 63f7525d41833bc17172e6a9bd5ecc17f2968d51c9ac03237124fd60327dbef0
 installed_requirements:
@@ -19,6 +20,19 @@ installed_requirements:
   version: {version: ==0.9.2}
 params_sha256: d851838b7c6c9fe087539a27329b911d8460a565dc3fe50196fd059a12104a0b
 spec_sha256: f1b10e65da5ddc6ee148999eb258e8dafdb6d9159bea6ef68e0feddba3a1f0e2
+=======
+artifacts_sha256_basic: 985162ddc33128f6123173cfd03f04c9b6d2e1560f311ace2e77e3b783f5e9d4
+artifacts_sha256_strict: e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
+installed_requirements:
+- channel: https://repo.prefix.dev/ecoscope-workflows/
+  name: ecoscope-platform
+  version: {version: ==2.11.14}
+- channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+  name: ecoscope-workflows-ext-custom
+  version: {version: ==0.1.0rc3}
+params_sha256: 3229dd47f31447884b2e79e8d056c4a9e0870d415a07a8669c3e999d85bd76e4
+spec_sha256: 4090ffaf3ed6eb19b75741c027229f966103a4a6cb1d695fa1613407189fba46
+>>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
 
 ```
 
