@@ -84,11 +84,11 @@ from ecoscope.platform.tasks.skip import all_geometry_are_none as all_geometry_a
 from ecoscope.platform.tasks.skip import (
     all_keyed_iterables_are_skips as all_keyed_iterables_are_skips,
 )
-from ecoscope_workflows_ext_custom.tasks.transformation import (
-    drop_duplicate_columns as drop_duplicate_columns,
+from ecoscope.platform.tasks.transformation import (
+    filter_by_geometry_type as filter_by_geometry_type,
 )
 from ecoscope_workflows_ext_custom.tasks.transformation import (
-    filter_by_geometry_type as filter_by_geometry_type,
+    drop_duplicate_columns as drop_duplicate_columns,
 )
 
 from ..params import Params
@@ -749,6 +749,8 @@ def main(params: Params):
         .partial(
             layer_style={
                 "fill_color_column": "event_type_colormap",
+                "stroked": True,
+                "get_line_color": "white",
                 "get_line_width": 2,
                 "opacity": 0.4,
             },

@@ -1,26 +1,34 @@
 id: download_events
-# DEV: editable paths for unreleased changes on
-#   ecoscope: feat/get-events-force-point-geometry (PR #684)
-#   ecoscope-workflow-task-library: feat/filter-by-geometry-type
-# Revert to versioned channels before publish.
+# DEV: editable path for unreleased changes on ecoscope
+# (feat/get-events-force-point-geometry — PR #684 — which now also carries
+# the filter_by_geometry_type platform task and polygon-aware bbox filtering
+# in apply_reloc_coord_filter). Revert to a versioned channel before publish.
 requirements:
   - name: python
     version: "3.12.*"
-  - name: rasterio
-    version: "1.5.0"
-    channel: conda-forge
   - name: numpy
     version: ">=2,<2.1"
+    channel: conda-forge
+  - name: pyarrow
+    version: ">=20,<24"
     channel: conda-forge
   - name: ecoscope
     path: /Users/yunwu/MEP/wt-tasks/ecoscope
     editable: true
     extras: ["platform", "mapping", "analysis"]
-  - name: setuptools
-    version: "<=81.0.0"
+  # Channel-priority overrides: with editable ecoscope on the PyPI side, the
+  # conda solver puts conda-forge first, locking out custom-channel-only
+  # versions that ext-custom (and the ecoscope-platform conda dep it pulls)
+  # need transitively. Pin them explicitly so the right channel is selected.
+  - name: pydeck
+    version: "==0.0.2"
+    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+  - name: lonboard
+    version: "==0.0.8"
+    channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    path: /Users/yunwu/MEP/wt-tasks/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
-    editable: true
+    version: "0.1.0rc3"
+    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
@@ -370,6 +378,8 @@ workflow:
         partial:
           layer_style:
             fill_color_column: "event_type_colormap"
+            stroked: true
+            get_line_color: "white"
             get_line_width: 2
             opacity: 0.4
           legend:

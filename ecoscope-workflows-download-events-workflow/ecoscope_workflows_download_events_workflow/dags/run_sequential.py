@@ -45,6 +45,9 @@ from ecoscope.platform.tasks.transformation import (
 from ecoscope.platform.tasks.transformation import (
     extract_value_from_json_column as extract_value_from_json_column,
 )
+from ecoscope.platform.tasks.transformation import (
+    filter_by_geometry_type as filter_by_geometry_type,
+)
 from ecoscope.platform.tasks.transformation import map_columns as map_columns
 from ecoscope.platform.tasks.transformation import (
     normalize_json_column as normalize_json_column,
@@ -67,9 +70,6 @@ from ecoscope_workflows_ext_custom.tasks.transformation import (
 )
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_duplicate_columns as drop_duplicate_columns,
-)
-from ecoscope_workflows_ext_custom.tasks.transformation import (
-    filter_by_geometry_type as filter_by_geometry_type,
 )
 from wt_task import task
 
@@ -729,6 +729,8 @@ def main(params: Params):
         .partial(
             layer_style={
                 "fill_color_column": "event_type_colormap",
+                "stroked": True,
+                "get_line_color": "white",
                 "get_line_width": 2,
                 "opacity": 0.4,
             },
