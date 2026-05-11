@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {MAJ: 0, MIN: 13, PATCH: 0}
 =======
 {MAJ: 0, MIN: 11, PATCH: 0}
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
+=======
+{MAJ: 0, MIN: 11, PATCH: 0}
+>>>>>>> 0be1c94 (recompile)

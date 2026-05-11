@@ -44,7 +44,7 @@ RESULTS_ENV_VAR = "ECOSCOPE_WORKFLOWS_RESULTS"
 IO_TASKS_IMPORTABLE_REFERENCES = [
     "ecoscope.platform.tasks.io.get_events",
     "ecoscope_workflows_ext_custom.tasks.io.process_events_details",
-    "ecoscope_workflows_ext_custom.tasks.io.download_grouped_event_attachments",
+    "ecoscope_workflows_ext_custom.tasks.io.download_event_attachments",
 ]
 
 yaml = ruamel.yaml.YAML(typ="safe")

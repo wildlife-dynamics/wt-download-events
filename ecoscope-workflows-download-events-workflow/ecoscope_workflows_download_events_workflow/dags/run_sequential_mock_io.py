@@ -7,9 +7,15 @@ Lines specific to the testing context are marked with a test tube emoji (🧪) t
 that they would not be included (or would be different) in the production version of this file.
 """
 
+<<<<<<< HEAD
 import os
 import warnings  # 🧪
 from typing import Any
+=======
+import json
+import os
+import warnings  # 🧪
+>>>>>>> 0be1c94 (recompile)
 
 from ecoscope.platform.tasks.config import set_workflow_details as set_workflow_details
 from ecoscope.platform.tasks.filter import (
@@ -21,12 +27,18 @@ from ecoscope.platform.tasks.skip import (
     any_dependency_skipped as any_dependency_skipped,
 )
 from ecoscope.platform.tasks.skip import any_is_empty_df as any_is_empty_df
+<<<<<<< HEAD
 from wt_contracts import validate as _validate
 from wt_task import task
 from wt_task.testing import create_func_magicmock  # 🧪
 
 from .. import metadata as _metadata
 
+=======
+from wt_task import task
+from wt_task.testing import create_func_magicmock  # 🧪
+
+>>>>>>> 0be1c94 (recompile)
 get_events = create_func_magicmock(  # 🧪
     anchor="ecoscope.platform.tasks.io",  # 🧪
     func_name="get_events",  # 🧪
@@ -57,7 +69,11 @@ from ecoscope.platform.tasks.transformation import (
     normalize_json_column as normalize_json_column,
 )
 from ecoscope_workflows_ext_custom.tasks.io import (
+<<<<<<< HEAD
     persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
+=======
+    persist_df_wrapper as persist_df_wrapper,
+>>>>>>> 0be1c94 (recompile)
 )
 from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
@@ -93,12 +109,22 @@ from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_duplicate_columns as drop_duplicate_columns,
 )
 
+<<<<<<< HEAD
 
 def main(params: dict[str, Any], validate_params_schema: bool = True):
     warnings.warn("This test script should not be used in production!")  # 🧪
 
     if validate_params_schema:
         _validate(params, _metadata.load_params_schema())
+=======
+from ..params import Params
+
+
+def main(params: Params):
+    warnings.warn("This test script should not be used in production!")  # 🧪
+
+    params_dict = json.loads(params.model_dump_json(exclude_unset=True))
+>>>>>>> 0be1c94 (recompile)
 
     workflow_details = (
         task(set_workflow_details)
@@ -113,7 +139,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(**(params.get("workflow_details") or {}))
+=======
+        .partial(**(params_dict.get("workflow_details") or {}))
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -130,7 +160,13 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(time_format="%d %b %Y %H:%M:%S", **(params.get("time_range") or {}))
+=======
+        .partial(
+            time_format="%d %b %Y %H:%M:%S", **(params_dict.get("time_range") or {})
+        )
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -147,7 +183,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(time_range=time_range, **(params.get("get_timezone") or {}))
+=======
+        .partial(time_range=time_range, **(params_dict.get("get_timezone") or {}))
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -164,7 +204,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(**(params.get("er_client_name") or {}))
+=======
+        .partial(**(params_dict.get("er_client_name") or {}))
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -190,7 +234,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             include_updates=False,
             include_related_events=False,
             include_display_values=True,
+<<<<<<< HEAD
             **(params.get("get_event_data") or {}),
+=======
+            **(params_dict.get("get_event_data") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -213,7 +261,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             timezone=get_timezone,
             columns=["time"],
             auto_detect=False,
+<<<<<<< HEAD
             **(params.get("convert_to_user_timezone") or {}),
+=======
+            **(params_dict.get("convert_to_user_timezone") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -237,7 +289,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             field_name_options=["name"],
             output_type="str",
             output_column_name="reported_by_name",
+<<<<<<< HEAD
             **(params.get("extract_reported_by") or {}),
+=======
+            **(params_dict.get("extract_reported_by") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -261,7 +317,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             field_name_options=["subject_subtype"],
             output_type="str",
             output_column_name="reported_by_subtype",
+<<<<<<< HEAD
             **(params.get("extract_reported_by_subtype") or {}),
+=======
+            **(params_dict.get("extract_reported_by_subtype") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -284,7 +344,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             map_to_titles=True,
             ordered=True,
+<<<<<<< HEAD
             **(params.get("process_event_details") or {}),
+=======
+            **(params_dict.get("process_event_details") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -307,7 +371,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             column="event_details",
             skip_if_not_exists=True,
             sort_columns=False,
+<<<<<<< HEAD
             **(params.get("normalize_event_details") or {}),
+=======
+            **(params_dict.get("normalize_event_details") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -329,7 +397,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             df=normalize_event_details,
             prefix="event_details__",
             duplicate_strategy="suffix",
+<<<<<<< HEAD
             **(params.get("drop_event_details_prefix") or {}),
+=======
+            **(params_dict.get("drop_event_details_prefix") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -352,7 +424,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             timezone=get_timezone,
             columns=[],
             auto_detect=True,
+<<<<<<< HEAD
             **(params.get("convert_event_details_timezone") or {}),
+=======
+            **(params_dict.get("convert_event_details_timezone") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -375,7 +451,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             colormap="tab20b",
             output_column_name="event_type_colormap",
             df=convert_event_details_timezone,
+<<<<<<< HEAD
             **(params.get("events_colormap") or {}),
+=======
+            **(params_dict.get("events_colormap") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -398,7 +478,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             roi_gdf=None,
             roi_name=None,
             reset_index=True,
+<<<<<<< HEAD
             **(params.get("filter_events") or {}),
+=======
+            **(params_dict.get("filter_events") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -421,7 +505,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             rename_columns={"time": "event_time"},
             retain_columns=[],
             raise_if_not_found=True,
+<<<<<<< HEAD
             **(params.get("process_columns") or {}),
+=======
+            **(params_dict.get("process_columns") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -439,7 +527,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(df=process_columns, **(params.get("sql_query") or {}))
+=======
+        .partial(df=process_columns, **(params_dict.get("sql_query") or {}))
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -456,7 +548,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(**(params.get("groupers") or {}))
+=======
+        .partial(**(params_dict.get("groupers") or {}))
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -479,7 +575,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             groupers=groupers,
             cast_to_datetime=True,
             format="mixed",
+<<<<<<< HEAD
             **(params.get("events_add_temporal_index") or {}),
+=======
+            **(params_dict.get("events_add_temporal_index") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -500,13 +600,21 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .partial(
             df=events_add_temporal_index,
             groupers=groupers,
+<<<<<<< HEAD
             **(params.get("split_event_groups") or {}),
+=======
+            **(params_dict.get("split_event_groups") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
 
     persist_events = (
+<<<<<<< HEAD
         task(persist_grouped_dfs_for_results_download)
+=======
+        task(persist_df_wrapper)
+>>>>>>> 0be1c94 (recompile)
         .validate()
         .set_task_instance_id("persist_events")
         .handle_errors()
@@ -518,12 +626,20 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
+<<<<<<< HEAD
             grouped_dfs=split_event_groups,
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             sanitize=True,
             **(params.get("persist_events") or {}),
         )
         .call()
+=======
+            root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
+            sanitize=True,
+            **(params_dict.get("persist_events") or {}),
+        )
+        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+>>>>>>> 0be1c94 (recompile)
     )
 
     skip_attachment_download = (
@@ -539,8 +655,14 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(**(params.get("skip_attachment_download") or {}))
-        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+<<<<<<< HEAD
+        .partial(df=get_event_data, **(params.get("skip_attachment_download") or {}))
+=======
+        .partial(
+            df=get_event_data, **(params_dict.get("skip_attachment_download") or {})
+        )
+>>>>>>> 0be1c94 (recompile)
+        .call()
     )
 
     download_attachments = (
@@ -562,7 +684,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             grouped_event_gdfs=skip_attachment_download,
             skip_download=False,
             attachments_subdir="attachments",
+<<<<<<< HEAD
             **(params.get("download_attachments") or {}),
+=======
+            **(params_dict.get("download_attachments") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -580,7 +706,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(**(params.get("skip_map_generation") or {}))
+=======
+        .partial(**(params_dict.get("skip_map_generation") or {}))
+>>>>>>> 0be1c94 (recompile)
         .mapvalues(argnames=["df"], argvalues=split_event_groups)
     )
 
@@ -597,7 +727,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(strategy="drop_last", **(params.get("dedup_columns") or {}))
+=======
+        .partial(strategy="drop_last", **(params_dict.get("dedup_columns") or {}))
+>>>>>>> 0be1c94 (recompile)
         .mapvalues(argnames=["df"], argvalues=skip_map_generation)
     )
 
@@ -624,7 +758,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
                 "reported_by_name": "Reported By",
             },
             raise_if_not_found=False,
+<<<<<<< HEAD
             **(params.get("rename_display_columns") or {}),
+=======
+            **(params_dict.get("rename_display_columns") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .mapvalues(argnames=["df"], argvalues=dedup_columns)
     )
@@ -644,10 +782,14 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
 <<<<<<< HEAD
+<<<<<<< HEAD
             geometry_types=["Point"], **(params.get("filter_points_for_map") or {})
 =======
             geometry_types=["Point"], **(params_dict.get("filter_points_for_map") or {})
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
+=======
+            geometry_types=["Point"], **(params_dict.get("filter_points_for_map") or {})
+>>>>>>> 0be1c94 (recompile)
         )
         .mapvalues(argnames=["df"], argvalues=rename_display_columns)
     )
@@ -668,10 +810,14 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .partial(
             geometry_types=["Polygon", "MultiPolygon"],
 <<<<<<< HEAD
+<<<<<<< HEAD
             **(params.get("filter_polygons_for_map") or {}),
 =======
             **(params_dict.get("filter_polygons_for_map") or {}),
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
+=======
+            **(params_dict.get("filter_polygons_for_map") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .mapvalues(argnames=["df"], argvalues=rename_display_columns)
     )
@@ -689,7 +835,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(var="Events Map", **(params.get("set_events_map_title") or {}))
+=======
+        .partial(var="Events Map", **(params_dict.get("set_events_map_title") or {}))
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -706,7 +856,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
+<<<<<<< HEAD
         .partial(**(params.get("base_map_defs") or {}))
+=======
+        .partial(**(params_dict.get("base_map_defs") or {}))
+>>>>>>> 0be1c94 (recompile)
         .call()
     )
 
@@ -731,7 +885,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
                 "color_column": "event_type_colormap",
             },
             tooltip_columns=["Event Serial", "Event Time", "Event Type", "Reported By"],
+<<<<<<< HEAD
             **(params.get("grouped_events_map_layer") or {}),
+=======
+            **(params_dict.get("grouped_events_map_layer") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .mapvalues(argnames=["geodataframe"], argvalues=filter_points_for_map)
     )
@@ -764,10 +922,14 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             },
             tooltip_columns=["Event Serial", "Event Time", "Event Type", "Reported By"],
 <<<<<<< HEAD
+<<<<<<< HEAD
             **(params.get("grouped_events_polygon_layer") or {}),
 =======
             **(params_dict.get("grouped_events_polygon_layer") or {}),
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
+=======
+            **(params_dict.get("grouped_events_polygon_layer") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .mapvalues(argnames=["geodataframe"], argvalues=filter_polygons_for_map)
     )
@@ -787,10 +949,14 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .partial(
             iterables=[grouped_events_polygon_layer, grouped_events_map_layer],
 <<<<<<< HEAD
+<<<<<<< HEAD
             **(params.get("combined_event_map_layers") or {}),
 =======
             **(params_dict.get("combined_event_map_layers") or {}),
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
+=======
+            **(params_dict.get("combined_event_map_layers") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -820,7 +986,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             static=False,
             max_zoom=20,
             widget_id=set_events_map_title,
+<<<<<<< HEAD
             **(params.get("grouped_events_ecomap") or {}),
+=======
+            **(params_dict.get("grouped_events_ecomap") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .mapvalues(argnames=["geo_layers"], argvalues=combined_event_map_layers)
     )
@@ -840,7 +1010,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
+<<<<<<< HEAD
             **(params.get("grouped_events_ecomap_html_url") or {}),
+=======
+            **(params_dict.get("grouped_events_ecomap_html_url") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .mapvalues(argnames=["text"], argvalues=grouped_events_ecomap)
     )
@@ -859,7 +1033,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             title=set_events_map_title,
+<<<<<<< HEAD
             **(params.get("grouped_events_map_widget") or {}),
+=======
+            **(params_dict.get("grouped_events_map_widget") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .map(argnames=["view", "data"], argvalues=grouped_events_ecomap_html_url)
     )
@@ -879,7 +1057,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             widgets=grouped_events_map_widget,
+<<<<<<< HEAD
             **(params.get("grouped_events_map_widget_merge") or {}),
+=======
+            **(params_dict.get("grouped_events_map_widget_merge") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
@@ -902,7 +1084,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             widgets=[grouped_events_map_widget_merge],
             groupers=groupers,
             time_range=time_range,
+<<<<<<< HEAD
             **(params.get("events_dashboard") or {}),
+=======
+            **(params_dict.get("events_dashboard") or {}),
+>>>>>>> 0be1c94 (recompile)
         )
         .call()
     )
