@@ -27,11 +27,14 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 0d34143 (fix: timezone auto-detect and duplicate column handling (#27))
 =======
 <<<<<<< HEAD
 >>>>>>> 3b7ae81 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
+=======
+>>>>>>> 1e1be4d (update pixi lock)
 <<<<<<< HEAD
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
@@ -46,6 +49,9 @@ environments:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-hcfc306f_1.conda
+>>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/linux-64/go-yq-4.53.2-h280c20c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/graphite2-1.3.14-hecca717_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/graphviz-14.1.2-h8b86629_0.conda
@@ -76,6 +82,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h0d30a3d_1.conda
@@ -88,6 +95,9 @@ environments:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h0d30a3d_1.conda
+>>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglvnd-1.7.0-ha4b6fd6_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglx-1.7.0-ha4b6fd6_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libglx-devel-1.7.0-ha4b6fd6_2.conda
@@ -229,11 +239,14 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 0d34143 (fix: timezone auto-detect and duplicate column handling (#27))
 =======
 <<<<<<< HEAD
 >>>>>>> 3b7ae81 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
+=======
+>>>>>>> 1e1be4d (update pixi lock)
 <<<<<<< HEAD
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
@@ -248,6 +261,9 @@ environments:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glib-tools-2.88.1-h357b478_1.conda
+>>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/go-yq-4.53.2-h1a92334_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/graphite2-1.3.14-hec049ff_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/graphviz-14.1.2-hec8c438_0.conda
@@ -267,6 +283,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.88.1-ha08bb59_1.conda
@@ -279,6 +296,9 @@ environments:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.88.1-ha08bb59_1.conda
+>>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libiconv-1.18-h23cfdf5_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libintl-0.25.1-h493aca8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libjpeg-turbo-3.1.4.1-h84a0fba_0.conda
@@ -377,6 +397,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h7ce1215_1.conda
 <<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_19.conda
@@ -391,7 +412,10 @@ environments:
 =======
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h7ce1215_1.conda
+<<<<<<< HEAD
 <<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_19.conda
 <<<<<<< HEAD
@@ -406,8 +430,17 @@ environments:
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_18.conda
 >>>>>>> f7f0e19 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 >>>>>>> fc9745f (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+=======
+=======
+      - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_19.conda
+>>>>>>> 1167eda (update pixi lock)
+>>>>>>> e0a02bc (update pixi lock)
+>>>>>>> 1e1be4d (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/win-64/libiconv-1.18-hc1393d2_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libintl-0.22.5-h5728263_3.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libjpeg-turbo-3.1.4.1-hfd05255_0.conda
@@ -663,6 +696,7 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 0d34143 (fix: timezone auto-detect and duplicate column handling (#27))
 =======
 <<<<<<< HEAD
@@ -672,11 +706,19 @@ packages:
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
 >>>>>>> fc9745f (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
+>>>>>>> 1e1be4d (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-hcfc306f_1.conda
   sha256: 628015696c106665ae0043f7e9f51298ec9e8f11573734ad67a849c8279cbe33
   md5: ff216b19c24f3a46e9d17ebcf2f96390
   depends:
   - libglib ==2.88.1 h0d30a3d_1
+<<<<<<< HEAD
 =======
 - conda: https://conda.anaconda.org/conda-forge/linux-64/glib-tools-2.88.1-h040f060_0.conda
   sha256: edeabb898f3ab893473f9eb6ec0a072337f6e81a5bc4f91ac1387aae40698058
@@ -694,6 +736,8 @@ packages:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   - libffi
   - libgcc >=14
   - __glibc >=2.17,<3.0.a0
@@ -701,10 +745,13 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   size: 237141
   timestamp: 1777904907738
 <<<<<<< HEAD
@@ -715,6 +762,7 @@ packages:
 <<<<<<< HEAD
   depends:
   - libglib ==2.88.1 ha08bb59_1
+<<<<<<< HEAD
 =======
   size: 237210
   timestamp: 1777848149975
@@ -731,10 +779,13 @@ packages:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   - libffi
   - __osx >=11.0
   - libintl >=0.25.1,<1.0a0
   license: LGPL-2.1-or-later
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -761,7 +812,14 @@ packages:
 =======
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 >>>>>>> fc9745f (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+=======
+  size: 204878
+  timestamp: 1777905039771
+>>>>>>> e0a02bc (update pixi lock)
+>>>>>>> 1e1be4d (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/linux-64/go-yq-4.53.2-h280c20c_0.conda
   sha256: 302739db1489198c5733df19a666086913f1d92d3d03ff14fee305424c016f51
   md5: 652617a9aa3d4b768cb97e967538e009
@@ -1185,8 +1243,11 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h0d30a3d_1.conda
   sha256: a0899efbae2a6a9102c796c0b11ac371a3190da5afa28512eeb2879c65d1419c
   md5: 6016ea5ee9e986bc683879408cc87529
@@ -1212,6 +1273,7 @@ packages:
   - pcre2 >=10.47,<10.48.0a0
   - libiconv >=1.18,<2.0a0
   - libintl >=0.25.1,<1.0a0
+<<<<<<< HEAD
 =======
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.88.1-h6705ce6_0.conda
   sha256: d81bb2fd3b339009ddbf642c0569be1459ee0b9e5829d47651c0c0003c0e1ec8
@@ -1269,6 +1331,8 @@ packages:
   - libiconv >=1.18,<2.0a0
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   - libffi >=3.5.2,<3.6.0a0
   - libzlib >=1.3.2,<2.0a0
   constrains:
@@ -1277,15 +1341,19 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   size: 4439433
   timestamp: 1777905039771
 - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h7ce1215_1.conda
   sha256: f05f64b735dec24297d120d5e7b6b7299dda0df50bc2ae309808c4aa345c06ba
   md5: 574ba3f468b639cfaf65c0f2b04d8e9d
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -1302,6 +1370,8 @@ packages:
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   depends:
   - vc >=14.3,<15
   - vc14_runtime >=14.44.35208
@@ -1309,12 +1379,16 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   - libzlib >=1.3.2,<2.0a0
   - libiconv >=1.18,<2.0a0
   - libintl >=0.22.5,<1.0a0
   - libffi >=3.5.2,<3.6.0a0
+<<<<<<< HEAD
 =======
 >>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
 <<<<<<< HEAD
@@ -1327,14 +1401,13 @@ packages:
   - libffi >=3.5.2,<3.6.0a0
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+>>>>>>> e0a02bc (update pixi lock)
   - pcre2 >=10.47,<10.48.0a0
-  - libintl >=0.22.5,<1.0a0
-  - libffi >=3.5.2,<3.6.0a0
-  - libiconv >=1.18,<2.0a0
-  - libzlib >=1.3.2,<2.0a0
   constrains:
   - glib >2.66
   license: LGPL-2.1-or-later
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -1361,7 +1434,14 @@ packages:
 =======
 =======
 >>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
+<<<<<<< HEAD
 >>>>>>> fc9745f (fix: timezone auto-detect and duplicate column handling (#27))
+=======
+=======
+  size: 4522879
+  timestamp: 1777904959903
+>>>>>>> e0a02bc (update pixi lock)
+>>>>>>> 1e1be4d (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libglvnd-1.7.0-ha4b6fd6_2.conda
   sha256: 1175f8a7a0c68b7f81962699751bb6574e6f07db4c9f72825f978e3016f46850
   md5: 434ca7e50e40f4918ab701e3facd59a0
