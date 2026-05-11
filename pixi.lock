@@ -415,9 +415,8 @@ environments:
 =======
 >>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/win-64/libglib-2.88.1-h7ce1215_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_19.conda
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 9691e76 (infra: drop compile.sh wrapper and win-64 platform (#29))
 <<<<<<< HEAD
@@ -440,7 +439,12 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_19.conda
 >>>>>>> 1167eda (update pixi lock)
 >>>>>>> e0a02bc (update pixi lock)
+<<<<<<< HEAD
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+=======
+>>>>>>> d62059e (recompile)
+>>>>>>> 0be1c94 (recompile)
       - conda: https://conda.anaconda.org/conda-forge/win-64/libiconv-1.18-hc1393d2_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libintl-0.22.5-h5728263_3.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libjpeg-turbo-3.1.4.1-hfd05255_0.conda

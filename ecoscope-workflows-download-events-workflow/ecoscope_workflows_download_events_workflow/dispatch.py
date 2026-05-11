@@ -2,14 +2,20 @@
 
 
 import traceback
+<<<<<<< HEAD
 from typing import Any
 
+=======
+
+from .params import Params
+>>>>>>> 0be1c94 (recompile)
 from .response import ResponseModel
 
 
 def dispatch(
     execution_mode: str,  # TODO: literal type
     mock_io: bool,
+<<<<<<< HEAD
     params: dict[str, Any],
     validate_params_schema: bool = True,
 ) -> ResponseModel:
@@ -20,13 +26,30 @@ def dispatch(
         case ("sequential", False):
             from .dags.run_sequential import main as dispatcher
 
+=======
+    params: Params,
+) -> ResponseModel:
+    match execution_mode, mock_io:
+        case ("sequential", True):
+            from .dags import run_sequential_mock_io
+
+            dispatcher = run_sequential_mock_io
+        case ("sequential", False):
+            from .dags import run_sequential
+
+            dispatcher = run_sequential
+>>>>>>> 0be1c94 (recompile)
         case _:
             raise ValueError(f"Invalid execution mode: {execution_mode}")
 
     try:
+<<<<<<< HEAD
         result = dispatcher(
             params=params, validate_params_schema=validate_params_schema
         )
+=======
+        result = dispatcher(params=params)
+>>>>>>> 0be1c94 (recompile)
         response = ResponseModel(result=result)
         response.model_dump_json()  # eagerly validate JSON-serializability
     except Exception as e:
