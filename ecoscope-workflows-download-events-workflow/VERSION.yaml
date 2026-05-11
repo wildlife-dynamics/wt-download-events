@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 {MAJ: 0, MIN: 13, PATCH: 0}
 =======
 {MAJ: 0, MIN: 11, PATCH: 0}
@@ -7,3 +8,6 @@
 =======
 {MAJ: 0, MIN: 11, PATCH: 0}
 >>>>>>> 0be1c94 (recompile)
+=======
+{MAJ: 0, MIN: 10, PATCH: 0}
+>>>>>>> 5e736e0 (cleanup)
