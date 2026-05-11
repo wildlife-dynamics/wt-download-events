@@ -89,21 +89,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/duckdb-1.5.2-hfdaf410_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/earthengine-api-1.7.12-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/earthranger-client-1.0.49-pyh4616a5c_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.11-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.10-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.11-pyh4616a5c_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://repo.prefix.dev/ecoscope-workflows-custom/noarch/ecoscope-workflows-ext-custom-0.1.0rc3-pyh4616a5c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/email-validator-2.3.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/email_validator-2.3.0-hd8ed1ab_0.conda
@@ -160,19 +148,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_client-8.8.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_core-5.9.1-pyhc90fa1f_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_events-0.12.1-pyhcf101f3_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.0-pyhcf101f3_0.conda
-=======
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
->>>>>>> 8dc47f0 (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.0-pyhcf101f3_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_terminals-0.5.4-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-4.5.7-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab_pygments-0.3.0-pyhd8ed1ab_2.conda
@@ -259,6 +235,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.2-h0c1763c_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
@@ -277,6 +254,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libssh2-1.11.1-hcf80075_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-15.2.0-h934c35e_19.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-ng-15.2.0-hdf11a46_19.conda
@@ -313,15 +293,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/matplotlib-inline-0.2.2-pyhd8ed1ab_0.conda
 >>>>>>> 1e1be4d (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-64/minizip-4.2.1-hb71707f_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/minizip-4.0.10-h05a5f5f_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/minizip-4.2.1-hb71707f_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mistune-3.2.1-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/linux-64/multidict-6.7.1-py312h8a5da7c_0.conda
@@ -439,15 +411,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/snuggs-1.4.7-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/soupsieve-2.8.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/sqlalchemy-2.0.49-py312h5253ce2_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.53.1-hbc0de68_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.53.0-h04a0ce9_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.53.1-hbc0de68_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.3-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/starlette-1.0.0-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
@@ -566,21 +530,9 @@ environments:
 <<<<<<< HEAD
 =======
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/earthranger-client-1.0.49-pyh4616a5c_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.11-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.10-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.11-pyh4616a5c_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://repo.prefix.dev/ecoscope-workflows-custom/noarch/ecoscope-workflows-ext-custom-0.1.0rc3-pyh4616a5c_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/noarch/email-validator-2.3.0-pyhd8ed1ab_0.conda
@@ -658,6 +610,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.19.0-pyhcf101f3_0.conda
 =======
 =======
@@ -682,6 +635,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_terminals-0.5.4-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-4.5.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab_pygments-0.3.0-pyhd8ed1ab_2.conda
@@ -960,6 +916,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.2-h10b116e_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
@@ -978,6 +935,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libssh2-1.11.1-h18c354c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libstdcxx-15.2.0-hef695bb_19.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libstdcxx-ng-15.2.0-hdbbeba8_19.conda
@@ -1014,15 +974,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/matplotlib-inline-0.2.2-pyhd8ed1ab_0.conda
 >>>>>>> 1e1be4d (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/minizip-4.2.1-hd80d073_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/minizip-4.0.10-he2fa2e2_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/minizip-4.2.1-hd80d073_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mistune-3.2.1-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/multidict-6.7.1-py312ha4530ae_0.conda
@@ -1140,15 +1092,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/snuggs-1.4.7-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/soupsieve-2.8.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/sqlalchemy-2.0.49-py312h2fc9c67_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/sqlite-3.53.1-he8854b5_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/sqlite-3.53.0-he8854b5_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/sqlite-3.53.1-he8854b5_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.3-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/starlette-1.0.0-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
@@ -1267,21 +1211,9 @@ environments:
 <<<<<<< HEAD
 =======
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/earthranger-client-1.0.49-pyh4616a5c_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.11-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.10-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.11-pyh4616a5c_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://repo.prefix.dev/ecoscope-workflows-custom/noarch/ecoscope-workflows-ext-custom-0.1.0rc3-pyh4616a5c_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/noarch/email-validator-2.3.0-pyhd8ed1ab_0.conda
@@ -1359,6 +1291,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.19.0-pyhcf101f3_0.conda
 =======
 =======
@@ -1383,6 +1316,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_terminals-0.5.4-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-4.5.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab_pygments-0.3.0-pyhd8ed1ab_2.conda
@@ -1883,6 +1819,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.2-h8f8c405_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
@@ -1901,6 +1838,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libssh2-1.11.1-hed3591d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libthrift-0.22.0-hebea4ca_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libtiff-4.7.1-ha0a348c_1.conda
@@ -1938,15 +1878,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/matplotlib-inline-0.2.2-pyhd8ed1ab_0.conda
 >>>>>>> 1e1be4d (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-64/minizip-4.2.1-he29b9bd_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/minizip-4.0.10-hfb7a1ec_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/minizip-4.2.1-he29b9bd_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mistune-3.2.1-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/osx-64/multidict-6.7.1-py312hfc03ebc_0.conda
@@ -2065,15 +1997,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/snuggs-1.4.7-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/soupsieve-2.8.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/sqlalchemy-2.0.49-py312hba6025d_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-64/sqlite-3.53.1-h6775aab_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/sqlite-3.53.0-h6775aab_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/sqlite-3.53.1-h6775aab_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.3-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/starlette-1.0.0-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
@@ -2204,21 +2128,9 @@ environments:
 <<<<<<< HEAD
 =======
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/earthranger-client-1.0.49-pyh4616a5c_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.11-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.10-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.11-pyh4616a5c_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://repo.prefix.dev/ecoscope-workflows-custom/noarch/ecoscope-workflows-ext-custom-0.1.0rc3-pyh4616a5c_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/noarch/email-validator-2.3.0-pyhd8ed1ab_0.conda
@@ -2296,6 +2208,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.19.0-pyhcf101f3_0.conda
 =======
 =======
@@ -2320,6 +2233,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_terminals-0.5.4-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-4.5.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab_pygments-0.3.0-pyhd8ed1ab_2.conda
@@ -2585,6 +2501,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.2-h1ae2325_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
@@ -2603,6 +2520,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libssh2-1.11.1-h1590b86_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libthrift-0.22.0-h1fb9c8a_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libtiff-4.7.1-h4030677_1.conda
@@ -2640,15 +2560,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/matplotlib-inline-0.2.2-pyhd8ed1ab_0.conda
 >>>>>>> 1e1be4d (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/minizip-4.2.1-hdb7fadc_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/minizip-4.0.10-hff1a8ea_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/minizip-4.2.1-hdb7fadc_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mistune-3.2.1-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/multidict-6.7.1-py312h43af8aa_0.conda
@@ -2767,15 +2679,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/snuggs-1.4.7-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/soupsieve-2.8.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sqlalchemy-2.0.49-py312hb3ab3e3_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sqlite-3.53.1-h85ec8f2_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sqlite-3.53.0-h85ec8f2_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sqlite-3.53.1-h85ec8f2_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.3-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/starlette-1.0.0-pyhcf101f3_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
@@ -2905,21 +2809,9 @@ environments:
 <<<<<<< HEAD
 =======
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/earthranger-client-1.0.49-pyh4616a5c_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.11-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.10-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.11-pyh4616a5c_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://repo.prefix.dev/ecoscope-workflows-custom/noarch/ecoscope-workflows-ext-custom-0.1.0rc3-pyh4616a5c_0.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/noarch/email-validator-2.3.0-pyhd8ed1ab_0.conda
@@ -2995,6 +2887,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.19.0-pyhcf101f3_0.conda
 =======
 =======
@@ -3019,6 +2912,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_terminals-0.5.4-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-4.5.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jupyterlab_pygments-0.3.0-pyhd8ed1ab_2.conda
@@ -3271,6 +3167,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.2-hf5d6505_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
@@ -3289,6 +3186,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/win-64/libssh2-1.11.1-h9aa295b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libthrift-0.22.0-h2e43b2f_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libtiff-4.7.1-h8f73337_1.conda
@@ -3328,15 +3228,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/matplotlib-inline-0.2.2-pyhd8ed1ab_0.conda
 >>>>>>> 1e1be4d (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/minizip-4.2.1-h0ffbb96_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/minizip-4.0.10-h9fa1bad_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/minizip-4.2.1-h0ffbb96_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/mistune-3.2.1-pyhcf101f3_0.conda
 <<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/mkl-2025.3.1-hac47afa_12.conda
@@ -3462,32 +3354,12 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/snuggs-1.4.7-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/soupsieve-2.8.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/sqlalchemy-2.0.49-py312he5662c2_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/sqlite-3.53.1-hdb435a2_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/sqlite-3.53.0-hdb435a2_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/sqlite-3.53.1-hdb435a2_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.3-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/starlette-1.0.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/statsmodels-0.14.6-py312h196c9fc_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/svt-av1-4.0.1-hac47afa_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-h3155e25_0.conda
-=======
       - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-ha3553a1_1.conda
->>>>>>> 8dc47f0 (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-h3155e25_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-ha3553a1_1.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/terminado-0.18.1-pyh6dadd2b_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/text-unidecode-1.3-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/texttable-1.7.0-pyhd8ed1ab_1.conda
@@ -3589,13 +3461,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/httptools-0.7.1-py313h07c4f96_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/httpx-0.28.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/hyperframe-6.1.0-pyhd8ed1ab_0.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/icu-78.3-h33c6efd_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/idna-3.13-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/importlib-metadata-8.7.0-pyhe01879c_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jinja2-3.1.6-pyhcf101f3_1.conda
@@ -3615,6 +3480,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libprotobuf-6.33.5-h6eeba95_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libre2-11-2025.11.05-h0dc7533_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.2-h0c1763c_0.conda
@@ -3626,14 +3492,9 @@ environments:
 >>>>>>> fc9745f (fix: timezone auto-detect and duplicate column handling (#27))
 =======
 >>>>>>> 1e1be4d (update pixi lock)
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
 =======
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.0-hf4e2dac_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-15.2.0-h934c35e_18.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libuuid-2.42-h5347b49_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libuv-1.51.0-hb03c661_1.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
@@ -3810,6 +3671,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libprotobuf-6.33.5-h306233d_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libre2-11-2025.11.05-hc5e897d_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.2-h10b116e_0.conda
@@ -3821,13 +3683,9 @@ environments:
 >>>>>>> fc9745f (fix: timezone auto-detect and duplicate column handling (#27))
 =======
 >>>>>>> 1e1be4d (update pixi lock)
-      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
 =======
-      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.0-h022381a_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libuuid-2.42-h1022ec0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libuv-1.51.0-he30d5cf_1.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
@@ -4088,6 +3946,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libprotobuf-6.33.5-hff14b61_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libre2-11-2025.11.05-h6e8c311_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.2-h8f8c405_0.conda
@@ -4097,13 +3956,9 @@ environments:
 >>>>>>> fc9745f (fix: timezone auto-detect and duplicate column handling (#27))
 =======
 >>>>>>> 1e1be4d (update pixi lock)
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
 =======
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.0-h8f8c405_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libuv-1.51.0-h58003a5_1.conda
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libzlib-1.3.2-hbb4bfdb_2.conda
@@ -4213,15 +4068,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libffi-3.5.2-hcf2aa1b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/liblzma-5.8.3-h8088a28_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libmpdec-4.0.0-h84a0fba_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.0-h1b79a29_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libuv-1.51.0-h6caf38d_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libzlib-1.3.2-h8088a28_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/markdown-it-py-4.2.0-pyhd8ed1ab_0.conda
@@ -4401,15 +4248,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/libffi-3.5.2-h3d046cb_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/liblzma-5.8.3-hfd05255_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libmpdec-4.0.0-hfd05255_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.0-hf5d6505_0.conda
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/win-64/libzlib-1.3.2-hfd05255_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/markdown-it-py-4.2.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/markupsafe-3.0.3-py313hd650c13_1.conda
@@ -4681,6 +4520,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.2-h0c1763c_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
@@ -4699,6 +4539,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libssh2-1.11.1-hcf80075_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-15.2.0-h934c35e_19.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-ng-15.2.0-hdf11a46_19.conda
@@ -5053,6 +4896,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.2-h10b116e_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
@@ -5071,6 +4915,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libssh2-1.11.1-h18c354c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libstdcxx-15.2.0-hef695bb_19.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libstdcxx-ng-15.2.0-hdbbeba8_19.conda
@@ -5530,6 +5377,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.2-h8f8c405_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
@@ -5548,6 +5396,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libssh2-1.11.1-hed3591d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libthrift-0.22.0-hebea4ca_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libtiff-4.7.1-ha0a348c_1.conda
@@ -5902,6 +5753,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.2-h1ae2325_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
@@ -5920,6 +5772,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libssh2-1.11.1-h1590b86_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libthrift-0.22.0-h1fb9c8a_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libtiff-4.7.1-h4030677_1.conda
@@ -6262,6 +6117,7 @@ environments:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.2-hf5d6505_0.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
@@ -6280,6 +6136,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+      - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
+>>>>>>> b42bfe2 (retry)
       - conda: https://conda.anaconda.org/conda-forge/win-64/libssh2-1.11.1-h9aa295b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libthrift-0.22.0-h2e43b2f_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libtiff-4.7.1-h8f73337_1.conda
@@ -6369,25 +6228,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-hd3d4ead_2.conda
 =======
       - conda: https://conda.anaconda.org/conda-forge/noarch/syrupy-5.1.0-pyhd8ed1ab_1.conda
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-      - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-h3155e25_0.conda
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2022.3.0-h3155e25_2.conda
->>>>>>> 4d34dd4 (fix: timezone auto-detect and duplicate column handling (#27))
-<<<<<<< HEAD
-=======
       - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-ha3553a1_1.conda
->>>>>>> 8dc47f0 (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-      - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-ha3553a1_1.conda
->>>>>>> e0a02bc (update pixi lock)
       - conda: https://conda.anaconda.org/conda-forge/noarch/tifffile-2026.5.2-pyhd8ed1ab_0.conda
 >>>>>>> 0d34143 (fix: timezone auto-detect and duplicate column handling (#27))
       - conda: https://conda.anaconda.org/conda-forge/win-64/tk-8.6.13-h6ed50ae_3.conda
@@ -8656,21 +8497,9 @@ packages:
   license: Apache-2.0
   size: 25300
   timestamp: 1725938421487
-<<<<<<< HEAD
-<<<<<<< HEAD
 - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
   sha256: 237d57f77453d21e057b1e61f76885f04723e4ebbf6ed5eb8aede7d05a99790c
   md5: e792583746d04ff309a43acf0e2cb885
-=======
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.11-pyh4616a5c_5.conda
-  sha256: 4484aef9215f58d6ac3aa2f4755ecae38e32e92c6d68e4447fe0ab0db0f4f898
-  md5: e4cb83bcf15e71126feda4aa7eaf75f8
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-2.11.14-pyh4616a5c_5.conda
-  sha256: 237d57f77453d21e057b1e61f76885f04723e4ebbf6ed5eb8aede7d05a99790c
-  md5: e792583746d04ff309a43acf0e2cb885
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - python
   - backoff
@@ -8697,25 +8526,11 @@ packages:
   - pyarrow
   - statsmodels
   license: BSD-3-Clause
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e0a02bc (update pixi lock)
   size: 3224355
   timestamp: 1778067923050
 - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.11-pyh4616a5c_0.conda
   sha256: 202af44922e288d48c9430b7d60714584531ebb6cfcc6f58aaddded0da77b6d0
   md5: ee0daf81fd7f73d7269e1715db290af1
-<<<<<<< HEAD
-=======
-  size: 3223997
-  timestamp: 1777856005197
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-earthranger-io-core-0.0.10-pyh4616a5c_0.conda
-  sha256: 2cfa1e3c81150264a27b214db903765e9b19eb8e176759254f2ed2b08c12383c
-  md5: ec8c1fe8ae448e677d7de48e42a508d2
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - python >=3.10,<3.13
   - pydantic >=2.0.0,<3
@@ -8728,55 +8543,23 @@ packages:
   - fastapi >=0.115.0
   - python
   license: BSD-3-Clause
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e0a02bc (update pixi lock)
   size: 18682
   timestamp: 1777907576791
 - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.14-pyh4616a5c_0.conda
   sha256: df7ae6bb871bb33d9b3390363959280f267155e4639d5db2879c22e7e96a0a80
   md5: 6a667242080e80bd8c1b22cccb2609db
-<<<<<<< HEAD
   depends:
   - ecoscope ==2.11.14
-=======
-  size: 18683
-  timestamp: 1777294536011
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-platform-2.11.11-pyh4616a5c_0.conda
-  sha256: a075bcce72218300f4bb1122b801104771064114574139b438e32041445f52cc
-  md5: f6e19324f1ed828df9b320f87adf886d
-  depends:
-  - ecoscope ==2.11.11
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-  depends:
-  - ecoscope ==2.11.14
->>>>>>> e0a02bc (update pixi lock)
   - pandera >=0.24.0,<0.29
   - pydantic <2.9.0
   - pydantic-settings
   - cloudpathlib-gs
   - wt-registry >=0.2.0,<0.3.0
   - wt-task >=0.1.0,<0.2.0
-<<<<<<< HEAD
-<<<<<<< HEAD
   - ecoscope-earthranger-io-core ==0.0.11
   license: BSD-3-Clause
   size: 3609
   timestamp: 1778067923050
-=======
-  - ecoscope-earthranger-io-core ==0.0.10
-  license: BSD-3-Clause
-  size: 3603
-  timestamp: 1777856005197
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-  - ecoscope-earthranger-io-core ==0.0.11
-  license: BSD-3-Clause
-  size: 3609
-  timestamp: 1778067923050
->>>>>>> e0a02bc (update pixi lock)
 - conda: https://repo.prefix.dev/ecoscope-workflows-custom/noarch/ecoscope-workflows-ext-custom-0.1.0rc3-pyh4616a5c_0.conda
   sha256: 2020138f45d31e073576641732b7c2235dd4f719a5359bc5a0abb799e500b40d
   md5: 99c9cf4df3427f0cd33669a91ab5b89b
@@ -9791,27 +9574,9 @@ packages:
   license_family: BSD
   size: 24002
   timestamp: 1776861872237
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-- conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.0-pyhcf101f3_0.conda
-  sha256: 953b8528e088ad3b38764c043d8c168d28583593a6a8dd02a1e8c1e4c860d378
-  md5: 148450224bdca4f51bf4fe66c6e57cd7
-=======
 - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
   sha256: 04fb8ea7749f67abaf76df6257bf86688e1389ceed55eb4fb0176fd2e882dbd6
   md5: 5ee7945accf0f215ddd6055d25d7cd83
->>>>>>> 8dc47f0 (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
-- conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.0-pyhcf101f3_0.conda
-  sha256: 953b8528e088ad3b38764c043d8c168d28583593a6a8dd02a1e8c1e4c860d378
-  md5: 148450224bdca4f51bf4fe66c6e57cd7
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-- conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server-2.18.2-pyhcf101f3_0.conda
-  sha256: 04fb8ea7749f67abaf76df6257bf86688e1389ceed55eb4fb0176fd2e882dbd6
-  md5: 5ee7945accf0f215ddd6055d25d7cd83
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - anyio >=3.1.0
   - argon2-cffi >=21.1
@@ -9834,24 +9599,9 @@ packages:
   - websocket-client >=1.7
   - python
   license: BSD-3-Clause
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  size: 359130
-  timestamp: 1777905221568
-=======
-  size: 360522
-  timestamp: 1778060967727
->>>>>>> 8dc47f0 (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
-  size: 359130
-  timestamp: 1777905221568
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
   license_family: BSD
   size: 360522
   timestamp: 1778060967727
->>>>>>> e0a02bc (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_terminals-0.5.4-pyhcf101f3_0.conda
   sha256: 5eda79ed9f53f590031d29346abd183051263227dd9ee667b5ca1133ce297654
   md5: 7b8bace4943e0dc345fc45938826f2b8
@@ -12974,8 +12724,6 @@ packages:
   license_family: MOZILLA
   size: 8671657
   timestamp: 1761681604524
-<<<<<<< HEAD
-<<<<<<< HEAD
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
   sha256: 54cdcd3214313b62c2a8ee277e6f42150d9b748264c1b70d958bf735e420ef8d
   md5: 7dc38adcbf71e6b38748e919e16e0dce
@@ -12997,113 +12745,42 @@ packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
   sha256: ad03b7d8e4d08001f0df88ee7a56108bb35bae4795a42b9a04cc1abfa822bd07
   md5: 2ec1119217d8f0d086e9a62f3cb0e5ea
-=======
-- conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.0-hf4e2dac_0.conda
-  sha256: ec37c79f737933bbac965f5dc0f08ef2790247129a84bb3114fad4900adce401
-  md5: 810d83373448da85c3f673fbcb7ad3a3
-=======
-- conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.1-h0c1763c_0.conda
-  sha256: 54cdcd3214313b62c2a8ee277e6f42150d9b748264c1b70d958bf735e420ef8d
-  md5: 7dc38adcbf71e6b38748e919e16e0dce
->>>>>>> e0a02bc (update pixi lock)
-  depends:
-  - __glibc >=2.17,<3.0.a0
-  - libgcc >=14
-  - libzlib >=1.3.2,<2.0a0
-  license: blessing
-<<<<<<< HEAD
-  size: 958864
-  timestamp: 1775753750179
-- conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.0-h022381a_0.conda
-  sha256: 2cc87e1394245188dd7c2c621f14ad0d15910d842e3541e8a571dc94d222ce75
-  md5: 86db4036fd08bf34e991bf48a8af405d
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-  size: 954962
-  timestamp: 1777986471789
-- conda: https://conda.anaconda.org/conda-forge/linux-aarch64/libsqlite-3.53.1-h022381a_0.conda
-  sha256: ad03b7d8e4d08001f0df88ee7a56108bb35bae4795a42b9a04cc1abfa822bd07
-  md5: 2ec1119217d8f0d086e9a62f3cb0e5ea
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - libgcc >=14
   - libzlib >=1.3.2,<2.0a0
   license: blessing
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e0a02bc (update pixi lock)
   size: 955361
   timestamp: 1777986487553
 - conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.1-h8f8c405_0.conda
   sha256: 5e964e07a14180ce20decfd4897e8f81d48ec78c1cbf4af85c5520f535d9510c
   md5: 9273c877f78b7486b0dfdd9268327a79
-<<<<<<< HEAD
-=======
-  size: 954351
-  timestamp: 1775753767469
-- conda: https://conda.anaconda.org/conda-forge/osx-64/libsqlite-3.53.0-h8f8c405_0.conda
-  sha256: ae9d83cab8988a7d4ccec411fef23c141b5b3d301db3e926ab7cd4befe3764e6
-  md5: f2bb6692dfb33a1bbce746aa812a9a5b
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - __osx >=11.0
   - icu >=78.3,<79.0a0
   - libzlib >=1.3.2,<2.0a0
   license: blessing
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e0a02bc (update pixi lock)
   size: 1007171
   timestamp: 1777987093870
 - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.1-h1b79a29_0.conda
   sha256: 49daec7c83e70d4efc17b813547824bc2bcf2f7256d84061d24fbfe537da9f74
   md5: 6681822ea9d362953206352371b6a904
-<<<<<<< HEAD
-=======
-  size: 1007272
-  timestamp: 1775754456682
-- conda: https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.0-h1b79a29_0.conda
-  sha256: 1a9d1e3e18dbb0b87cff3b40c3e42703730d7ac7ee9b9322c2682196a81ba0c3
-  md5: 8423c008105df35485e184066cad4566
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - __osx >=11.0
   - libzlib >=1.3.2,<2.0a0
   license: blessing
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e0a02bc (update pixi lock)
   size: 920047
   timestamp: 1777987051643
 - conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.1-hf5d6505_0.conda
   sha256: e70562450332ca8954bc16f3455468cca5ef3695c7d7187ecc87f8fc3c70e9eb
   md5: 7fea434a17c323256acc510a041b80d7
-<<<<<<< HEAD
-=======
-  size: 920039
-  timestamp: 1775754485962
-- conda: https://conda.anaconda.org/conda-forge/win-64/libsqlite-3.53.0-hf5d6505_0.conda
-  sha256: 7a6256ea136936df4c4f3b227ba1e273b7d61152f9811b52157af497f07640b0
-  md5: 4152b5a8d2513fd7ae9fb9f221a5595d
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - ucrt >=10.0.20348.0
   - vc >=14.3,<15
   - vc14_runtime >=14.44.35208
   license: blessing
-<<<<<<< HEAD
-<<<<<<< HEAD
   size: 1304178
   timestamp: 1777986510497
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
 =======
@@ -13119,6 +12796,8 @@ packages:
   timestamp: 1777986510497
 >>>>>>> e0a02bc (update pixi lock)
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+>>>>>>> b42bfe2 (retry)
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libssh2-1.11.1-hcf80075_0.conda
   sha256: fa39bfd69228a13e553bd24601332b7cfeb30ca11a3ca50bb028108fe90a7661
   md5: eecce068c7e4eddeb169591baac20ac4
@@ -13857,6 +13536,7 @@ packages:
   timestamp: 1733255681319
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
 =======
 <<<<<<< HEAD
@@ -13864,6 +13544,8 @@ packages:
 =======
 <<<<<<< HEAD
 >>>>>>> 1e1be4d (update pixi lock)
+=======
+>>>>>>> b42bfe2 (retry)
 - conda: https://conda.anaconda.org/conda-forge/linux-64/minizip-4.2.1-hb71707f_0.conda
   sha256: 41558b95a387ce2374260aa034a99c3a88cbb98e1a56510f4fa6839063de867b
   md5: fe7b4ff5792fee512aad843294ea809a
@@ -13951,98 +13633,6 @@ packages:
   license_family: Other
   size: 106290
   timestamp: 1778002682910
-=======
-- conda: https://conda.anaconda.org/conda-forge/linux-64/minizip-4.0.10-h05a5f5f_0.conda
-  sha256: 0c3700d15377156937ddc89a856527ad77e7cf3fd73cb0dffc75fce8030ddd16
-  md5: da01bb40572e689bd1535a5cee6b1d68
-=======
-- conda: https://conda.anaconda.org/conda-forge/linux-64/minizip-4.2.1-hb71707f_0.conda
-  sha256: 41558b95a387ce2374260aa034a99c3a88cbb98e1a56510f4fa6839063de867b
-  md5: fe7b4ff5792fee512aad843294ea809a
->>>>>>> e0a02bc (update pixi lock)
-  depends:
-  - __glibc >=2.17,<3.0.a0
-  - bzip2 >=1.0.8,<2.0a0
-  - libgcc >=14
-  - libiconv >=1.18,<2.0a0
-  - liblzma >=5.8.3,<6.0a0
-  - libstdcxx >=14
-  - libzlib >=1.3.2,<2.0a0
-  - openssl >=3.5.6,<4.0a0
-  - zstd >=1.5.7,<1.6.0a0
-  license: Zlib
-  license_family: Other
-  size: 520570
-  timestamp: 1778002506337
-- conda: https://conda.anaconda.org/conda-forge/linux-aarch64/minizip-4.2.1-hd80d073_0.conda
-  sha256: 8779836ad83bd2129fbb1186e4d56bcb5cf715b5b621277c7b0233e21d7b3faf
-  md5: fc23e3da0c462946effdaac5199701d3
-  depends:
-  - bzip2 >=1.0.8,<2.0a0
-  - libgcc >=14
-  - libiconv >=1.18,<2.0a0
-  - liblzma >=5.8.3,<6.0a0
-  - libstdcxx >=14
-  - libzlib >=1.3.2,<2.0a0
-  - openssl >=3.5.6,<4.0a0
-  - zstd >=1.5.7,<1.6.0a0
-  license: Zlib
-  license_family: Other
-  size: 511533
-  timestamp: 1778002830933
-- conda: https://conda.anaconda.org/conda-forge/osx-64/minizip-4.2.1-he29b9bd_0.conda
-  sha256: 31599bfede2d1ddb7a59fdd5b4a2c4bf0ba72f683f3bcb9d07cb5446532386bf
-  md5: 71a71a2bbfb3f89f2b14be38dfea90ff
-  depends:
-  - __osx >=11.0
-  - bzip2 >=1.0.8,<2.0a0
-  - libcxx >=19
-  - libiconv >=1.18,<2.0a0
-  - liblzma >=5.8.3,<6.0a0
-  - libzlib >=1.3.2,<2.0a0
-  - openssl >=3.5.6,<4.0a0
-  - zstd >=1.5.7,<1.6.0a0
-  license: Zlib
-  license_family: Other
-  size: 475739
-  timestamp: 1778003429852
-- conda: https://conda.anaconda.org/conda-forge/osx-arm64/minizip-4.2.1-hdb7fadc_0.conda
-  sha256: 4b1d4e4b17d27bbec50b1ad144e000c3b077cc4e0ef487ef11011c52ef8c86ab
-  md5: fcd860469a8fa003e25d472b40b0ff81
-  depends:
-  - __osx >=11.0
-  - bzip2 >=1.0.8,<2.0a0
-  - libcxx >=19
-  - libiconv >=1.18,<2.0a0
-  - liblzma >=5.8.3,<6.0a0
-  - libzlib >=1.3.2,<2.0a0
-  - openssl >=3.5.6,<4.0a0
-  - zstd >=1.5.7,<1.6.0a0
-  license: Zlib
-  license_family: Other
-  size: 459816
-  timestamp: 1778003052237
-- conda: https://conda.anaconda.org/conda-forge/win-64/minizip-4.2.1-h0ffbb96_0.conda
-  sha256: 208b235b20232891d1dc9f468d08b00c53e7ca65a18b9bc0ff4c4867680b9a75
-  md5: 5d55038c4d640e5df06de1cfb4e8d741
-  depends:
-  - bzip2 >=1.0.8,<2.0a0
-  - liblzma >=5.8.3,<6.0a0
-  - libzlib >=1.3.2,<2.0a0
-  - ucrt >=10.0.20348.0
-  - vc >=14.3,<15
-  - vc14_runtime >=14.44.35208
-  - zstd >=1.5.7,<1.6.0a0
-  license: Zlib
-  license_family: Other
-<<<<<<< HEAD
-  size: 86618
-  timestamp: 1746450788037
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-  size: 106290
-  timestamp: 1778002682910
->>>>>>> e0a02bc (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/noarch/mistune-3.2.1-pyhcf101f3_0.conda
   sha256: b52dc6c78fbbe7a3008535cb8bfd87d70d8053e9250bbe16e387470a9df07070
   md5: b97e84d1553b4a1c765b87fff83453ad
@@ -40372,8 +39962,6 @@ packages:
   license_family: MIT
   size: 3665426
   timestamp: 1775241406935
-<<<<<<< HEAD
-<<<<<<< HEAD
 - conda: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.53.1-hbc0de68_0.conda
   sha256: d167fa92781bcdcd3b9aaa6bb1cd50c5b108f6190c170098a118b5cf5df2f881
   md5: 8e0b8654ead18e50af552e54b5a08a61
@@ -40429,88 +40017,12 @@ packages:
   md5: 5833ae18b609bf0790e0bfe6f95b3351
   depends:
   - libsqlite 3.53.1 hf5d6505_0
-=======
-- conda: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.53.0-h04a0ce9_0.conda
-  sha256: a0e35087ebf0720fa758cb261583bee0a328143238524ea47625b37108280291
-  md5: dc540e5bd5616d83a1ec46af8315ff98
-=======
-- conda: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.53.1-hbc0de68_0.conda
-  sha256: d167fa92781bcdcd3b9aaa6bb1cd50c5b108f6190c170098a118b5cf5df2f881
-  md5: 8e0b8654ead18e50af552e54b5a08a61
->>>>>>> e0a02bc (update pixi lock)
-  depends:
-  - __glibc >=2.17,<3.0.a0
-  - libgcc >=14
-  - libsqlite 3.53.1 h0c1763c_0
-  - libzlib >=1.3.2,<2.0a0
-  - ncurses >=6.6,<7.0a0
-  - readline >=8.3,<9.0a0
-  license: blessing
-  size: 205399
-  timestamp: 1777986477546
-- conda: https://conda.anaconda.org/conda-forge/linux-aarch64/sqlite-3.53.1-he8854b5_0.conda
-  sha256: 27467e4bfb0681546f149718c33b806fec078185fbaa6a4d17d440bc8f56185c
-  md5: 46009bdca2315a99e0a3a7d0ba1af3b9
-  depends:
-  - libgcc >=14
-  - libsqlite 3.53.1 h022381a_0
-  - libzlib >=1.3.2,<2.0a0
-  - ncurses >=6.6,<7.0a0
-  - readline >=8.3,<9.0a0
-  license: blessing
-  size: 209964
-  timestamp: 1777986493350
-- conda: https://conda.anaconda.org/conda-forge/osx-64/sqlite-3.53.1-h6775aab_0.conda
-  sha256: 0e956bcb99103410108808019f4c85267e1f4ba74250e9f966a29f3e5d854330
-  md5: 3056144f84229311f525e2dfdd51a775
-  depends:
-  - __osx >=11.0
-  - icu >=78.3,<79.0a0
-  - libsqlite 3.53.1 h8f8c405_0
-  - libzlib >=1.3.2,<2.0a0
-  - ncurses >=6.6,<7.0a0
-  - readline >=8.3,<9.0a0
-  license: blessing
-  size: 191591
-  timestamp: 1777987116542
-- conda: https://conda.anaconda.org/conda-forge/osx-arm64/sqlite-3.53.1-h85ec8f2_0.conda
-  sha256: b26e0b8d945799f53a505192694599c0dd0ee422d9afa7d98c15e6144b6f99f9
-  md5: f7a7a885f173730179da53e02b98ca93
-  depends:
-  - __osx >=11.0
-  - libsqlite 3.53.1 h1b79a29_0
-  - libzlib >=1.3.2,<2.0a0
-  - ncurses >=6.6,<7.0a0
-  - readline >=8.3,<9.0a0
-  license: blessing
-  size: 181970
-  timestamp: 1777987071018
-- conda: https://conda.anaconda.org/conda-forge/win-64/sqlite-3.53.1-hdb435a2_0.conda
-  sha256: cdac82f7ff491ac4915161e560094ad830606b1316099046e565ef3dda9f58ce
-  md5: 5833ae18b609bf0790e0bfe6f95b3351
-  depends:
-<<<<<<< HEAD
-  - libsqlite 3.53.0 hf5d6505_0
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-  - libsqlite 3.53.1 hf5d6505_0
->>>>>>> e0a02bc (update pixi lock)
   - ucrt >=10.0.20348.0
   - vc >=14.3,<15
   - vc14_runtime >=14.44.35208
   license: blessing
-<<<<<<< HEAD
-<<<<<<< HEAD
   size: 425712
   timestamp: 1777986518363
-=======
-  size: 425738
-  timestamp: 1775753855837
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-  size: 425712
-  timestamp: 1777986518363
->>>>>>> e0a02bc (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.3-pyhd8ed1ab_1.conda
   sha256: 570da295d421661af487f1595045760526964f41471021056e993e73089e9c41
   md5: b1b505328da7a6b246787df4b5a49fbc
@@ -40687,51 +40199,18 @@ packages:
   license_family: MIT
   size: 46918
   timestamp: 1774962130792
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-- conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-h3155e25_0.conda
-  sha256: 95c4a4757fb1f0b0ee8fe862824159a98b648a63a1346dfbf52e7e291c87c289
-  md5: d2718b5daaf2c96ebbe8e5dc5379f5ee
-=======
 - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-ha3553a1_1.conda
   sha256: 5ff149ba6832bf4ded4b43bf0a41cde7be814802a95070553176c087f65b2a01
   md5: 34aa94d586fe95fa121966c0d4e73cf4
->>>>>>> 8dc47f0 (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
-- conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-h3155e25_0.conda
-  sha256: 95c4a4757fb1f0b0ee8fe862824159a98b648a63a1346dfbf52e7e291c87c289
-  md5: d2718b5daaf2c96ebbe8e5dc5379f5ee
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
-- conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2023.0.0-ha3553a1_1.conda
-  sha256: 5ff149ba6832bf4ded4b43bf0a41cde7be814802a95070553176c087f65b2a01
-  md5: 34aa94d586fe95fa121966c0d4e73cf4
->>>>>>> e0a02bc (update pixi lock)
   depends:
   - libhwloc >=2.12.2,<2.12.3.0a0
   - ucrt >=10.0.20348.0
   - vc >=14.3,<15
   - vc14_runtime >=14.44.35208
   license: Apache-2.0
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  size: 157072
-  timestamp: 1777878270274
-=======
-  size: 156910
-  timestamp: 1777976465531
->>>>>>> 8dc47f0 (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
-  size: 157072
-  timestamp: 1777878270274
->>>>>>> e1f69e7 (fix: timezone auto-detect and duplicate column handling (#27))
-=======
   license_family: APACHE
   size: 156910
   timestamp: 1777976465531
->>>>>>> e0a02bc (update pixi lock)
 - conda: https://conda.anaconda.org/conda-forge/noarch/terminado-0.18.1-pyh6dadd2b_1.conda
   sha256: b375e8df0d5710717c31e7c8e93c025c37fa3504aea325c7a55509f64e5d4340
   md5: e43ca10d61e55d0a8ec5d8c62474ec9e
