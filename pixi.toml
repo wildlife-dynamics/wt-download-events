@@ -12,6 +12,7 @@ published = true
 [dependencies]
 # required for compilation
 wt-compiler = ">=0.5.2, <0.6.0"
+graphviz = "*"
 
 # required for testing
 go-yq = "*"
