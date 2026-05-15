@@ -523,7 +523,7 @@ def main(params: Params):
         )
         .partial(
             column_name="state",
-            value="active",
+            value=None,
             noop_if_column_exists=True,
             **(params_dict.get("ensure_state_column") or {}),
         )
@@ -545,9 +545,8 @@ def main(params: Params):
         )
         .partial(
             column_name="state",
-            value_map={"resolved": "Resolved"},
-            missing_values="replace",
-            replacement="Active",
+            value_map={"resolved": "Resolved", "active": "Active", "new": "Active"},
+            missing_values="preserve",
             **(params_dict.get("map_state_to_report_status") or {}),
         )
         .mapvalues(argnames=["df"], argvalues=ensure_state_column)

@@ -221,14 +221,18 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
-  # Ensure `state` column exists before mapping — auto-generated mocks and
-  # users with custom column selections may omit it.
+  # Ensure `state` column exists before mapping. `noop_if_column_exists: true`
+  # leaves real ER state values untouched; a null placeholder is added only
+  # when state is genuinely missing (auto-generated mocks, or users who
+  # customized `event_columns` to exclude `state`). The null is preserved by
+  # map_values below so Report_Status stays empty rather than being silently
+  # synthesized as "Active".
   - name: Ensure State Column Exists
     id: ensure_state_column
     task: assign_value
     partial:
       column_name: "state"
-      value: "active"
+      value: null
       noop_if_column_exists: true
     mapvalues:
       argnames: df
@@ -236,6 +240,8 @@ workflow:
 
   # Translate raw ER state ("new", "active", "resolved", ...) into the binary
   # "Active"/"Resolved" label that ER Web emits in its FieldEvents CSV export.
+  # `missing_values: preserve` keeps null/unknown values as-is rather than
+  # forcing them to "Active".
   - name: Map State to Report Status
     id: map_state_to_report_status
     task: map_values
@@ -243,8 +249,9 @@ workflow:
       column_name: "state"
       value_map:
         resolved: "Resolved"
-      missing_values: "replace"
-      replacement: "Active"
+        active: "Active"
+        new: "Active"
+      missing_values: "preserve"
     mapvalues:
       argnames: df
       argvalues: ${{ workflow.ensure_state_column.return }}
