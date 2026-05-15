@@ -29,7 +29,7 @@ rjsf-overrides:
       types natively (recommended for polygon events). CSV writes the geometry
       column as Well-Known Text (WKT) — readable but not directly round-trippable
       into all GIS tools.
-    Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "priority", "priority_label", "attributes", "comment", "patrol_segments", "updated_at", "state", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
+    Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Process Events.properties.process_columns.properties.drop_columns.description: >-
       Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
     Process Events.properties.groupers.properties.groupers.items.anyOf:
@@ -221,6 +221,41 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
+  # Translate raw ER state ("new", "active", "resolved", ...) into the binary
+  # "Active"/"Resolved" label that ER Web emits in its FieldEvents CSV export.
+  - name: Map State to Report Status
+    id: map_state_to_report_status
+    task: map_values
+    partial:
+      column_name: "state"
+      value_map:
+        resolved: "Resolved"
+      missing_values: "replace"
+      replacement: "Active"
+    mapvalues:
+      argnames: df
+      argvalues: ${{ workflow.split_event_groups.return }}
+
+  # Rename columns to match the ER Web > Exports > FieldEvents CSV schema so
+  # partners can use ecoscope downloads interchangeably with ER Web exports.
+  - name: Rename Columns for Export
+    id: rename_export_columns
+    task: map_columns
+    partial:
+      rename_columns:
+        serial_number: Report_Id
+        event_type: Report_Type_Internal_Value
+        event_type_display: Report_Type
+        title: Title
+        priority: Priority_Internal_Value
+        priority_label: Priority
+        state: Report_Status
+        reported_by_name: Reported_By
+      raise_if_not_found: false
+    mapvalues:
+      argnames: df
+      argvalues: ${{ workflow.map_state_to_report_status.return }}
+
   - name: Persist Events
     id: persist_events
     task: persist_df_wrapper
@@ -229,7 +264,7 @@ workflow:
       sanitize: true
     mapvalues:
       argnames: df
-      argvalues: ${{ workflow.split_event_groups.return }}
+      argvalues: ${{ workflow.rename_export_columns.return }}
     skipif:
       conditions:
         - never
