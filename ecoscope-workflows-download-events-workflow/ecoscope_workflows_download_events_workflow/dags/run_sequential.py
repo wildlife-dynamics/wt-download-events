@@ -39,6 +39,7 @@ from ecoscope.platform.tasks.transformation import apply_color_map as apply_colo
 from ecoscope.platform.tasks.transformation import (
     apply_reloc_coord_filter as apply_reloc_coord_filter,
 )
+from ecoscope.platform.tasks.transformation import assign_value as assign_value
 from ecoscope.platform.tasks.transformation import (
     convert_values_to_timezone as convert_values_to_timezone,
 )
@@ -49,6 +50,7 @@ from ecoscope.platform.tasks.transformation import (
     filter_by_geometry_type as filter_by_geometry_type,
 )
 from ecoscope.platform.tasks.transformation import map_columns as map_columns
+from ecoscope.platform.tasks.transformation import map_values as map_values
 from ecoscope.platform.tasks.transformation import (
     normalize_json_column as normalize_json_column,
 )
@@ -486,6 +488,81 @@ def main(params: Params):
         .call()
     )
 
+    ensure_state_column = (
+        task(assign_value)
+        .validate()
+        .set_task_instance_id("ensure_state_column")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            column_name="state",
+            value="active",
+            noop_if_column_exists=True,
+            **(params_dict.get("ensure_state_column") or {}),
+        )
+        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+    )
+
+    map_state_to_report_status = (
+        task(map_values)
+        .validate()
+        .set_task_instance_id("map_state_to_report_status")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            column_name="state",
+            value_map={"resolved": "Resolved"},
+            missing_values="replace",
+            replacement="Active",
+            **(params_dict.get("map_state_to_report_status") or {}),
+        )
+        .mapvalues(argnames=["df"], argvalues=ensure_state_column)
+    )
+
+    rename_export_columns = (
+        task(map_columns)
+        .validate()
+        .set_task_instance_id("rename_export_columns")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            rename_columns={
+                "serial_number": "Report_Id",
+                "event_type": "Report_Type_Internal_Value",
+                "event_type_display": "Report_Type",
+                "title": "Title",
+                "priority": "Priority_Internal_Value",
+                "priority_label": "Priority",
+                "state": "Report_Status",
+                "reported_by_name": "Reported_By",
+            },
+            raise_if_not_found=False,
+            **(params_dict.get("rename_export_columns") or {}),
+        )
+        .mapvalues(argnames=["df"], argvalues=map_state_to_report_status)
+    )
+
     persist_events = (
         task(persist_df_wrapper)
         .validate()
@@ -503,7 +580,7 @@ def main(params: Params):
             sanitize=True,
             **(params_dict.get("persist_events") or {}),
         )
-        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+        .mapvalues(argnames=["df"], argvalues=rename_export_columns)
     )
 
     skip_attachment_download = (

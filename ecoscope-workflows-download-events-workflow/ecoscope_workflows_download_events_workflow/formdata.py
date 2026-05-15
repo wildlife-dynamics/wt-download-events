@@ -47,13 +47,10 @@ class ProcessColumns(BaseModel):
             "end_time",
             "message",
             "provenance",
-            "priority",
-            "priority_label",
             "attributes",
             "comment",
             "patrol_segments",
             "updated_at",
-            "state",
             "is_contained_in",
             "sort_at",
             "icon_id",
@@ -82,6 +79,20 @@ class SqlQuery(BaseModel):
         None,
         description="Optional list of column names to include in the SQL query context. If specified, only these columns will be available in the 'df' table for querying. Use this to exclude columns with unsupported data types (list, dict) that cannot be stored in SQLite. If not specified, all columns are included.",
         title="Columns",
+    )
+
+
+class RenameExportColumns(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    drop_columns: Optional[List[str]] = Field(
+        [], description="List of columns to drop.", title="Drop Columns"
+    )
+    retain_columns: Optional[List[str]] = Field(
+        [],
+        description="List of columns to retain with the order specified by the list.\n                        Keep all the columns if the list is empty.",
+        title="Retain Columns",
     )
 
 
@@ -416,6 +427,9 @@ class FormData(BaseModel):
         None,
         alias="Process Events",
         description="Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.",
+    )
+    rename_export_columns: Optional[RenameExportColumns] = Field(
+        None, title="Rename Columns for Export"
     )
     persist_events: Optional[PersistEvents] = Field(None, title="Persist Events")
     Download_Attachments: Optional[DownloadAttachments] = Field(

@@ -62,6 +62,20 @@ class SqlQuery(BaseModel):
     )
 
 
+class RenameExportColumns(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    drop_columns: Optional[List[str]] = Field(
+        [], description="List of columns to drop.", title="Drop Columns"
+    )
+    retain_columns: Optional[List[str]] = Field(
+        [],
+        description="List of columns to retain with the order specified by the list.\n                        Keep all the columns if the list is empty.",
+        title="Retain Columns",
+    )
+
+
 class Filetype(str, Enum):
     csv = "csv"
     gpkg = "gpkg"
@@ -375,6 +389,9 @@ class Params(BaseModel):
     process_columns: Optional[ProcessColumns] = Field(None, title="Preprocess Columns")
     sql_query: Optional[SqlQuery] = Field(None, title="Apply SQL Query")
     groupers: Optional[Groupers] = Field(None, title="Group Data")
+    rename_export_columns: Optional[RenameExportColumns] = Field(
+        None, title="Rename Columns for Export"
+    )
     persist_events: Optional[PersistEvents] = Field(None, title="Persist Events")
     skip_attachment_download: Optional[SkipAttachmentDownload] = Field(
         None, title="Skip Attachment Download"

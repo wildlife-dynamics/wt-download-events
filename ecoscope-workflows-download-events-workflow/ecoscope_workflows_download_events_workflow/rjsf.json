@@ -146,13 +146,10 @@
                 "end_time",
                 "message",
                 "provenance",
-                "priority",
-                "priority_label",
                 "attributes",
                 "comment",
                 "patrol_segments",
                 "updated_at",
-                "state",
                 "is_contained_in",
                 "sort_at",
                 "icon_id",
@@ -227,6 +224,34 @@
           "title": "Group Data"
         }
       }
+    },
+    "rename_export_columns": {
+      "additionalProperties": false,
+      "properties": {
+        "drop_columns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Drop Columns",
+          "type": "array",
+          "description": "List of columns to drop.",
+          "ecoscope:advanced": true
+        },
+        "retain_columns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Retain Columns",
+          "type": "array",
+          "description": "List of columns to retain with the order specified by the list.\n                        Keep all the columns if the list is empty.",
+          "ecoscope:advanced": true
+        }
+      },
+      "required": [],
+      "type": "object",
+      "title": "Rename Columns for Export"
     },
     "persist_events": {
       "additionalProperties": false,
@@ -734,6 +759,12 @@
         ]
       }
     },
+    "rename_export_columns": {
+      "ui:order": [
+        "drop_columns",
+        "retain_columns"
+      ]
+    },
     "persist_events": {
       "ui:order": [
         "filetypes",
@@ -752,6 +783,7 @@
       "er_client_name",
       "get_event_data",
       "Process Events",
+      "rename_export_columns",
       "persist_events",
       "Download Attachments",
       "Generate Maps"

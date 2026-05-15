@@ -1,7 +1,7 @@
 id: download_events
 requirements:
   - name: ecoscope-platform
-    version: ">=2.11.20, <2.12.0"
+    version: ">=2.11.14, <2.12.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
     version: "0.1.0rc6"
@@ -221,6 +221,19 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
+  # Ensure `state` column exists before mapping — auto-generated mocks and
+  # users with custom column selections may omit it.
+  - name: Ensure State Column Exists
+    id: ensure_state_column
+    task: assign_value
+    partial:
+      column_name: "state"
+      value: "active"
+      noop_if_column_exists: true
+    mapvalues:
+      argnames: df
+      argvalues: ${{ workflow.split_event_groups.return }}
+
   # Translate raw ER state ("new", "active", "resolved", ...) into the binary
   # "Active"/"Resolved" label that ER Web emits in its FieldEvents CSV export.
   - name: Map State to Report Status
@@ -234,7 +247,7 @@ workflow:
       replacement: "Active"
     mapvalues:
       argnames: df
-      argvalues: ${{ workflow.split_event_groups.return }}
+      argvalues: ${{ workflow.ensure_state_column.return }}
 
   # Rename columns to match the ER Web > Exports > FieldEvents CSV schema so
   # partners can use ecoscope downloads interchangeably with ER Web exports.
