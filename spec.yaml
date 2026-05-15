@@ -252,6 +252,7 @@ workflow:
         active: "Active"
         new: "Active"
       missing_values: "preserve"
+      replacement: null
     mapvalues:
       argnames: df
       argvalues: ${{ workflow.ensure_state_column.return }}
@@ -262,6 +263,8 @@ workflow:
     id: rename_export_columns
     task: map_columns
     partial:
+      drop_columns: []
+      retain_columns: []
       rename_columns:
         serial_number: Report_Id
         event_type: Report_Type_Internal_Value

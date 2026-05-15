@@ -547,6 +547,7 @@ def main(params: Params):
             column_name="state",
             value_map={"resolved": "Resolved", "active": "Active", "new": "Active"},
             missing_values="preserve",
+            replacement=None,
             **(params_dict.get("map_state_to_report_status") or {}),
         )
         .mapvalues(argnames=["df"], argvalues=ensure_state_column)
@@ -566,6 +567,8 @@ def main(params: Params):
             unpack_depth=1,
         )
         .partial(
+            drop_columns=[],
+            retain_columns=[],
             rename_columns={
                 "serial_number": "Report_Id",
                 "event_type": "Report_Type_Internal_Value",

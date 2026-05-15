@@ -2546,7 +2546,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/opentelemetry-api-1.41.1-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/opentelemetry-sdk-1.41.1-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/opentelemetry-semantic-conventions-0.62b1-pyhd8ed1ab_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pixi-unpack-0.7.6-h17e24d4_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pixi-unpack-0.7.7-h17e24d4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/py-rattler-0.23.2-py310hbaa5893_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pydantic-2.13.4-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pydantic-core-2.46.4-py313h212e517_0.conda
@@ -2635,7 +2635,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/opentelemetry-api-1.41.1-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/opentelemetry-sdk-1.41.1-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/opentelemetry-semantic-conventions-0.62b1-pyhd8ed1ab_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/pixi-unpack-0.7.6-h18a1a76_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/pixi-unpack-0.7.7-h18a1a76_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/py-rattler-0.23.2-py310hb39080a_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pydantic-2.13.4-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pydantic-core-2.46.4-py313hfbe8231_0.conda
@@ -3499,7 +3499,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.2-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pandas-3.0.3-py313h1188861_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pillow-12.2.0-py313h45e5a15_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pixi-unpack-0.7.6-h17e24d4_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pixi-unpack-0.7.7-h17e24d4_0.conda
       - conda: https://conda.anaconda.org/microsoft/osx-arm64/playwright-1.55.0-py313_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pluggy-1.6.0-pyhf9edf01_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/prometheus-cpp-1.3.0-h0967b3e_0.conda
@@ -3709,7 +3709,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.2-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pandas-3.0.3-py313h26f5e95_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pillow-12.2.0-py313h38f99e1_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/pixi-unpack-0.7.6-h18a1a76_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/pixi-unpack-0.7.7-h18a1a76_0.conda
       - conda: https://conda.anaconda.org/microsoft/win-64/playwright-1.55.0-py313_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pluggy-1.6.0-pyhf9edf01_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/prometheus-cpp-1.3.0-hcea2f5d_0.conda
@@ -18663,29 +18663,27 @@ packages:
   license: BSD-3-Clause
   size: 5268775
   timestamp: 1778826079991
-- conda: https://conda.anaconda.org/conda-forge/osx-arm64/pixi-unpack-0.7.6-h17e24d4_0.conda
-  sha256: cd562e714093d6b1a7a02a419fcaf8ee2e5ba7ac324072d681c05503c12c510f
-  md5: c92956576cb1868c151aa80064099188
+- conda: https://conda.anaconda.org/conda-forge/osx-arm64/pixi-unpack-0.7.7-h17e24d4_0.conda
+  sha256: 2326a73ca279cb13258f116fa90f2ae41ec3e754ffcd59ba3a8763e3c2b4827b
+  md5: 2ae72e42c46ebc27640f81d3d2ec0d54
   depends:
   - __osx >=11.0
-  - openssl >=3.5.5,<4.0a0
+  - openssl >=3.5.6,<4.0a0
   constrains:
   - __osx >=11.0
   license: BSD-3-Clause
-  license_family: BSD
-  size: 4250689
-  timestamp: 1774709485449
-- conda: https://conda.anaconda.org/conda-forge/win-64/pixi-unpack-0.7.6-h18a1a76_0.conda
-  sha256: cacdb39c7fc5c9d4db1975d0626391dd31eb4ba93156ef14304d9485502f0315
-  md5: bc0392f68c3ea7a87e3630ec82292be8
+  size: 5211308
+  timestamp: 1778826037120
+- conda: https://conda.anaconda.org/conda-forge/win-64/pixi-unpack-0.7.7-h18a1a76_0.conda
+  sha256: 75f74f678d53f9aa5184db6e8ca3e8abe79d39881630c8974fae19a96b86f741
+  md5: 41bc69776e0dc9bc323d8a2a80f52730
   depends:
   - vc >=14.3,<15
   - vc14_runtime >=14.44.35208
   - ucrt >=10.0.20348.0
   license: BSD-3-Clause
-  license_family: BSD
-  size: 4664243
-  timestamp: 1774709375387
+  size: 5583557
+  timestamp: 1778825901104
 - conda: https://conda.anaconda.org/conda-forge/noarch/platformdirs-4.9.6-pyhcf101f3_0.conda
   sha256: 8f29915c172f1f7f4f7c9391cd5dac3ebf5d13745c8b7c8006032615246345a5
   md5: 89c0b6d1793601a2a3a3f7d2d3d8b937

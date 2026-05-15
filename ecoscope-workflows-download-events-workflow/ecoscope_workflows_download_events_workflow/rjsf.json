@@ -225,48 +225,6 @@
         }
       }
     },
-    "map_state_to_report_status": {
-      "additionalProperties": false,
-      "properties": {
-        "replacement": {
-          "default": null,
-          "title": "Replacement",
-          "type": "string",
-          "description": "The replacement for values not in value_map."
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Map State to Report Status"
-    },
-    "rename_export_columns": {
-      "additionalProperties": false,
-      "properties": {
-        "drop_columns": {
-          "default": [],
-          "items": {
-            "type": "string"
-          },
-          "title": "Drop Columns",
-          "type": "array",
-          "description": "List of columns to drop.",
-          "ecoscope:advanced": true
-        },
-        "retain_columns": {
-          "default": [],
-          "items": {
-            "type": "string"
-          },
-          "title": "Retain Columns",
-          "type": "array",
-          "description": "List of columns to retain with the order specified by the list.\n                        Keep all the columns if the list is empty.",
-          "ecoscope:advanced": true
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Rename Columns for Export"
-    },
     "persist_events": {
       "additionalProperties": false,
       "properties": {
@@ -773,12 +731,6 @@
         ]
       }
     },
-    "rename_export_columns": {
-      "ui:order": [
-        "drop_columns",
-        "retain_columns"
-      ]
-    },
     "persist_events": {
       "ui:order": [
         "filetypes",
@@ -797,8 +749,6 @@
       "er_client_name",
       "get_event_data",
       "Process Events",
-      "map_state_to_report_status",
-      "rename_export_columns",
       "persist_events",
       "Download Attachments",
       "Generate Maps"
