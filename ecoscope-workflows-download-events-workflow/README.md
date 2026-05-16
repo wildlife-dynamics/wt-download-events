@@ -26,23 +26,31 @@ artifacts_sha256_basic: 985162ddc33128f6123173cfd03f04c9b6d2e1560f311ace2e77e3b7
 artifacts_sha256_strict: e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
 =======
 artifacts_sha256_basic: 
-  985162ddc33128f6123173cfd03f04c9b6d2e1560f311ace2e77e3b783f5e9d4
+  bd6f03d7d7878c7120e4266680ce9b3e332e43b138955fe8a75855603c9a98d1
 artifacts_sha256_strict: 
+<<<<<<< HEAD
   e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
 >>>>>>> 0be1c94 (recompile)
+=======
+  d52b6a75b90488b46cf65ff27c4d3df565cef75c1981c43ee7322fa96e7779e4
+>>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
 installed_requirements:
 - channel: https://repo.prefix.dev/ecoscope-workflows/
   name: ecoscope-platform
-  version: {version: ==2.11.14}
+  version: {version: ==2.11.15}
 - channel: https://repo.prefix.dev/ecoscope-workflows-custom/
   name: ecoscope-workflows-ext-custom
-  version: {version: ==0.1.0rc3}
+  version: {version: ==0.1.0rc6}
 params_sha256: 3229dd47f31447884b2e79e8d056c4a9e0870d415a07a8669c3e999d85bd76e4
+<<<<<<< HEAD
 spec_sha256: 4090ffaf3ed6eb19b75741c027229f966103a4a6cb1d695fa1613407189fba46
 <<<<<<< HEAD
 >>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
 =======
 >>>>>>> 0be1c94 (recompile)
+=======
+spec_sha256: 5429772f8e1cc93c2341d7c7e25f2191a6eeb0c6b9489e15798c68145b56debf
+>>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
 
 ```
 
