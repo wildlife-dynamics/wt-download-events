@@ -160,18 +160,24 @@
                 "message",
                 "provenance",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                 "priority",
                 "priority_label",
 >>>>>>> 0be1c94 (recompile)
+=======
+>>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
                 "attributes",
                 "comment",
                 "patrol_segments",
                 "updated_at",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                 "state",
 >>>>>>> 0be1c94 (recompile)
+=======
+>>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
                 "is_contained_in",
                 "sort_at",
                 "icon_id",

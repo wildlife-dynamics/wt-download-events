@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 {MAJ: 0, MIN: 13, PATCH: 0}
 =======
 {MAJ: 0, MIN: 11, PATCH: 0}
@@ -15,3 +16,6 @@
 =======
 {MAJ: 0, MIN: 11, PATCH: 0}
 >>>>>>> b42bfe2 (retry)
+=======
+{MAJ: 0, MIN: 12, PATCH: 0}
+>>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
