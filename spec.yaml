@@ -221,64 +221,6 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
-  # Ensure `state` column exists before mapping. `noop_if_column_exists: true`
-  # leaves real ER state values untouched; a null placeholder is added only
-  # when state is genuinely missing (auto-generated mocks, or users who
-  # customized `event_columns` to exclude `state`). The null is preserved by
-  # map_values below so Report_Status stays empty rather than being silently
-  # synthesized as "Active".
-  - name: Ensure State Column Exists
-    id: ensure_state_column
-    task: assign_value
-    partial:
-      column_name: "state"
-      value: null
-      noop_if_column_exists: true
-    mapvalues:
-      argnames: df
-      argvalues: ${{ workflow.split_event_groups.return }}
-
-  # Translate raw ER state ("new", "active", "resolved", ...) into the binary
-  # "Active"/"Resolved" label that ER Web emits in its FieldEvents CSV export.
-  # `missing_values: preserve` keeps null/unknown values as-is rather than
-  # forcing them to "Active".
-  - name: Map State to Report Status
-    id: map_state_to_report_status
-    task: map_values
-    partial:
-      column_name: "state"
-      value_map:
-        resolved: "Resolved"
-        active: "Active"
-        new: "Active"
-      missing_values: "preserve"
-      replacement: null
-    mapvalues:
-      argnames: df
-      argvalues: ${{ workflow.ensure_state_column.return }}
-
-  # Rename columns to match the ER Web > Exports > FieldEvents CSV schema so
-  # partners can use ecoscope downloads interchangeably with ER Web exports.
-  - name: Rename Columns for Export
-    id: rename_export_columns
-    task: map_columns
-    partial:
-      drop_columns: []
-      retain_columns: []
-      rename_columns:
-        serial_number: Report_Id
-        event_type: Report_Type_Internal_Value
-        event_type_display: Report_Type
-        title: Title
-        priority: Priority_Internal_Value
-        priority_label: Priority
-        state: Report_Status
-        reported_by_name: Reported_By
-      raise_if_not_found: false
-    mapvalues:
-      argnames: df
-      argvalues: ${{ workflow.map_state_to_report_status.return }}
-
   - name: Persist Events
     id: persist_events
     task: persist_df_wrapper
@@ -287,7 +229,7 @@ workflow:
       sanitize: true
     mapvalues:
       argnames: df
-      argvalues: ${{ workflow.rename_export_columns.return }}
+      argvalues: ${{ workflow.split_event_groups.return }}
     skipif:
       conditions:
         - never
