@@ -1,15 +1,20 @@
 id: download_events
 requirements:
   - name: ecoscope-platform
-    version: ">=2.11.11, <2.12.0"
+    version: ">=2.11.14, <2.12.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc3"
+    version: "0.1.0rc6"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
       Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
+    get_event_data.properties.force_point_geometry.title: "Reduce Polygon Events to Points"
+    get_event_data.properties.force_point_geometry.default: false
+    get_event_data.properties.force_point_geometry.ecoscope:advanced: false
+    get_event_data.properties.force_point_geometry.description: >-
+      When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.
     Generate Maps.properties.skip_map_generation.properties.skip.description: >-
       Skip generating maps for the events data. Recommended for large datasets to improve performance.
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
@@ -19,7 +24,12 @@ rjsf-overrides:
     persist_events.properties.filename_prefix.default: "events"
     persist_events.properties.filetypes.default: ["parquet"]
     persist_events.properties.filetypes.items.enum: ["csv", "parquet"]
-    Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "priority", "priority_label", "attributes", "comment", "patrol_segments", "updated_at", "state", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
+    persist_events.properties.filetypes.description: >-
+      Output filetypes for the events dataset. Parquet preserves all geometry
+      types natively (recommended for polygon events). CSV writes the geometry
+      column as Well-Known Text (WKT) — readable but not directly round-trippable
+      into all GIS tools.
+    Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Process Events.properties.process_columns.properties.drop_columns.description: >-
       Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
     Process Events.properties.groupers.properties.groupers.items.anyOf:
@@ -286,6 +296,26 @@ workflow:
           argnames: df
           argvalues: ${{ workflow.dedup_columns.return }}
 
+      # Split mixed-geometry events into a Point branch and a Polygon branch
+      # for layer rendering. Persist still sees the unified mixed-geometry GDF.
+      - name: Filter Points for Map Layer
+        id: filter_points_for_map
+        task: filter_by_geometry_type
+        partial:
+          geometry_types: ["Point"]
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.rename_display_columns.return }}
+
+      - name: Filter Polygons for Map Layer
+        id: filter_polygons_for_map
+        task: filter_by_geometry_type
+        partial:
+          geometry_types: ["Polygon", "MultiPolygon"]
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.rename_display_columns.return }}
+
       - name: "Set Events Map Title"
         id: set_events_map_title
         task: set_string_var
@@ -316,7 +346,45 @@ workflow:
           tooltip_columns: ["Event Serial", "Event Time", "Event Type", "Reported By"]
         mapvalues:
           argnames: geodataframe
-          argvalues: ${{ workflow.rename_display_columns.return }}
+          argvalues: ${{ workflow.filter_points_for_map.return }}
+
+      - name: Create polygon layer from grouped Events
+        id: grouped_events_polygon_layer
+        task: create_polygon_layer
+        skipif:
+          conditions:
+            - any_is_empty_df
+            - any_dependency_skipped
+            - all_geometry_are_none
+        partial:
+          layer_style:
+            fill_color_column: "event_type_colormap"
+            stroked: true
+            get_line_color: "white"
+            get_line_width: 2
+            opacity: 0.4
+          legend:
+            label_column: "Event Type"
+            color_column: "event_type_colormap"
+          tooltip_columns: ["Event Serial", "Event Time", "Event Type", "Reported By"]
+        mapvalues:
+          argnames: geodataframe
+          argvalues: ${{ workflow.filter_polygons_for_map.return }}
+
+      # Polygon layer FIRST so points sit visually on top of polygon fills
+      # (deck.gl renders later layers above earlier ones).
+      - name: Combine Point and Polygon layers per group
+        id: combined_event_map_layers
+        task: groupbykey
+        skipif:
+          conditions:
+            - all_keyed_iterables_are_skips
+          unpack_depth: 1
+        partial:
+          iterables:
+            - ${{ workflow.grouped_events_polygon_layer.return }}
+            - ${{ workflow.grouped_events_map_layer.return }}
+
       - name: Draw Ecomap from grouped Events
         id: grouped_events_ecomap
         task: draw_ecomap
@@ -334,7 +402,7 @@ workflow:
           widget_id: ${{ workflow.set_events_map_title.return }}
         mapvalues:
           argnames: geo_layers
-          argvalues: ${{ workflow.grouped_events_map_layer.return }}
+          argvalues: ${{ workflow.combined_event_map_layers.return }}
       - name: Persist grouped Events Ecomap as Text
         id: grouped_events_ecomap_html_url
         task: persist_text
