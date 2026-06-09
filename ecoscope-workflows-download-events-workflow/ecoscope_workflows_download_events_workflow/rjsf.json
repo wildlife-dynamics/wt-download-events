@@ -114,7 +114,7 @@
     "Refine Data": {
       "type": "object",
       "description": "Refine events by applying timezone conversion, detail extraction/normalization, coordinate filtering, column selection, optional SQL filtering, and color mapping. Note that the data here includes all the columns from the previous steps and the normalized event details.",
-      "ecoscope:task_group": false,
+      "ecoscope:task_group": true,
       "properties": {
         "filter_events": {
           "additionalProperties": false,
@@ -133,7 +133,7 @@
               },
               "title": "Bounding Box",
               "description": "Filter events to inside these bounding coordinates.",
-              "ecoscope:advanced": false
+              "ecoscope:advanced": true
             },
             "filter_point_coords": {
               "default": [],
@@ -143,13 +143,12 @@
               "title": "Filter Exact Point Coordinates",
               "type": "array",
               "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
-              "ecoscope:advanced": false
+              "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "Filter Event Relocations",
-          "ecoscope:advanced": true
+          "title": "Filter Event Relocations"
         },
         "process_columns": {
           "additionalProperties": false,
@@ -195,13 +194,12 @@
               "title": "Drop Columns",
               "type": "array",
               "description": "Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.",
-              "ecoscope:advanced": false
+              "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "",
-          "ecoscope:advanced": true
+          "title": ""
         },
         "sql_query": {
           "additionalProperties": false,
@@ -211,13 +209,12 @@
               "title": "SQL Query",
               "type": "string",
               "description": "Optional SQL query to filter or transform the events (SQLite syntax; use 'df' as the table name). Leave blank to keep all events unchanged. Complex columns are sanitized to JSON strings automatically, so any column can be queried. IMPORTANT \u2014 to keep map generation working, your SELECT must preserve these columns: geometry, event_type (drives the map colors), serial_number, event_time, event_type_display, and reported_by_name. If your query drops any of these (e.g. an aggregation), maps cannot be generated \u2014 enable \"Skip Map Generation\" in the Generate Maps section.",
-              "ecoscope:advanced": false
+              "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "Apply SQL Query",
-          "ecoscope:advanced": true
+          "title": "Apply SQL Query"
         }
       }
     },
