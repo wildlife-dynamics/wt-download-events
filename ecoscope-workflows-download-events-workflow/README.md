@@ -26,8 +26,9 @@ artifacts_sha256_basic: 985162ddc33128f6123173cfd03f04c9b6d2e1560f311ace2e77e3b7
 artifacts_sha256_strict: e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
 =======
 artifacts_sha256_basic: 
-  26d27ad5fe19a6f7266d57bdf7097f7198236b29710208f5990b7cc11b52602d
+  16af9fad18725667399523042377f979588853afd61b83c0612fb6e5b81c5904
 artifacts_sha256_strict: 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
@@ -54,6 +55,9 @@ spec_sha256: 5429772f8e1cc93c2341d7c7e25f2191a6eeb0c6b9489e15798c68145b56debf
 >>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
 =======
   237f91174e44c9208648c9fb1158d5c922b755ff1e7a6ba8dea7b79c484ee175
+=======
+  f8f304a2f11e7ffaf48cdeafb2c68364b16e2ec10a624c3776a9e5d13202f75d
+>>>>>>> c45da0d (feat: merge Refine Data advanced config into one section; hide sql_query internals)
 installed_requirements:
 - channel: https://repo.prefix.dev/ecoscope-workflows/
   name: ecoscope-platform
@@ -61,9 +65,14 @@ installed_requirements:
 - channel: conda-forge
   name: setuptools
   version: {version: ==81.0.0}
+<<<<<<< HEAD
 params_sha256: dd17f8fe1c84c9aba69f5b5eafeb7700648881230f1066c10097b28ad698d371
 spec_sha256: 69934deb2376b4750f71b3f573e724701b51a2a179879bea17f249af7869e39e
 >>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
+=======
+params_sha256: 8d7cc6eff1d54a89a75acd5950451595b1b120e275cf9b47f9b5f97ca8938aa4
+spec_sha256: b7a392892b5309399c87dcab6b64c9379afc7e92ace6c511f25de2bda38b445a
+>>>>>>> c45da0d (feat: merge Refine Data advanced config into one section; hide sql_query internals)
 
 ```
 
