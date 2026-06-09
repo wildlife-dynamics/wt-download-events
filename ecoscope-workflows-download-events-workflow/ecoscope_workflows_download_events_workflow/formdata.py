@@ -350,7 +350,7 @@ class RefineData(BaseModel):
     filter_events: Optional[FilterEvents] = Field(
         None, title="Filter Event Relocations"
     )
-    process_columns: Optional[ProcessColumns] = Field(None, title="")
+    process_columns: Optional[ProcessColumns] = Field(None, title="Preprocess Columns")
     sql_query: Optional[SqlQuery] = Field(None, title="Apply SQL Query")
 
 
