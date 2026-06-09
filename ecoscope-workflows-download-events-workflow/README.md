@@ -26,8 +26,9 @@ artifacts_sha256_basic: 985162ddc33128f6123173cfd03f04c9b6d2e1560f311ace2e77e3b7
 artifacts_sha256_strict: e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
 =======
 artifacts_sha256_basic: 
-  16af9fad18725667399523042377f979588853afd61b83c0612fb6e5b81c5904
+  44778920b8547be20d643581298f487226a1bc4128dcf1fea65c28601bba27aa
 artifacts_sha256_strict: 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -58,6 +59,9 @@ spec_sha256: 5429772f8e1cc93c2341d7c7e25f2191a6eeb0c6b9489e15798c68145b56debf
 =======
   f8f304a2f11e7ffaf48cdeafb2c68364b16e2ec10a624c3776a9e5d13202f75d
 >>>>>>> c45da0d (feat: merge Refine Data advanced config into one section; hide sql_query internals)
+=======
+  aae365a77e15369ceb464315a62611e839841d71f13d7e91c8caba9fe5085450
+>>>>>>> e42c97f (fix: revert Refine Data task_group flip (broke workflow submission))
 installed_requirements:
 - channel: https://repo.prefix.dev/ecoscope-workflows/
   name: ecoscope-platform
@@ -71,8 +75,12 @@ spec_sha256: 69934deb2376b4750f71b3f573e724701b51a2a179879bea17f249af7869e39e
 >>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
 =======
 params_sha256: 8d7cc6eff1d54a89a75acd5950451595b1b120e275cf9b47f9b5f97ca8938aa4
+<<<<<<< HEAD
 spec_sha256: b7a392892b5309399c87dcab6b64c9379afc7e92ace6c511f25de2bda38b445a
 >>>>>>> c45da0d (feat: merge Refine Data advanced config into one section; hide sql_query internals)
+=======
+spec_sha256: 54d60acaeee128cb5988a8867eefabcd9cd10761c9b2c2623d0db58e1403b048
+>>>>>>> e42c97f (fix: revert Refine Data task_group flip (broke workflow submission))
 
 ```
 
