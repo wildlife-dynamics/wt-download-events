@@ -326,9 +326,8 @@ sql-aggregate:
       filter_point_coords: []
     sql_query:
       query: >-
-        SELECT DATE(event_time) as event_time, SUM("How many elephants are in the group?") as total_elephants
+        SELECT event_type, DATE(event_time) as event_time, SUM("How many elephants are in the group?") as total_elephants
         FROM df WHERE event_type = "elephant_sigthing_test" GROUP BY DATE(event_time)
-      columns: ["event_time", "How many elephants are in the group?", "event_type"]
     groupers:
       groupers: []
     persist_events:

@@ -60,6 +60,11 @@ class SqlQuery(BaseModel):
         description="Optional list of column names to include in the SQL query context. If specified, only these columns will be available in the 'df' table for querying. Use this to exclude columns with unsupported data types (list, dict) that cannot be stored in SQLite. If not specified, all columns are included.",
         title="Columns",
     )
+    sanitize: Optional[bool] = Field(
+        True,
+        description="Whether to sanitize the DataFrame for Arrow/SQLite compatibility before querying. When True (default), complex columns (list, dict, set, bytes) are converted to JSON strings so pandasql/SQLite accepts them, removing the need for the 'columns' whitelist. Geometry columns are preserved. Set to False to pass columns through untouched.",
+        title="Sanitize",
+    )
 
 
 class Filetype(str, Enum):
@@ -177,28 +182,10 @@ class BaseMaps3(BaseModel):
 
 
 class Url4(str, Enum):
-    https___tiles_arcgis_com_tiles_POUcpLYXNckpLjnY_arcgis_rest_services_landDx_basemap_tiles_mapservice_MapServer_tile__z___y___x_ = "https://tiles.arcgis.com/tiles/POUcpLYXNckpLjnY/arcgis/rest/services/landDx_basemap_tiles_mapservice/MapServer/tile/{z}/{y}/{x}"
-
-
-class BaseMaps4(BaseModel):
-    url: Literal[
-        "https://tiles.arcgis.com/tiles/POUcpLYXNckpLjnY/arcgis/rest/services/landDx_basemap_tiles_mapservice/MapServer/tile/{z}/{y}/{x}"
-    ] = Field(
-        "https://tiles.arcgis.com/tiles/POUcpLYXNckpLjnY/arcgis/rest/services/landDx_basemap_tiles_mapservice/MapServer/tile/{z}/{y}/{x}",
-        title="Preset Layer URL",
-    )
-    opacity: Optional[confloat(ge=0.0, le=1.0)] = Field(
-        1,
-        description="Set layer transparency from 1 (fully visible) to 0 (hidden).",
-        title="Layer Opacity",
-    )
-
-
-class Url5(str, Enum):
     https___server_arcgisonline_com_arcgis_rest_services_Elevation_World_Hillshade_MapServer_tile__z___y___x_ = "https://server.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}"
 
 
-class BaseMaps5(BaseModel):
+class BaseMaps4(BaseModel):
     url: Literal[
         "https://server.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}"
     ] = Field(
@@ -212,7 +199,7 @@ class BaseMaps5(BaseModel):
     )
 
 
-class BaseMaps6(BaseModel):
+class BaseMaps5(BaseModel):
     url: Optional[
         constr(
             pattern=r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_\+.~#?&//=\{\}]*)"
@@ -228,12 +215,12 @@ class BaseMaps6(BaseModel):
         title="Custom Layer Opacity",
     )
     max_zoom: Optional[int] = Field(
-        None,
+        20,
         description="Set the maximum zoom level to fetch tiles for.",
         title="Custom Layer Max Zoom",
     )
     min_zoom: Optional[int] = Field(
-        None,
+        0,
         description="Set the minimum zoom level to fetch tiles for.",
         title="Custom Layer Min Zoom",
     )
@@ -244,26 +231,20 @@ class BaseMapDefs(BaseModel):
         extra="forbid",
     )
     base_maps: Optional[
-        List[
-            Union[
-                BaseMaps,
-                BaseMaps1,
-                BaseMaps2,
-                BaseMaps3,
-                BaseMaps4,
-                BaseMaps5,
-                BaseMaps6,
-            ]
-        ]
+        List[Union[BaseMaps, BaseMaps1, BaseMaps2, BaseMaps3, BaseMaps4, BaseMaps5]]
     ] = Field(
         [
             {
                 "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
                 "opacity": 1,
+                "max_zoom": 20,
+                "min_zoom": 0,
             },
             {
                 "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
                 "opacity": 0.5,
+                "max_zoom": 20,
+                "min_zoom": 0,
             },
         ],
         description="Select tile layers to use as base layers in map outputs. The first layer in the list will be the bottommost layer displayed.",
