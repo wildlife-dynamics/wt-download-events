@@ -54,6 +54,24 @@ rjsf-overrides:
     Refine Data.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Refine Data.properties.process_columns.properties.drop_columns.description: >-
       Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
+    # Render Refine Data as a plain section (not a task-group) so its three tasks
+    # collapse into ONE "Advanced Configurations" accordion. The form renderer emits a
+    # separate advanced accordion per task when the section is a task-group; flipping
+    # ecoscope:task_group off routes it through the single-accordion path. rjsf-only —
+    # params/wiring are unaffected.
+    Refine Data.ecoscope:task_group: false
+    # The three tasks are advanced → they sit together inside that one accordion.
+    Refine Data.properties.filter_events.ecoscope:advanced: true
+    Refine Data.properties.process_columns.ecoscope:advanced: true
+    Refine Data.properties.sql_query.ecoscope:advanced: true
+    # Their leaf fields are NOT advanced → shown directly once the accordion is open
+    # (avoids a second, nested Advanced Configurations inside each task).
+    Refine Data.properties.filter_events.properties.bounding_box.ecoscope:advanced: false
+    Refine Data.properties.filter_events.properties.filter_point_coords.ecoscope:advanced: false
+    Refine Data.properties.process_columns.properties.drop_columns.ecoscope:advanced: false
+    Refine Data.properties.sql_query.properties.query.ecoscope:advanced: false
+    # Drop the "Preprocess Columns" task title — the drop_columns field stands alone.
+    Refine Data.properties.process_columns.title: ""
     # --- groupers override moves to the new Group Data group ---
     Group Data.properties.groupers.properties.groupers.items.anyOf:
       - {"$ref": "#/$defs/ValueGrouper"}
@@ -216,8 +234,11 @@ workflow:
         task: apply_sql_query
         partial:
           df: ${{ workflow.process_columns.return }}
-          # sanitize defaults to true in the modified task; left overridable
-          # (advanced) in the form. No explicit value needed here.
+          # Hide both the columns whitelist and the sanitize toggle from the form —
+          # default-on sanitize makes the whitelist unnecessary, and sanitize is fixed
+          # on so SQL "just works". Fixed here so neither renders as a user field.
+          columns: null
+          sanitize: true
 
       # Colormap MOVED to after SQL so default-on sanitize does not stringify the
       # RGBA color column. Still pre-split → colors stay consistent across groups.
@@ -233,9 +254,7 @@ workflow:
   # === GROUP DATA (lifted out of "Process Events"; same order, same wiring) ===
   - title: Group Data
     type: task-group
-    description: >-
-      Configure how events are grouped (by category or temporal index) and split into
-      per-group datasets for export and mapping.
+    description: Group events by category or temporal index.
     tasks:
       - name: Group Data
         id: groupers

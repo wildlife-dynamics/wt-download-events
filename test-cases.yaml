@@ -35,7 +35,6 @@ polygon-events:
       filter_point_coords: []
     sql_query:
       query: ''
-      columns: []
     groupers:
       groupers: []
     persist_events:
@@ -86,7 +85,6 @@ base:
       filter_point_coords: []
     sql_query:
       query: ''
-      columns: []
     groupers:
       groupers: []
     persist_events:

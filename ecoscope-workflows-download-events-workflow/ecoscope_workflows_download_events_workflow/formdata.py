@@ -75,16 +75,6 @@ class SqlQuery(BaseModel):
         description="Optional SQL query to filter or transform the events (SQLite syntax; use 'df' as the table name). Leave blank to keep all events unchanged. Complex columns are sanitized to JSON strings automatically, so any column can be queried. IMPORTANT — to keep map generation working, your SELECT must preserve these columns: geometry, event_type (drives the map colors), serial_number, event_time, event_type_display, and reported_by_name. If your query drops any of these (e.g. an aggregation), maps cannot be generated — enable \"Skip Map Generation\" in the Generate Maps section.",
         title="SQL Query",
     )
-    columns: Optional[List[str]] = Field(
-        None,
-        description="Optional list of column names to include in the SQL query context. If specified, only these columns will be available in the 'df' table for querying. Use this to exclude columns with unsupported data types (list, dict) that cannot be stored in SQLite. If not specified, all columns are included.",
-        title="Columns",
-    )
-    sanitize: Optional[bool] = Field(
-        True,
-        description="Whether to sanitize the DataFrame for Arrow/SQLite compatibility before querying. When True (default), complex columns (list, dict, set, bytes) are converted to JSON strings so pandasql/SQLite accepts them, removing the need for the 'columns' whitelist. Geometry columns are preserved. Set to False to pass columns through untouched.",
-        title="Sanitize",
-    )
 
 
 class Filetype(str, Enum):
@@ -360,7 +350,7 @@ class RefineData(BaseModel):
     filter_events: Optional[FilterEvents] = Field(
         None, title="Filter Event Relocations"
     )
-    process_columns: Optional[ProcessColumns] = Field(None, title="Preprocess Columns")
+    process_columns: Optional[ProcessColumns] = Field(None, title="")
     sql_query: Optional[SqlQuery] = Field(None, title="Apply SQL Query")
 
 
@@ -401,7 +391,7 @@ class FormData(BaseModel):
     Group_Data: Optional[GroupData] = Field(
         None,
         alias="Group Data",
-        description="Configure how events are grouped (by category or temporal index) and split into per-group datasets for export and mapping.",
+        description="Group events by category or temporal index.",
     )
     persist_events: Optional[PersistEvents] = Field(None, title="Persist Events")
     Download_Attachments: Optional[DownloadAttachments] = Field(

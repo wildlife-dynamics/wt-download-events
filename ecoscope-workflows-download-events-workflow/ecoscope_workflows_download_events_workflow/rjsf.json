@@ -114,7 +114,7 @@
     "Refine Data": {
       "type": "object",
       "description": "Refine events by applying timezone conversion, detail extraction/normalization, coordinate filtering, column selection, optional SQL filtering, and color mapping. Note that the data here includes all the columns from the previous steps and the normalized event details.",
-      "ecoscope:task_group": true,
+      "ecoscope:task_group": false,
       "properties": {
         "filter_events": {
           "additionalProperties": false,
@@ -133,7 +133,7 @@
               },
               "title": "Bounding Box",
               "description": "Filter events to inside these bounding coordinates.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": false
             },
             "filter_point_coords": {
               "default": [],
@@ -143,12 +143,13 @@
               "title": "Filter Exact Point Coordinates",
               "type": "array",
               "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": false
             }
           },
           "required": [],
           "type": "object",
-          "title": "Filter Event Relocations"
+          "title": "Filter Event Relocations",
+          "ecoscope:advanced": true
         },
         "process_columns": {
           "additionalProperties": false,
@@ -194,12 +195,13 @@
               "title": "Drop Columns",
               "type": "array",
               "description": "Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": false
             }
           },
           "required": [],
           "type": "object",
-          "title": "Preprocess Columns"
+          "title": "",
+          "ecoscope:advanced": true
         },
         "sql_query": {
           "additionalProperties": false,
@@ -209,35 +211,19 @@
               "title": "SQL Query",
               "type": "string",
               "description": "Optional SQL query to filter or transform the events (SQLite syntax; use 'df' as the table name). Leave blank to keep all events unchanged. Complex columns are sanitized to JSON strings automatically, so any column can be queried. IMPORTANT \u2014 to keep map generation working, your SELECT must preserve these columns: geometry, event_type (drives the map colors), serial_number, event_time, event_type_display, and reported_by_name. If your query drops any of these (e.g. an aggregation), maps cannot be generated \u2014 enable \"Skip Map Generation\" in the Generate Maps section.",
-              "ecoscope:advanced": true
-            },
-            "columns": {
-              "default": null,
-              "items": {
-                "type": "string"
-              },
-              "title": "Columns",
-              "type": "array",
-              "description": "Optional list of column names to include in the SQL query context. If specified, only these columns will be available in the 'df' table for querying. Use this to exclude columns with unsupported data types (list, dict) that cannot be stored in SQLite. If not specified, all columns are included.",
-              "ecoscope:advanced": true
-            },
-            "sanitize": {
-              "default": true,
-              "title": "Sanitize",
-              "type": "boolean",
-              "description": "Whether to sanitize the DataFrame for Arrow/SQLite compatibility before querying. When True (default), complex columns (list, dict, set, bytes) are converted to JSON strings so pandasql/SQLite accepts them, removing the need for the 'columns' whitelist. Geometry columns are preserved. Set to False to pass columns through untouched.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": false
             }
           },
           "required": [],
           "type": "object",
-          "title": "Apply SQL Query"
+          "title": "Apply SQL Query",
+          "ecoscope:advanced": true
         }
       }
     },
     "Group Data": {
       "type": "object",
-      "description": "Configure how events are grouped (by category or temporal index) and split into per-group datasets for export and mapping.",
+      "description": "Group events by category or temporal index.",
       "ecoscope:task_group": true,
       "properties": {
         "groupers": {
@@ -856,13 +842,6 @@
             }
           }
         }
-      },
-      "sql_query": {
-        "ui:order": [
-          "query",
-          "columns",
-          "sanitize"
-        ]
       }
     },
     "persist_events": {

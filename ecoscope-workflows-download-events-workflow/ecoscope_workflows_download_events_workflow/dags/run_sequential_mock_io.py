@@ -532,10 +532,19 @@ def main(params: Params):
             unpack_depth=1,
         )
 <<<<<<< HEAD
+<<<<<<< HEAD
         .partial(df=process_columns, **(params.get("sql_query") or {}))
 =======
         .partial(df=process_columns, **(params_dict.get("sql_query") or {}))
 >>>>>>> 0be1c94 (recompile)
+=======
+        .partial(
+            df=process_columns,
+            columns=None,
+            sanitize=True,
+            **(params_dict.get("sql_query") or {}),
+        )
+>>>>>>> c45da0d (feat: merge Refine Data advanced config into one section; hide sql_query internals)
         .call()
     )
 

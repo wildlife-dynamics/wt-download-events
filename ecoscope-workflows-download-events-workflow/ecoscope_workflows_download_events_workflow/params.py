@@ -55,16 +55,6 @@ class SqlQuery(BaseModel):
         description="SQL query string to apply to the DataFrame. Leaves it unchanged when the field is emptyUse 'df' as the table name in the query.",
         title="SQL Query",
     )
-    columns: Optional[List[str]] = Field(
-        None,
-        description="Optional list of column names to include in the SQL query context. If specified, only these columns will be available in the 'df' table for querying. Use this to exclude columns with unsupported data types (list, dict) that cannot be stored in SQLite. If not specified, all columns are included.",
-        title="Columns",
-    )
-    sanitize: Optional[bool] = Field(
-        True,
-        description="Whether to sanitize the DataFrame for Arrow/SQLite compatibility before querying. When True (default), complex columns (list, dict, set, bytes) are converted to JSON strings so pandasql/SQLite accepts them, removing the need for the 'columns' whitelist. Geometry columns are preserved. Set to False to pass columns through untouched.",
-        title="Sanitize",
-    )
 
 
 class Filetype(str, Enum):
