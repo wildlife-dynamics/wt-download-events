@@ -4,14 +4,14 @@ requirements:
     version: ">=2.15.0, <2.16.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc9"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
-  # ecoscope-platform already declares this exact pydeck dependency. it is
-  # re-stated here as a workaround for a known issue. for further detail, see:
-  # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697
-  - name: pydeck
-    version: 0.9.2
-    channel: conda-forge 
+    path: /Users/yunwu/MEP/wt-tasks/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
+    editable: true
+  # DEV-ONLY: editable ext-custom requires setuptools<=81 (pypi metadata), but the
+  # conda solve otherwise pulls setuptools 82 → conflict. ext-custom carries this same
+  # pin in its own pixi env. Drop this when reverting to the remote ext-custom for publish.
+  - name: setuptools
+    version: "<=81.0.0"
+    channel: conda-forge
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
@@ -40,10 +40,22 @@ rjsf-overrides:
       types natively (recommended for polygon events). CSV writes the geometry
       column as Well-Known Text (WKT) — readable but not directly round-trippable
       into all GIS tools.
-    Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
-    Process Events.properties.process_columns.properties.drop_columns.description: >-
+    # --- SQL query field: map-required-columns guidance (NEW) ---
+    Refine Data.properties.sql_query.properties.query.description: >-
+      Optional SQL query to filter or transform the events (SQLite syntax; use 'df'
+      as the table name). Leave blank to keep all events unchanged. Complex columns
+      are sanitized to JSON strings automatically, so any column can be queried.
+      IMPORTANT — to keep map generation working, your SELECT must preserve these
+      columns: geometry, event_type (drives the map colors), serial_number,
+      event_time, event_type_display, and reported_by_name. If your query drops any
+      of these (e.g. an aggregation), maps cannot be generated — enable "Skip Map
+      Generation" in the Generate Maps section.
+    # --- renamed group path: Process Events -> Refine Data ---
+    Refine Data.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
+    Refine Data.properties.process_columns.properties.drop_columns.description: >-
       Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
-    Process Events.properties.groupers.properties.groupers.items.anyOf:
+    # --- groupers override moves to the new Group Data group ---
+    Group Data.properties.groupers.properties.groupers.items.anyOf:
       - {"$ref": "#/$defs/ValueGrouper"}
       - {"$ref": "#/$defs/TemporalGrouper"}
   $defs:
@@ -64,7 +76,7 @@ rjsf-overrides:
   uiSchema:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
-    Process Events.filter_events.filter_point_coords.items.ui:options.label: false
+    Refine Data.filter_events.filter_point_coords.items.ui:options.label: false
 task-instance-defaults:
   skipif:
     conditions:
@@ -105,10 +117,13 @@ workflow:
       include_related_events: false
       include_display_values: true
 
-  - title: Process Events
+  - title: Refine Data
     type: task-group
     description: >-
-      Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.
+      Refine events by applying timezone conversion, detail extraction/normalization,
+      coordinate filtering, column selection, optional SQL filtering, and color mapping.
+      Note that the data here includes all the columns from the previous steps and the
+      normalized event details.
     tasks:
 
 
@@ -176,21 +191,12 @@ workflow:
           columns: []
           auto_detect: true
 
-      - name: Events Colormap
-        id: events_colormap
-        task: apply_color_map
-        partial:
-          input_column_name: "event_type"
-          colormap: "tab20b"
-          output_column_name: "event_type_colormap"
-          df: ${{ workflow.convert_event_details_timezone.return }}
-          
       ## Custom Processing Steps ##
       - name: Filter Event Relocations
         id: filter_events
         task: apply_reloc_coord_filter
         partial:
-          df: ${{ workflow.events_colormap.return }}
+          df: ${{ workflow.convert_event_details_timezone.return }}
           roi_gdf: null
           roi_name: null
           reset_index: true
@@ -210,7 +216,27 @@ workflow:
         task: apply_sql_query
         partial:
           df: ${{ workflow.process_columns.return }}
+          # sanitize defaults to true in the modified task; left overridable
+          # (advanced) in the form. No explicit value needed here.
 
+      # Colormap MOVED to after SQL so default-on sanitize does not stringify the
+      # RGBA color column. Still pre-split → colors stay consistent across groups.
+      - name: Events Colormap
+        id: events_colormap
+        task: apply_color_map
+        partial:
+          input_column_name: "event_type"
+          colormap: "tab20b"
+          output_column_name: "event_type_colormap"
+          df: ${{ workflow.sql_query.return }}
+
+  # === GROUP DATA (lifted out of "Process Events"; same order, same wiring) ===
+  - title: Group Data
+    type: task-group
+    description: >-
+      Configure how events are grouped (by category or temporal index) and split into
+      per-group datasets for export and mapping.
+    tasks:
       - name: Group Data
         id: groupers
         task: set_groupers
@@ -219,7 +245,7 @@ workflow:
         id: events_add_temporal_index
         task: add_temporal_index
         partial:
-          df: ${{ workflow.sql_query.return }}
+          df: ${{ workflow.events_colormap.return }}
           time_col: "event_time"
           groupers: ${{ workflow.groupers.return }}
           cast_to_datetime: true

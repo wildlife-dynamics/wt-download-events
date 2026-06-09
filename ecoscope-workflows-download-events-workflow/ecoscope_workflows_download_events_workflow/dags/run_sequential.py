@@ -406,6 +406,7 @@ def main(params: Params):
         .call()
     )
 
+<<<<<<< HEAD
     events_colormap = (
         task(apply_color_map)
         .validate()
@@ -433,6 +434,8 @@ def main(params: Params):
         .call()
     )
 
+=======
+>>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
     filter_events = (
         task(apply_reloc_coord_filter)
         .validate()
@@ -447,7 +450,7 @@ def main(params: Params):
             unpack_depth=1,
         )
         .partial(
-            df=events_colormap,
+            df=convert_event_details_timezone,
             roi_gdf=None,
             roi_name=None,
             reset_index=True,
@@ -508,6 +511,29 @@ def main(params: Params):
         .call()
     )
 
+    events_colormap = (
+        task(apply_color_map)
+        .validate()
+        .set_task_instance_id("events_colormap")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            input_column_name="event_type",
+            colormap="tab20b",
+            output_column_name="event_type_colormap",
+            df=sql_query,
+            **(params_dict.get("events_colormap") or {}),
+        )
+        .call()
+    )
+
     groupers = (
         task(set_groupers)
         .validate()
@@ -543,7 +569,7 @@ def main(params: Params):
             unpack_depth=1,
         )
         .partial(
-            df=sql_query,
+            df=events_colormap,
             time_col="event_time",
             groupers=groupers,
             cast_to_datetime=True,
