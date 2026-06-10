@@ -4,8 +4,8 @@ requirements:
     version: ">=2.11.14, <2.12.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc6"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+    path: /home/alex/Code/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
+    editable: true
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
@@ -223,13 +223,11 @@ workflow:
 
   - name: Persist Events
     id: persist_events
-    task: persist_df_wrapper
+    task: persist_df_grouped
     partial:
+      iterables: ${{ workflow.split_event_groups.return }}
       root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
       sanitize: true
-    mapvalues:
-      argnames: df
-      argvalues: ${{ workflow.split_event_groups.return }}
     skipif:
       conditions:
         - never
