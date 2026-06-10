@@ -1,11 +1,17 @@
 id: download_events
 requirements:
   - name: ecoscope-platform
-    version: ">=2.11.14, <2.12.0"
+    version: ">=2.15.0, <2.16.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
     path: /home/alex/Code/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
     editable: true
+  # ecoscope-platform already declares this exact pydeck dependency. it is
+  # re-stated here as a workaround for a known issue. for further detail, see:
+  # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697
+  - name: pydeck
+    version: 0.9.2
+    channel: conda-forge
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
