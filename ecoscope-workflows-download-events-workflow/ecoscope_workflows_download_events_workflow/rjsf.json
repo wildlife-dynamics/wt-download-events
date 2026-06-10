@@ -243,13 +243,6 @@
           "type": "array",
           "description": "Output filetypes for the events dataset. Parquet preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) \u2014 readable but not directly round-trippable into all GIS tools.",
           "uniqueItems": true
-        },
-        "filename_prefix": {
-          "default": "events",
-          "title": "Filename Prefix",
-          "type": "string",
-          "description": "Optional base filename prefix. The group key (derived from the CompositeFilter) is appended to this prefix, and a content hash is appended as a suffix.",
-          "ecoscope:advanced": true
         }
       },
       "required": [],
@@ -719,8 +712,7 @@
     },
     "persist_events": {
       "ui:order": [
-        "filetypes",
-        "filename_prefix"
+        "filetypes"
       ]
     },
     "Generate Maps": {

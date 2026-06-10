@@ -56,6 +56,7 @@ polygon-events:
 
 base:
   name: Base Test Case
+  description: A base test case with no groupers
   mock_io: true
   params:
     workflow_details:
@@ -91,7 +92,6 @@ base:
     persist_events:
       filetypes:
         - csv
-      filename_prefix: events
     skip_map_generation:
       skip: false
     base_map_defs:

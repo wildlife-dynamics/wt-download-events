@@ -223,13 +223,6 @@
           "type": "array",
           "description": "The output format",
           "uniqueItems": true
-        },
-        "filename_prefix": {
-          "default": null,
-          "title": "Filename Prefix",
-          "type": "string",
-          "description": "Optional base filename prefix. The group key (derived from the CompositeFilter) is appended to this prefix, and a content hash is appended as a suffix.",
-          "ecoscope:advanced": true
         }
       },
       "required": [],
@@ -659,8 +652,7 @@
     },
     "persist_events": {
       "ui:order": [
-        "filetypes",
-        "filename_prefix"
+        "filetypes"
       ]
     },
     "ui:order": [
