@@ -245,7 +245,7 @@
           "uniqueItems": true
         },
         "filename_prefix": {
-          "default": "None",
+          "default": "events",
           "title": "Filename Prefix",
           "type": "string",
           "description": "            Optional filename to persist text to within the `root_path`.\n            If not provided, a filename will be generated based on a hash of the df content.\n            ",
