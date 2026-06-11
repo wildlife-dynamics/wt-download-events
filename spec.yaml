@@ -230,9 +230,9 @@ workflow:
 
   - name: Persist Events
     id: persist_events
-    task: persist_df_grouped
+    task: persist_df_for_results_download
     partial:
-      iterables: ${{ workflow.split_event_groups.return }}
+      df_or_grouped_dfs: ${{ workflow.split_event_groups.return }}
       root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
       sanitize: true
     skipif:
