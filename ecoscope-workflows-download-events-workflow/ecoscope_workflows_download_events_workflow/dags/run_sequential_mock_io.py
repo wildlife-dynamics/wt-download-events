@@ -57,7 +57,7 @@ from ecoscope.platform.tasks.transformation import (
     normalize_json_column as normalize_json_column,
 )
 from ecoscope_workflows_ext_custom.tasks.io import (
-    persist_df_for_results_download as persist_df_for_results_download,
+    persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
 )
 from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
@@ -507,7 +507,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
     )
 
     persist_events = (
-        task(persist_df_for_results_download)
+        task(persist_grouped_dfs_for_results_download)
         .validate()
         .set_task_instance_id("persist_events")
         .handle_errors()
@@ -519,7 +519,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            df_or_grouped_dfs=split_event_groups,
+            grouped_dfs=split_event_groups,
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             sanitize=True,
             **(params.get("persist_events") or {}),

@@ -56,7 +56,7 @@ from ecoscope_workflows_ext_custom.tasks.io import (
     download_event_attachments as download_event_attachments,
 )
 from ecoscope_workflows_ext_custom.tasks.io import (
-    persist_df_for_results_download as persist_df_for_results_download,
+    persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
 )
 from ecoscope_workflows_ext_custom.tasks.io import (
     process_events_details as process_events_details,
@@ -487,7 +487,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
     )
 
     persist_events = (
-        task(persist_df_for_results_download)
+        task(persist_grouped_dfs_for_results_download)
         .validate()
         .set_task_instance_id("persist_events")
         .handle_errors()
@@ -499,7 +499,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            df_or_grouped_dfs=split_event_groups,
+            grouped_dfs=split_event_groups,
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             sanitize=True,
             **(params.get("persist_events") or {}),

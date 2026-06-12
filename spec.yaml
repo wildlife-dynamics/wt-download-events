@@ -18,6 +18,11 @@ rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
       Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
+    get_event_data.properties.event_types.ecoscope:transform:
+      - transformer: EarthRangerEnumResolver
+        transformer_kws:
+          type: event_type
+          depends_on: properties.er_client_name.properties.data_source.properties.name
     get_event_data.properties.force_point_geometry.title: "Reduce Polygon Events to Points"
     get_event_data.properties.force_point_geometry.default: false
     get_event_data.properties.force_point_geometry.ecoscope:advanced: false
@@ -231,9 +236,9 @@ workflow:
 
   - name: Persist Events
     id: persist_events
-    task: persist_df_for_results_download
+    task: persist_grouped_dfs_for_results_download
     partial:
-      df_or_grouped_dfs: ${{ workflow.split_event_groups.return }}
+      grouped_dfs: ${{ workflow.split_event_groups.return }}
       root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
       sanitize: true
     skipif:
