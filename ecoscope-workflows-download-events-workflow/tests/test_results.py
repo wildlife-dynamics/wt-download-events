@@ -41,14 +41,14 @@ def test_dashboard_json(
     # replace any UUIDs or paths to test output in the response_json
     tmp_root = str(tmp_path.parent)
 
-    def redact_ephemeral(*, data, path):
+    def _replace_ephemeral_values(*, data, path):
         if not isinstance(data, str):
             return data
         if data.startswith(tmp_root):
             return "tmpfile"
         return _UUID_RE.sub("uuid", data)
 
-    assert response_json_success == snapshot_json(matcher=redact_ephemeral)
+    assert response_json_success == snapshot_json(matcher=_replace_ephemeral_values)
 
 
 @pytest.mark.asyncio
