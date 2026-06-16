@@ -11,7 +11,7 @@ published = true
 
 [dependencies]
 # required for compilation
-wt-compiler = ">=0.5.2, <0.6.0"
+wt-compiler = "==0.8.0"
 graphviz = "*"
 
 # required for testing

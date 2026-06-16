@@ -1,15 +1,26 @@
 id: download_events
 requirements:
   - name: ecoscope-platform
-    version: ">=2.11.14, <2.12.0"
+    version: ">=2.15.0, <2.16.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc6"
+    version: "0.1.0rc8"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+  # ecoscope-platform already declares this exact pydeck dependency. it is
+  # re-stated here as a workaround for a known issue. for further detail, see:
+  # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697
+  - name: pydeck
+    version: 0.9.2
+    channel: conda-forge 
 rjsf-overrides:
   properties:
     get_event_data.properties.event_types.description: >-
       Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
+    get_event_data.properties.event_types.ecoscope:transform:
+      - transformer: EarthRangerEnumResolver
+        transformer_kws:
+          type: event_type
+          depends_on: properties.er_client_name.properties.data_source.properties.name
     get_event_data.properties.force_point_geometry.title: "Reduce Polygon Events to Points"
     get_event_data.properties.force_point_geometry.default: false
     get_event_data.properties.force_point_geometry.ecoscope:advanced: false
@@ -21,7 +32,7 @@ rjsf-overrides:
     Download Attachments.properties.skip_attachment_download.properties.skip.description: >-
       Skip downloading all attachments associated with the events.
     Download Attachments.properties.skip_attachment_download.properties.skip.default: true
-    persist_events.properties.filename_prefix.default: "events"
+    persist_events.properties.filename_prefix.default: "events" 
     persist_events.properties.filetypes.default: ["parquet"]
     persist_events.properties.filetypes.items.enum: ["csv", "parquet"]
     persist_events.properties.filetypes.description: >-
@@ -223,13 +234,11 @@ workflow:
 
   - name: Persist Events
     id: persist_events
-    task: persist_df_wrapper
+    task: persist_grouped_dfs_for_results_download
     partial:
+      grouped_dfs: ${{ workflow.split_event_groups.return }}
       root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
       sanitize: true
-    mapvalues:
-      argnames: df
-      argvalues: ${{ workflow.split_event_groups.return }}
     skipif:
       conditions:
         - never

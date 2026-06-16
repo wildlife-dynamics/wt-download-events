@@ -56,6 +56,7 @@ polygon-events:
 
 base:
   name: Base Test Case
+  description: A base test case with no groupers
   mock_io: true
   params:
     workflow_details:
@@ -91,7 +92,6 @@ base:
     persist_events:
       filetypes:
         - csv
-      filename_prefix: events
     skip_map_generation:
       skip: false
     base_map_defs:
@@ -138,7 +138,6 @@ month-grouper:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-          min_zoom: null
     skip_attachment_download:
       skip: true
 
@@ -173,7 +172,6 @@ with-details:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-          min_zoom: null
     skip_attachment_download:
       skip: true
 
@@ -208,7 +206,6 @@ with-v2-details:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-          min_zoom: null
     skip_attachment_download:
       skip: true
 
@@ -243,7 +240,6 @@ empty-results:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-          min_zoom: null  
 
 
 with-attachments:
@@ -277,7 +273,6 @@ with-attachments:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-          min_zoom: null
     skip_attachment_download:
       skip: false
 
@@ -444,7 +439,6 @@ skip-maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-          min_zoom: null
     skip_attachment_download:
       skip: false
     skip_map_generation:
