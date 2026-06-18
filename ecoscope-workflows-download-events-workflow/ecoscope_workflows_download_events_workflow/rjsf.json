@@ -5,12 +5,14 @@
       "properties": {
         "name": {
           "title": "Workflow Name",
-          "type": "string"
+          "type": "string",
+          "maxLength": 40
         },
         "description": {
           "default": "",
           "title": "Workflow Description",
-          "type": "string"
+          "type": "string",
+          "maxLength": 100
         }
       },
       "required": [
@@ -255,7 +257,7 @@
           },
           "title": "Filetype",
           "type": "array",
-          "description": "Output filetypes for the events dataset. Parquet (GeoParquet) preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) \u2014 readable but not directly round-trippable into all GIS tools. [Learn more about GeoParquet](https://geoparquet.org/).",
+          "description": "Choose the file format for your download. Parquet files are compact, fast to query, and keep all your data in a single file. Works with Python, R, QGIS, and other GIS tools.",
           "uniqueItems": true
         },
         "filename_prefix": {
@@ -688,7 +690,13 @@
       "ui:order": [
         "name",
         "description"
-      ]
+      ],
+      "description": {
+        "ui:widget": "textarea",
+        "ui:options": {
+          "rows": 3
+        }
+      }
     },
     "time_range": {
       "ui:order": [
