@@ -109,7 +109,7 @@
     },
     "Event Location Filter": {
       "type": "object",
-      "description": "Optionally limit events to a geographic area, and exclude events recorded at specific coordinates (for example, known placeholder points like 0, 0). Leave empty to keep all events.",
+      "description": "Filter events based on their location.",
       "ecoscope:task_group": true,
       "properties": {
         "filter_events": {
@@ -212,7 +212,7 @@
                 "type": "string",
                 "title": "Column Name"
               },
-              "title": "",
+              "title": " ",
               "type": "array",
               "description": "Columns listed here will be left out of your download. We've pre-filled columns that are typically unnecessary or duplicated. If you're not sure, try running the workflow first to see all available columns.",
               "ecoscope:advanced": true
@@ -227,7 +227,7 @@
           "properties": {
             "query": {
               "default": "",
-              "title": "",
+              "title": "SQL Query",
               "type": "string",
               "description": "Write a SQL query to filter or transform your data. Leave blank to skip this step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active'). Note that queries will only apply to your downloaded files and not the generated map.",
               "ecoscope:advanced": true
@@ -729,14 +729,7 @@
       "ui:order": [
         "process_columns",
         "sql_query"
-      ],
-      "sql_query": {
-        "query": {
-          "ui:options": {
-            "label": false
-          }
-        }
-      }
+      ]
     },
     "persist_events": {
       "ui:order": [
