@@ -77,7 +77,6 @@
           },
           "title": "Event Types",
           "type": "array",
-<<<<<<< HEAD
           "description": "Specify the event type(s) to analyze (optional). Enter the \"Event Types\" value for each event type you want to include in the output \u2014 one per field (e.g. \"wildlife_sighting_rep\"). If you are on Ecoscope Desktop, \"Event Type\" values can be found in your EarthRanger Admin site under Activity \u2192 Event Types. Leave this section empty to include all event types",
           "ecoscope:transform": [
             {
@@ -88,9 +87,6 @@
               }
             }
           ]
-=======
-          "description": "Specify the event type(s) to analyze (optional). Enter the \"Event Types\" value for each event type you want to include in the output \u2014 one per field (e.g. \"wildlife_sighting_rep\"). If you are on Ecoscope Desktop, \"Event Type\" values can be found in your EarthRanger Admin site under Activity \u2192 Event Types. Leave this section empty to include all event types"
->>>>>>> 0be1c94 (recompile)
         },
         "include_null_geometry": {
           "default": true,
@@ -159,25 +155,10 @@
                 "end_time",
                 "message",
                 "provenance",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-                "priority",
-                "priority_label",
->>>>>>> 0be1c94 (recompile)
-=======
->>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
                 "attributes",
                 "comment",
                 "patrol_segments",
                 "updated_at",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-                "state",
->>>>>>> 0be1c94 (recompile)
-=======
->>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
                 "is_contained_in",
                 "sort_at",
                 "icon_id",
@@ -273,11 +254,7 @@
           "default": "events",
           "title": "Filename Prefix",
           "type": "string",
-<<<<<<< HEAD
           "description": "            Optional filename to persist text to within the `root_path`.\n            If not provided, a filename will be generated based on a hash of the df content.\n            ",
-=======
-          "description": "            Optional filename prefix to persist text to within the `root_path`.\n            We will always add a suffix based on the dataframe content hash to avoid duplicates.\n            ",
->>>>>>> 0be1c94 (recompile)
           "ecoscope:advanced": true
         }
       },
@@ -332,8 +309,6 @@
               "default": [
                 {
                   "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-<<<<<<< HEAD
-<<<<<<< HEAD
                   "opacity": 1,
                   "max_zoom": 20,
                   "min_zoom": 0
@@ -343,38 +318,13 @@
                   "opacity": 0.5,
                   "max_zoom": 20,
                   "min_zoom": 0
-=======
-                  "opacity": 1
-                },
-                {
-                  "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                  "opacity": 0.5
->>>>>>> 0be1c94 (recompile)
-=======
-                  "opacity": 1,
-                  "max_zoom": 20,
-                  "min_zoom": 0
-                },
-                {
-                  "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                  "opacity": 0.5,
-                  "max_zoom": 20,
-                  "min_zoom": 0
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                 }
               ],
               "items": {
                 "title": "Base Layer",
                 "anyOf": [
                   {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
-=======
->>>>>>> 0be1c94 (recompile)
-=======
-                    "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                     "properties": {
                       "url": {
                         "default": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -399,14 +349,7 @@
                     "type": "object"
                   },
                   {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
-=======
->>>>>>> 0be1c94 (recompile)
-=======
-                    "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                     "properties": {
                       "url": {
                         "default": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
@@ -431,14 +374,7 @@
                     "type": "object"
                   },
                   {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
-=======
->>>>>>> 0be1c94 (recompile)
-=======
-                    "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                     "properties": {
                       "url": {
                         "default": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -463,14 +399,7 @@
                     "type": "object"
                   },
                   {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
-=======
->>>>>>> 0be1c94 (recompile)
-=======
-                    "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                     "properties": {
                       "url": {
                         "default": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
@@ -495,38 +424,7 @@
                     "type": "object"
                   },
                   {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
-=======
-                    "properties": {
-                      "url": {
-                        "default": "https://tiles.arcgis.com/tiles/POUcpLYXNckpLjnY/arcgis/rest/services/landDx_basemap_tiles_mapservice/MapServer/tile/{z}/{y}/{x}",
-                        "title": "Preset Layer URL",
-                        "type": "string",
-                        "const": "https://tiles.arcgis.com/tiles/POUcpLYXNckpLjnY/arcgis/rest/services/landDx_basemap_tiles_mapservice/MapServer/tile/{z}/{y}/{x}",
-                        "enum": [
-                          "https://tiles.arcgis.com/tiles/POUcpLYXNckpLjnY/arcgis/rest/services/landDx_basemap_tiles_mapservice/MapServer/tile/{z}/{y}/{x}"
-                        ]
-                      },
-                      "opacity": {
-                        "default": 1,
-                        "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
-                        "ecoscope:advanced": true,
-                        "maximum": 1.0,
-                        "minimum": 0.0,
-                        "title": "Layer Opacity",
-                        "type": "number"
-                      }
-                    },
-                    "title": "LandDx",
-                    "type": "object"
-                  },
-                  {
->>>>>>> 0be1c94 (recompile)
-=======
-                    "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                     "properties": {
                       "url": {
                         "default": "https://server.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}",
@@ -551,14 +449,7 @@
                     "type": "object"
                   },
                   {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
-=======
->>>>>>> 0be1c94 (recompile)
-=======
-                    "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                     "properties": {
                       "url": {
                         "default": "https://example.tiles.com/{z}/{x}/{y}.png",
@@ -577,29 +468,13 @@
                         "type": "number"
                       },
                       "max_zoom": {
-<<<<<<< HEAD
-<<<<<<< HEAD
                         "default": 20,
-=======
-                        "default": null,
->>>>>>> 0be1c94 (recompile)
-=======
-                        "default": 20,
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                         "description": "Set the maximum zoom level to fetch tiles for.",
                         "title": "Custom Layer Max Zoom",
                         "type": "integer"
                       },
                       "min_zoom": {
-<<<<<<< HEAD
-<<<<<<< HEAD
                         "default": 0,
-=======
-                        "default": null,
->>>>>>> 0be1c94 (recompile)
-=======
-                        "default": 0,
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
                         "description": "Set the minimum zoom level to fetch tiles for.",
                         "title": "Custom Layer Min Zoom",
                         "type": "integer"
