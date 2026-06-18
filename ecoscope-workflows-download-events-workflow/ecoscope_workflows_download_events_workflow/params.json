@@ -226,33 +226,33 @@
       "type": "object",
       "title": "Download File Format"
     },
-    "skip_attachment_download": {
+    "download_all_attachments": {
       "additionalProperties": false,
       "properties": {
-        "skip": {
-          "default": false,
-          "title": "Skip",
+        "value": {
+          "default": true,
+          "title": "Value",
           "type": "boolean",
-          "description": "Skip the following tasks if True, returning a sentinel value."
+          "description": "The boolean value to negate."
         }
       },
-      "required": [],
       "type": "object",
-      "title": "Skip Attachment Download"
+      "required": [],
+      "title": "Download all attachments"
     },
-    "skip_map_generation": {
+    "generate_maps": {
       "additionalProperties": false,
       "properties": {
-        "skip": {
-          "default": false,
-          "title": "Skip",
+        "value": {
+          "default": true,
+          "title": "Value",
           "type": "boolean",
-          "description": "Skip the following tasks if True, returning a sentinel value."
+          "description": "The boolean value to negate."
         }
       },
-      "required": [],
       "type": "object",
-      "title": "Skip Map Generation"
+      "required": [],
+      "title": "Generate maps in dashboard"
     },
     "base_map_defs": {
       "additionalProperties": false,
@@ -657,8 +657,8 @@
       "process_columns",
       "sql_query",
       "persist_events",
-      "skip_attachment_download",
-      "skip_map_generation",
+      "download_all_attachments",
+      "generate_maps",
       "base_map_defs"
     ]
   },
