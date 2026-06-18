@@ -14,10 +14,6 @@ requirements:
     channel: conda-forge
 rjsf-overrides:
   properties:
-    # Cap the free-text Workflow Details fields (maxLength drives rjsf validation;
-    # description renders as a 3-row textarea via uiSchema below).
-    workflow_details.properties.name.maxLength: 40
-    workflow_details.properties.description.maxLength: 100
     get_event_data.properties.event_types.description: >-
       Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
     get_event_data.properties.event_types.ecoscope:transform:
@@ -101,9 +97,6 @@ rjsf-overrides:
             - const: "reported_by_name"
               title: "Reported By Name"
   uiSchema:
-    # Render Workflow Description as a 3-row textarea.
-    workflow_details.description.ui:widget: textarea
-    workflow_details.description.ui:options.rows: 3
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
     Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
