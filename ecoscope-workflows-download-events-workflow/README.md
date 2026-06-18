@@ -5,90 +5,17 @@
 
 ```yaml
 # fingerprint:
-<<<<<<< HEAD
-<<<<<<< HEAD
-artifacts_sha256_basic: fdd186a98dbb6b377943a8f0e32cde23acc787474dbeebe6e54da81e132d4a41
-artifacts_sha256_strict: 63f7525d41833bc17172e6a9bd5ecc17f2968d51c9ac03237124fd60327dbef0
+artifacts_sha256_basic: 67c06982e4052ae686687eddf2aec8b9c83aef228182c87cd8b7d70a5e2b2d23
+artifacts_sha256_strict: 4aad1285963d07f384d488a9596e1f01cbcea29891e6ddbd0005a5265d432b69
 installed_requirements:
 - channel: https://repo.prefix.dev/ecoscope-workflows/
   name: ecoscope-platform
   version: {version: ==2.15.1}
-- channel: https://repo.prefix.dev/ecoscope-workflows-custom/
-  name: ecoscope-workflows-ext-custom
-  version: {version: ==0.1.0rc9}
-- channel: conda-forge
-  name: pydeck
-  version: {version: ==0.9.2}
-params_sha256: d851838b7c6c9fe087539a27329b911d8460a565dc3fe50196fd059a12104a0b
-spec_sha256: f1b10e65da5ddc6ee148999eb258e8dafdb6d9159bea6ef68e0feddba3a1f0e2
-=======
-artifacts_sha256_basic: 985162ddc33128f6123173cfd03f04c9b6d2e1560f311ace2e77e3b783f5e9d4
-artifacts_sha256_strict: e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
-=======
-artifacts_sha256_basic: 
-  1dccc7f0034c97903c01379f87ef15d1396b10e90459f259f0aff1ac71a13b73
-artifacts_sha256_strict: 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  e098a5c048c22d2ee30f0abd77ae631f83c318578208aa87c71834590f875a8e
->>>>>>> 0be1c94 (recompile)
-=======
-  d52b6a75b90488b46cf65ff27c4d3df565cef75c1981c43ee7322fa96e7779e4
->>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
-installed_requirements:
-- channel: https://repo.prefix.dev/ecoscope-workflows/
-  name: ecoscope-platform
-  version: {version: ==2.11.15}
-- channel: https://repo.prefix.dev/ecoscope-workflows-custom/
-  name: ecoscope-workflows-ext-custom
-  version: {version: ==0.1.0rc6}
-params_sha256: 3229dd47f31447884b2e79e8d056c4a9e0870d415a07a8669c3e999d85bd76e4
-<<<<<<< HEAD
-spec_sha256: 4090ffaf3ed6eb19b75741c027229f966103a4a6cb1d695fa1613407189fba46
-<<<<<<< HEAD
->>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
-=======
->>>>>>> 0be1c94 (recompile)
-=======
-spec_sha256: 5429772f8e1cc93c2341d7c7e25f2191a6eeb0c6b9489e15798c68145b56debf
->>>>>>> b2055dc (fix: align events CSV export columns with ER Web FieldEvents (#37))
-=======
-  237f91174e44c9208648c9fb1158d5c922b755ff1e7a6ba8dea7b79c484ee175
-=======
-  f8f304a2f11e7ffaf48cdeafb2c68364b16e2ec10a624c3776a9e5d13202f75d
->>>>>>> c45da0d (feat: merge Refine Data advanced config into one section; hide sql_query internals)
-=======
-  aae365a77e15369ceb464315a62611e839841d71f13d7e91c8caba9fe5085450
->>>>>>> e42c97f (fix: revert Refine Data task_group flip (broke workflow submission))
-=======
-  ff1958557246f1aa438cf4f7985cb32e58aeb443e8cd2df2b23663abe3159099
->>>>>>> 62430db (fix: restore Preprocess Columns title (clean standard Refine Data layout))
-installed_requirements:
-- channel: https://repo.prefix.dev/ecoscope-workflows/
-  name: ecoscope-platform
-  version: {version: ==2.11.20}
 - channel: conda-forge
   name: setuptools
   version: {version: ==81.0.0}
-<<<<<<< HEAD
-params_sha256: dd17f8fe1c84c9aba69f5b5eafeb7700648881230f1066c10097b28ad698d371
-spec_sha256: 69934deb2376b4750f71b3f573e724701b51a2a179879bea17f249af7869e39e
->>>>>>> 50dcc51 (feat: sanitize-before-SQL, post-SQL colormap, Refine/Group Data form split)
-=======
 params_sha256: 8d7cc6eff1d54a89a75acd5950451595b1b120e275cf9b47f9b5f97ca8938aa4
-<<<<<<< HEAD
-<<<<<<< HEAD
-spec_sha256: b7a392892b5309399c87dcab6b64c9379afc7e92ace6c511f25de2bda38b445a
->>>>>>> c45da0d (feat: merge Refine Data advanced config into one section; hide sql_query internals)
-=======
-spec_sha256: 54d60acaeee128cb5988a8867eefabcd9cd10761c9b2c2623d0db58e1403b048
->>>>>>> e42c97f (fix: revert Refine Data task_group flip (broke workflow submission))
-=======
-spec_sha256: 73a8ff38e5f57fa27dc4ae6d2a1cb07adec965048962cb4055c107d8e08524b0
->>>>>>> 62430db (fix: restore Preprocess Columns title (clean standard Refine Data layout))
+spec_sha256: 70d2263825b4916fda687c2eab77586d54bbaceb30eff314d6f148b3ab4d8c89
 
 ```
 

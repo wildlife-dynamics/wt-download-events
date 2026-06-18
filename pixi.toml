@@ -10,12 +10,7 @@ platforms = ['linux-64', 'osx-arm64', 'win-64']
 published = true
 
 [dependencies]
-# required for compilation
-<<<<<<< HEAD
 wt-compiler = "==0.8.0"
-=======
-wt-compiler = ">=0.5.2, <0.6.0"
->>>>>>> 523b077 (ci: gate guard-main-prs on tool.wt.published flag (#35))
 graphviz = "*"
 
 # required for testing
