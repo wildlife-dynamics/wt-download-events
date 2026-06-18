@@ -21,39 +21,42 @@ rjsf-overrides:
         transformer_kws:
           type: event_type
           depends_on: properties.er_client_name.properties.data_source.properties.name
-    get_event_data.properties.force_point_geometry.title: "Reduce Polygon Events to Points"
+    get_event_data.properties.include_null_geometry.title: "Include events without a location"
+    get_event_data.properties.include_null_geometry.description: >-
+      Events without coordinates (point or area) will still appear in your download.
+    get_event_data.properties.force_point_geometry.title: "Simplify polygons to single points"
     get_event_data.properties.force_point_geometry.default: false
     get_event_data.properties.force_point_geometry.ecoscope:advanced: false
     get_event_data.properties.force_point_geometry.description: >-
-      When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.
+      Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.
     Generate Maps.properties.skip_map_generation.properties.skip.description: >-
       Skip generating maps for the events data. Recommended for large datasets to improve performance.
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
     Download Attachments.properties.skip_attachment_download.properties.skip.description: >-
       Skip downloading all attachments associated with the events.
     Download Attachments.properties.skip_attachment_download.properties.skip.default: true
-    persist_events.properties.filename_prefix.default: "events" 
+    persist_events.properties.filename_prefix.default: "events"
+    persist_events.properties.filetypes.title: "Filetype"
     persist_events.properties.filetypes.default: ["parquet"]
     persist_events.properties.filetypes.items.enum: ["csv", "parquet"]
     persist_events.properties.filetypes.description: >-
-      Output filetypes for the events dataset. Parquet preserves all geometry
-      types natively (recommended for polygon events). CSV writes the geometry
-      column as Well-Known Text (WKT) — readable but not directly round-trippable
-      into all GIS tools.
-    # --- SQL query field: map-required-columns guidance (NEW) ---
+      Output filetypes for the events dataset. Parquet (GeoParquet) preserves all
+      geometry types natively (recommended for polygon events). CSV writes the
+      geometry column as Well-Known Text (WKT) — readable but not directly
+      round-trippable into all GIS tools.
+      [Learn more about GeoParquet](https://geoparquet.org/).
+    # --- SQL query field: queries apply to downloads only, not the map (C2) ---
     Refine Data.properties.sql_query.properties.query.description: >-
-      Optional SQL query to filter or transform the events (SQLite syntax; use 'df'
-      as the table name). Leave blank to keep all events unchanged. Complex columns
-      are sanitized to JSON strings automatically, so any column can be queried.
-      IMPORTANT — to keep map generation working, your SELECT must preserve these
-      columns: geometry, event_type (drives the map colors), serial_number,
-      event_time, event_type_display, and reported_by_name. If your query drops any
-      of these (e.g. an aggregation), maps cannot be generated — enable "Skip Map
-      Generation" in the Generate Maps section.
+      Write a SQL query to filter or transform your data. Leave blank to skip this
+      step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active').
+      Note that queries will only apply to your downloaded files and not the generated map.
     # --- renamed group path: Process Events -> Refine Data ---
     Refine Data.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
+    Refine Data.properties.process_columns.properties.drop_columns.items.title: "Column Name"
     Refine Data.properties.process_columns.properties.drop_columns.description: >-
-      Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
+      Columns listed here will be left out of your download. We've pre-filled columns
+      that are typically unnecessary or duplicated. If you're not sure, try running the
+      workflow first to see all available columns.
     # --- groupers override moves to the new Group Data group ---
     Group Data.properties.groupers.properties.groupers.items.anyOf:
       - {"$ref": "#/$defs/ValueGrouper"}
@@ -88,6 +91,10 @@ workflow:
     id: workflow_details
     task: set_workflow_details
 
+  - name: Data Source
+    id: er_client_name
+    task: set_er_connection
+
   - name: Time Range
     id: time_range
     task: set_time_range
@@ -100,11 +107,7 @@ workflow:
     partial:
       time_range: ${{ workflow.time_range.return }}
 
-  - name: Data Source
-    id: er_client_name
-    task: set_er_connection
-
-  - name: Get Event Data
+  - name: Event Types
     id: get_event_data
     task: get_events
     partial:
@@ -201,7 +204,7 @@ workflow:
           roi_name: null
           reset_index: true
 
-      - name: Preprocess Columns
+      - name: Remove Columns
         id: process_columns
         task: map_columns
         partial:
@@ -211,7 +214,7 @@ workflow:
           retain_columns: []
           raise_if_not_found: true
 
-      - name: Apply SQL Query
+      - name: Custom Data Query
         id: sql_query
         task: apply_sql_query
         partial:
@@ -236,7 +239,9 @@ workflow:
   # === GROUP DATA (lifted out of "Process Events"; same order, same wiring) ===
   - title: Group Data
     type: task-group
-    description: Group events by category or temporal index.
+    description: >-
+      Specify how the data should be grouped to create separate views for your
+      dashboard (optional). Leave empty to show all data in a single view.
     tasks:
       - name: Group Data
         id: groupers
@@ -259,7 +264,7 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
-  - name: Persist Events
+  - name: Download File Format
     id: persist_events
     task: persist_grouped_dfs_for_results_download
     partial:
