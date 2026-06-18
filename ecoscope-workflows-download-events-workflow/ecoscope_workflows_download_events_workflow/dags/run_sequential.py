@@ -361,51 +361,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
-    process_columns = (
-        task(map_columns)
-        .validate()
-        .set_task_instance_id("process_columns")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            df=filter_events,
-            rename_columns={"time": "event_time"},
-            retain_columns=[],
-            raise_if_not_found=True,
-            **(params.get("process_columns") or {}),
-        )
-        .call()
-    )
-
-    sql_query = (
-        task(apply_sql_query)
-        .validate()
-        .set_task_instance_id("sql_query")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            df=process_columns,
-            columns=None,
-            sanitize=True,
-            **(params.get("sql_query") or {}),
-        )
-        .call()
-    )
-
     events_colormap = (
         task(apply_color_map)
         .validate()
@@ -423,7 +378,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             input_column_name="event_type",
             colormap="tab20b",
             output_column_name="event_type_colormap",
-            df=sql_query,
+            df=filter_events,
             **(params.get("events_colormap") or {}),
         )
         .call()
@@ -461,7 +416,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             df=events_colormap,
-            time_col="event_time",
+            time_col="time",
             groupers=groupers,
             cast_to_datetime=True,
             format="mixed",
@@ -491,6 +446,45 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
+    process_columns = (
+        task(map_columns)
+        .validate()
+        .set_task_instance_id("process_columns")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            rename_columns={"time": "event_time"},
+            retain_columns=[],
+            raise_if_not_found=True,
+            **(params.get("process_columns") or {}),
+        )
+        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+    )
+
+    sql_query = (
+        task(apply_sql_query)
+        .validate()
+        .set_task_instance_id("sql_query")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(columns=None, sanitize=True, **(params.get("sql_query") or {}))
+        .mapvalues(argnames=["df"], argvalues=process_columns)
+    )
+
     persist_events = (
         task(persist_grouped_dfs_for_results_download)
         .validate()
@@ -504,7 +498,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            grouped_dfs=split_event_groups,
+            grouped_dfs=sql_query,
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             sanitize=True,
             **(params.get("persist_events") or {}),
@@ -568,7 +562,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(**(params.get("skip_map_generation") or {}))
-        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+        .mapvalues(argnames=["df"], argvalues=process_columns)
     )
 
     dedup_columns = (

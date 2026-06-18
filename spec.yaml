@@ -79,7 +79,7 @@ rjsf-overrides:
   uiSchema:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
-    Refine Data.filter_events.filter_point_coords.items.ui:options.label: false
+    Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
 task-instance-defaults:
   skipif:
     conditions:
@@ -120,81 +120,80 @@ workflow:
       include_related_events: false
       include_display_values: true
 
-  - title: Refine Data
+  # === Param-less prep tasks: lifted to plain top-level nodes. They expose no user
+  #     params, so (like get_timezone) they do NOT render as form sections. Chain
+  #     and wiring are byte-identical to before. ===
+  - name: "Convert to timezone"
+    id: convert_to_user_timezone
+    task: convert_values_to_timezone
+    partial:
+      df: ${{ workflow.get_event_data.return }}
+      timezone: ${{ workflow.get_timezone.return }}
+      columns: ["time"]
+      auto_detect: false
+
+  - name: Extract reported_by_name from Events
+    id: extract_reported_by
+    task: extract_value_from_json_column
+    partial:
+      df: ${{ workflow.convert_to_user_timezone.return }}
+      column_name: "reported_by"
+      field_name_options: ["name"]
+      output_type: "str"
+      output_column_name: "reported_by_name"
+
+  - name: Extract reported_by_subtype from Events
+    id: extract_reported_by_subtype
+    task: extract_value_from_json_column
+    partial:
+      df: ${{ workflow.extract_reported_by.return }}
+      column_name: "reported_by"
+      field_name_options: ["subject_subtype"]
+      output_type: "str"
+      output_column_name: "reported_by_subtype"
+
+  - name: Process Event Details
+    id: process_event_details
+    task: process_events_details
+    partial:
+      df: ${{ workflow.extract_reported_by_subtype.return }}
+      client: ${{ workflow.er_client_name.return }}
+      map_to_titles: true
+      ordered: true
+
+  - name: Normalize Event Details
+    id: normalize_event_details
+    task: normalize_json_column
+    partial:
+      df: ${{ workflow.process_event_details.return }}
+      column: "event_details"
+      skip_if_not_exists: true
+      sort_columns: false
+
+  - name: Remove Column Prefix Event Details
+    id: drop_event_details_prefix
+    task: drop_column_prefix
+    partial:
+      df: ${{ workflow.normalize_event_details.return }}
+      prefix: "event_details__"
+      duplicate_strategy: "suffix"
+
+  - name: "Convert event detail datetimes to timezone"
+    id: convert_event_details_timezone
+    task: convert_values_to_timezone
+    partial:
+      df: ${{ workflow.drop_event_details_prefix.return }}
+      timezone: ${{ workflow.get_timezone.return }}
+      columns: []
+      auto_detect: true
+
+  # === Event Location Filter: filter_events promoted to its own section ===
+  - title: Event Location Filter
     type: task-group
     description: >-
-      Refine events by applying timezone conversion, detail extraction/normalization,
-      coordinate filtering, column selection, optional SQL filtering, and color mapping.
-      Note that the data here includes all the columns from the previous steps and the
-      normalized event details.
+      Optionally restrict events to a bounding box or filter out events with invalid
+      relocation coordinates.
     tasks:
-
-
-      - name: "Convert to timezone"
-        id: convert_to_user_timezone
-        task: convert_values_to_timezone
-        partial:
-          df: ${{ workflow.get_event_data.return }}
-          timezone: ${{ workflow.get_timezone.return }}
-          columns: ["time"]
-          auto_detect: false
-
-      - name: Extract reported_by_name from Events
-        id: extract_reported_by
-        task: extract_value_from_json_column
-        partial:
-          df: ${{ workflow.convert_to_user_timezone.return }}
-          column_name: "reported_by"
-          field_name_options: ["name"]
-          output_type: "str"
-          output_column_name: "reported_by_name"
-          
-      - name: Extract reported_by_subtype from Events
-        id: extract_reported_by_subtype
-        task: extract_value_from_json_column
-        partial:
-          df: ${{ workflow.extract_reported_by.return }}
-          column_name: "reported_by"
-          field_name_options: ["subject_subtype"]
-          output_type: "str"
-          output_column_name: "reported_by_subtype"
-
-      - name: Process Event Details
-        id: process_event_details
-        task: process_events_details
-        partial:
-          df: ${{ workflow.extract_reported_by_subtype.return }}
-          client: ${{ workflow.er_client_name.return }}
-          map_to_titles: true
-          ordered: true
-
-      - name: Normalize Event Details
-        id: normalize_event_details
-        task: normalize_json_column
-        partial:
-          df: ${{ workflow.process_event_details.return }}
-          column: "event_details"
-          skip_if_not_exists: true
-          sort_columns: false
-
-      - name: Remove Column Prefix Event Details
-        id: drop_event_details_prefix
-        task: drop_column_prefix
-        partial:
-          df: ${{ workflow.normalize_event_details.return }}
-          prefix: "event_details__"
-          duplicate_strategy: "suffix"
-
-      - name: "Convert event detail datetimes to timezone"
-        id: convert_event_details_timezone
-        task: convert_values_to_timezone
-        partial:
-          df: ${{ workflow.drop_event_details_prefix.return }}
-          timezone: ${{ workflow.get_timezone.return }}
-          columns: []
-          auto_detect: true
-
-      ## Custom Processing Steps ##
       - name: Filter Event Relocations
         id: filter_events
         task: apply_reloc_coord_filter
@@ -204,39 +203,18 @@ workflow:
           roi_name: null
           reset_index: true
 
-      - name: Remove Columns
-        id: process_columns
-        task: map_columns
-        partial:
-          df: ${{ workflow.filter_events.return }}
-          rename_columns:
-            time: event_time
-          retain_columns: []
-          raise_if_not_found: true
+  # Colormap is a plain PRE-SPLIT node so colors stay consistent across groups.
+  # Off the SQL path → default-on sanitize never touches the RGBA color column.
+  - name: Events Colormap
+    id: events_colormap
+    task: apply_color_map
+    partial:
+      input_column_name: "event_type"
+      colormap: "tab20b"
+      output_column_name: "event_type_colormap"
+      df: ${{ workflow.filter_events.return }}
 
-      - name: Custom Data Query
-        id: sql_query
-        task: apply_sql_query
-        partial:
-          df: ${{ workflow.process_columns.return }}
-          # Hide both the columns whitelist and the sanitize toggle from the form —
-          # default-on sanitize makes the whitelist unnecessary, and sanitize is fixed
-          # on so SQL "just works". Fixed here so neither renders as a user field.
-          columns: null
-          sanitize: true
-
-      # Colormap MOVED to after SQL so default-on sanitize does not stringify the
-      # RGBA color column. Still pre-split → colors stay consistent across groups.
-      - name: Events Colormap
-        id: events_colormap
-        task: apply_color_map
-        partial:
-          input_column_name: "event_type"
-          colormap: "tab20b"
-          output_column_name: "event_type_colormap"
-          df: ${{ workflow.sql_query.return }}
-
-  # === GROUP DATA (lifted out of "Process Events"; same order, same wiring) ===
+  # === GROUP DATA (group/split BEFORE refine) ===
   - title: Group Data
     type: task-group
     description: >-
@@ -252,7 +230,9 @@ workflow:
         task: add_temporal_index
         partial:
           df: ${{ workflow.events_colormap.return }}
-          time_col: "event_time"
+          # The rename time->event_time now happens post-split (in process_columns),
+          # so the temporal index must key off the original "time" column.
+          time_col: "time"
           groupers: ${{ workflow.groupers.return }}
           cast_to_datetime: true
           format: "mixed"
@@ -264,11 +244,42 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
+  # === REFINE DATA (post-split, per-group). Remove Columns runs before the
+  #     maps/downloads fork → affects BOTH; Custom Data Query is downloads-only. ===
+  - title: Refine Data
+    type: task-group
+    description: Reshape and organize your data before downloading.
+    tasks:
+      - name: Remove Columns
+        id: process_columns
+        task: map_columns
+        partial:
+          rename_columns:
+            time: event_time
+          retain_columns: []
+          raise_if_not_found: true
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.split_event_groups.return }}
+
+      - name: Custom Data Query
+        id: sql_query
+        task: apply_sql_query
+        partial:
+          # Hide both the columns whitelist and the sanitize toggle from the form —
+          # default-on sanitize makes the whitelist unnecessary, and sanitize is fixed
+          # on so SQL "just works". Fixed here so neither renders as a user field.
+          columns: null
+          sanitize: true
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.process_columns.return }}
+
   - name: Download File Format
     id: persist_events
     task: persist_grouped_dfs_for_results_download
     partial:
-      grouped_dfs: ${{ workflow.split_event_groups.return }}
+      grouped_dfs: ${{ workflow.sql_query.return }}
       root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
       sanitize: true
     skipif:
@@ -303,12 +314,14 @@ workflow:
       Generate maps to visualize the events data.
     tasks:
 
+      # Maps fork off process_columns (post Remove Columns, pre SQL) so the map
+      # reflects the renamed/dropped columns but NOT the downloads-only SQL query.
       - name: Skip Map Generation
         id: skip_map_generation
         task: maybe_skip_df
         mapvalues:
           argnames: df
-          argvalues: ${{ workflow.split_event_groups.return }}
+          argvalues: ${{ workflow.process_columns.return }}
 
       # Drop duplicate columns from event detail normalization before renaming
       - name: Drop duplicate columns
