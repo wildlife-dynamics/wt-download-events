@@ -97,6 +97,23 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
+    er_client_name = (
+        task(set_er_connection)
+        .validate()
+        .set_task_instance_id("er_client_name")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(**(params.get("er_client_name") or {}))
+        .call()
+    )
+
     time_range = (
         task(set_time_range)
         .validate()
@@ -128,23 +145,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(time_range=time_range, **(params.get("get_timezone") or {}))
-        .call()
-    )
-
-    er_client_name = (
-        task(set_er_connection)
-        .validate()
-        .set_task_instance_id("er_client_name")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(**(params.get("er_client_name") or {}))
         .call()
     )
 

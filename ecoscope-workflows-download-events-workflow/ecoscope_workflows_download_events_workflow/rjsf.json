@@ -20,6 +20,21 @@
       "description": "Add information that will help to differentiate this workflow from another.",
       "title": "Workflow Details"
     },
+    "er_client_name": {
+      "additionalProperties": false,
+      "properties": {
+        "data_source": {
+          "$ref": "#/$defs/EarthRangerConnection",
+          "title": "",
+          "description": "Select one of your configured data sources."
+        }
+      },
+      "required": [
+        "data_source"
+      ],
+      "type": "object",
+      "title": "Data Source"
+    },
     "time_range": {
       "additionalProperties": false,
       "properties": {
@@ -53,21 +68,6 @@
       "description": "Choose the period of time to analyze.",
       "title": "Time Range"
     },
-    "er_client_name": {
-      "additionalProperties": false,
-      "properties": {
-        "data_source": {
-          "$ref": "#/$defs/EarthRangerConnection",
-          "title": "",
-          "description": "Select one of your configured data sources."
-        }
-      },
-      "required": [
-        "data_source"
-      ],
-      "type": "object",
-      "title": "Data Source"
-    },
     "get_event_data": {
       "additionalProperties": false,
       "properties": {
@@ -90,14 +90,15 @@
         },
         "include_null_geometry": {
           "default": true,
-          "title": "Include Events Without a Geometry (point or polygon)",
-          "type": "boolean"
+          "title": "Include events without a location",
+          "type": "boolean",
+          "description": "Events without coordinates (point or area) will still appear in your download."
         },
         "force_point_geometry": {
           "default": false,
-          "title": "Reduce Polygon Events to Points",
+          "title": "Simplify polygons to single points",
           "type": "boolean",
-          "description": "When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.",
+          "description": "Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.",
           "ecoscope:advanced": false
         }
       },
@@ -105,7 +106,7 @@
         "event_types"
       ],
       "type": "object",
-      "title": "Get Event Data"
+      "title": "Event Types"
     },
     "Refine Data": {
       "type": "object",
@@ -170,17 +171,18 @@
                 "reported_by"
               ],
               "items": {
-                "type": "string"
+                "type": "string",
+                "title": "Column Name"
               },
               "title": "Drop Columns",
               "type": "array",
-              "description": "Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.",
+              "description": "Columns listed here will be left out of your download. We've pre-filled columns that are typically unnecessary or duplicated. If you're not sure, try running the workflow first to see all available columns.",
               "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "Preprocess Columns"
+          "title": "Remove Columns"
         },
         "sql_query": {
           "additionalProperties": false,
@@ -189,19 +191,19 @@
               "default": "",
               "title": "SQL Query",
               "type": "string",
-              "description": "Optional SQL query to filter or transform the events (SQLite syntax; use 'df' as the table name). Leave blank to keep all events unchanged. Complex columns are sanitized to JSON strings automatically, so any column can be queried. IMPORTANT \u2014 to keep map generation working, your SELECT must preserve these columns: geometry, event_type (drives the map colors), serial_number, event_time, event_type_display, and reported_by_name. If your query drops any of these (e.g. an aggregation), maps cannot be generated \u2014 enable \"Skip Map Generation\" in the Generate Maps section.",
+              "description": "Write a SQL query to filter or transform your data. Leave blank to skip this step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active'). Note that queries will only apply to your downloaded files and not the generated map.",
               "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "Apply SQL Query"
+          "title": "Custom Data Query"
         }
       }
     },
     "Group Data": {
       "type": "object",
-      "description": "Group events by category or temporal index.",
+      "description": "Specify how the data should be grouped to create separate views for your dashboard (optional). Leave empty to show all data in a single view.",
       "ecoscope:task_group": true,
       "properties": {
         "groupers": {
@@ -245,9 +247,9 @@
             ],
             "type": "string"
           },
-          "title": "Filetypes",
+          "title": "Filetype",
           "type": "array",
-          "description": "Output filetypes for the events dataset. Parquet preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) \u2014 readable but not directly round-trippable into all GIS tools.",
+          "description": "Output filetypes for the events dataset. Parquet (GeoParquet) preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) \u2014 readable but not directly round-trippable into all GIS tools. [Learn more about GeoParquet](https://geoparquet.org/).",
           "uniqueItems": true
         },
         "filename_prefix": {
@@ -260,7 +262,7 @@
       },
       "required": [],
       "type": "object",
-      "title": "Persist Events"
+      "title": "Download File Format"
     },
     "Download Attachments": {
       "type": "object",
@@ -499,6 +501,19 @@
     }
   },
   "$defs": {
+    "EarthRangerConnection": {
+      "properties": {
+        "name": {
+          "title": "Data Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "EarthRangerConnection",
+      "type": "object"
+    },
     "TimezoneInfo": {
       "properties": {
         "label": {
@@ -525,19 +540,6 @@
         "utc"
       ],
       "title": "TimezoneInfo",
-      "type": "object"
-    },
-    "EarthRangerConnection": {
-      "properties": {
-        "name": {
-          "title": "Data Source",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "title": "EarthRangerConnection",
       "type": "object"
     },
     "BoundingBox": {
@@ -730,8 +732,8 @@
     },
     "ui:order": [
       "workflow_details",
-      "time_range",
       "er_client_name",
+      "time_range",
       "get_event_data",
       "Refine Data",
       "Group Data",
