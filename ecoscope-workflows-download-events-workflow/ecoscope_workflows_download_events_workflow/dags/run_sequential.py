@@ -523,27 +523,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
-    skip_attachment_download = (
-        task(maybe_skip_df)
-        .validate()
-        .set_task_instance_id("skip_attachment_download")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            df=get_event_data,
-            skip=download_all_attachments,
-            **(params.get("skip_attachment_download") or {}),
-        )
-        .call()
-    )
-
     download_attachments = (
         task(download_grouped_event_attachments)
         .validate()
@@ -560,8 +539,8 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             use_index_as_id=False,
-            grouped_event_gdfs=skip_attachment_download,
-            skip_download=False,
+            event_gdf=get_event_data,
+            skip_download=download_all_attachments,
             attachments_subdir="attachments",
             **(params.get("download_attachments") or {}),
         )

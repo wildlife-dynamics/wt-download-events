@@ -60,7 +60,6 @@ from ecoscope_workflows_ext_custom.tasks.io import (
     persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
 )
 from ecoscope_workflows_ext_custom.tasks.skip import invert_bool as invert_bool
-from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     apply_sql_query as apply_sql_query,
 )
@@ -87,9 +86,7 @@ from ecoscope.platform.tasks.skip import all_geometry_are_none as all_geometry_a
 from ecoscope.platform.tasks.transformation import (
     filter_by_geometry_type as filter_by_geometry_type,
 )
-from ecoscope_workflows_ext_custom.tasks.groupby import (
-    groupbykey_passthrough_skip as groupbykey_passthrough_skip,
-)
+from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_duplicate_columns as drop_duplicate_columns,
 )
@@ -543,27 +540,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
-    skip_attachment_download = (
-        task(maybe_skip_df)
-        .validate()
-        .set_task_instance_id("skip_attachment_download")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            df=get_event_data,
-            skip=download_all_attachments,
-            **(params.get("skip_attachment_download") or {}),
-        )
-        .call()
-    )
-
     download_attachments = (
         task(download_grouped_event_attachments)
         # 🧪 validation omitted for mocked IO task (returns pre-loaded example data)
@@ -580,8 +556,8 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             use_index_as_id=False,
-            grouped_event_gdfs=skip_attachment_download,
-            skip_download=False,
+            event_gdf=get_event_data,
+            skip_download=download_all_attachments,
             attachments_subdir="attachments",
             **(params.get("download_attachments") or {}),
         )

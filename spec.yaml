@@ -39,7 +39,7 @@ rjsf-overrides:
     Generate Maps.properties.generate_maps.properties.value.default: true
     Generate Maps.properties.generate_maps.properties.value.description: ""
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
-    # Positive attachment toggle (chained invert_bool → skip_attachment_download.skip is hidden).
+    # Positive attachment toggle (invert_bool → download_attachments.skip_download partial).
     # Drop the redundant task header + invert_bool's native "negate" description.
     Download Attachments.properties.download_all_attachments.title: ""
     Download Attachments.properties.download_all_attachments.properties.value.title: "Download all attachments"
@@ -321,17 +321,12 @@ workflow:
     description: >-
       Download attachments associated with the events.
     tasks:
-      # Positive toggle: value=false (default) → skip=true → no download.
+      # Positive toggle: value=false (default) → invert → skip_download=true → no download.
+      # download_event_attachments has a native skip (`if skip_download: return []`) and its
+      # return is terminal, so the toggle feeds skip_download directly — no maybe_skip_df.
       - name: Download all attachments
         id: download_all_attachments
         task: invert_bool
-
-      - name: Skip Attachment Download
-        id: skip_attachment_download
-        task: maybe_skip_df
-        partial:
-          df: ${{ workflow.get_event_data.return }}
-          skip: ${{ workflow.download_all_attachments.return }}
 
       - name: Download Attachments
         id: download_attachments
@@ -340,8 +335,8 @@ workflow:
           client: ${{ workflow.er_client_name.return }}
           output_dir: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
           use_index_as_id: false
-          grouped_event_gdfs: ${{ workflow.skip_attachment_download.return }}
-          skip_download: false
+          event_gdf: ${{ workflow.get_event_data.return }}
+          skip_download: ${{ workflow.download_all_attachments.return }}
           attachments_subdir: "attachments"
         skipif:
           conditions:
