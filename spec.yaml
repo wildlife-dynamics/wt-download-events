@@ -21,6 +21,8 @@ rjsf-overrides:
         transformer_kws:
           type: event_type
           depends_on: properties.er_client_name.properties.data_source.properties.name
+    # Drop the redundant inner "Event Types" field title (section header already says it).
+    get_event_data.properties.event_types.title: ""
     # Checkbox helper text lives in uiSchema ui:help (renders BELOW the checkbox via
     # FieldTemplate); schema.description would render ABOVE it in CheckboxWidget.
     get_event_data.properties.include_null_geometry.title: "Include events without a location"
@@ -30,14 +32,19 @@ rjsf-overrides:
     # Blank the task's native field description so it does NOT render above the
     # checkbox (helper text is supplied below via uiSchema ui:help instead).
     get_event_data.properties.force_point_geometry.description: ""
-    # Positive map toggle (chained invert_bool → skip_map_generation.skip is hidden)
+    # Positive map toggle (chained invert_bool → skip_map_generation.skip is hidden).
+    # Drop the redundant task header; the checkbox label (value.title) is enough.
+    Generate Maps.properties.generate_maps.title: ""
     Generate Maps.properties.generate_maps.properties.value.title: "Generate maps in dashboard"
     Generate Maps.properties.generate_maps.properties.value.default: true
     Generate Maps.properties.generate_maps.properties.value.description: ""
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
-    # Positive attachment toggle (chained invert_bool → skip_attachment_download.skip is hidden)
+    # Positive attachment toggle (chained invert_bool → skip_attachment_download.skip is hidden).
+    # Drop the redundant task header + invert_bool's native "negate" description.
+    Download Attachments.properties.download_all_attachments.title: ""
     Download Attachments.properties.download_all_attachments.properties.value.title: "Download all attachments"
     Download Attachments.properties.download_all_attachments.properties.value.default: false
+    Download Attachments.properties.download_all_attachments.properties.value.description: ""
     persist_events.properties.filename_prefix.default: "events"
     persist_events.properties.filetypes.title: "Filetype"
     persist_events.properties.filetypes.default: ["parquet"]
@@ -53,6 +60,10 @@ rjsf-overrides:
       Write a SQL query to filter or transform your data. Leave blank to skip this
       step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active').
       Note that queries will only apply to your downloaded files and not the generated map.
+    # Drop redundant inner field titles in the Refine Data group (the task headers
+    # "Remove Columns" / "Custom Data Query" already name these).
+    Refine Data.properties.process_columns.properties.drop_columns.title: ""
+    Refine Data.properties.sql_query.properties.query.title: ""
     # --- renamed group path: Process Events -> Refine Data ---
     Refine Data.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Refine Data.properties.process_columns.properties.drop_columns.items.title: "Column Name"
@@ -60,6 +71,13 @@ rjsf-overrides:
       Columns listed here will be left out of your download. We've pre-filled columns
       that are typically unnecessary or duplicated. If you're not sure, try running the
       workflow first to see all available columns.
+    # Drop the redundant task header "Filter Event Relocations"; the card description
+    # is the explainer (set on the Event Location Filter task-group in the body).
+    Event Location Filter.properties.filter_events.title: ""
+    # Drop the redundant inner "Group Data" task header and the duplicate native
+    # set_groupers description (the group description already covers it).
+    Group Data.properties.groupers.title: ""
+    Group Data.properties.groupers.properties.groupers.description: ""
     # --- groupers override moves to the new Group Data group ---
     Group Data.properties.groupers.properties.groupers.items.anyOf:
       - {"$ref": "#/$defs/ValueGrouper"}
@@ -83,6 +101,8 @@ rjsf-overrides:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
     Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
+    # Hide the "SQL Query" string-field label (task header "Custom Data Query" names it).
+    Refine Data.sql_query.query.ui:options.label: false
     # Checkbox helper text → ui:help renders BELOW the checkbox (not above).
     get_event_data.include_null_geometry.ui:help: >-
       Events without coordinates (point or area) will still appear in your download.
@@ -201,8 +221,9 @@ workflow:
   - title: Event Location Filter
     type: task-group
     description: >-
-      Optionally restrict events to a bounding box or filter out events with invalid
-      relocation coordinates.
+      Optionally limit events to a geographic area, and exclude events recorded at
+      specific coordinates (for example, known placeholder points like 0, 0). Leave
+      empty to keep all events.
     tasks:
       - name: Filter Event Relocations
         id: filter_events

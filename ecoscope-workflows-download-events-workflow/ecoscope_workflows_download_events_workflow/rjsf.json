@@ -75,7 +75,7 @@
           "items": {
             "type": "string"
           },
-          "title": "Event Types",
+          "title": "",
           "type": "array",
           "description": "Specify the event type(s) to analyze (optional). Enter the \"Event Types\" value for each event type you want to include in the output \u2014 one per field (e.g. \"wildlife_sighting_rep\"). If you are on Ecoscope Desktop, \"Event Type\" values can be found in your EarthRanger Admin site under Activity \u2192 Event Types. Leave this section empty to include all event types",
           "ecoscope:transform": [
@@ -109,7 +109,7 @@
     },
     "Event Location Filter": {
       "type": "object",
-      "description": "Optionally restrict events to a bounding box or filter out events with invalid relocation coordinates.",
+      "description": "Optionally limit events to a geographic area, and exclude events recorded at specific coordinates (for example, known placeholder points like 0, 0). Leave empty to keep all events.",
       "ecoscope:task_group": true,
       "properties": {
         "filter_events": {
@@ -144,7 +144,7 @@
           },
           "required": [],
           "type": "object",
-          "title": "Filter Event Relocations"
+          "title": ""
         }
       }
     },
@@ -171,12 +171,12 @@
               },
               "title": " ",
               "type": "array",
-              "description": "            Specify how the data should be grouped to create the views for your dashboard.\n            This field is optional; if left blank, all the data will appear in a single view.\n            "
+              "description": ""
             }
           },
           "type": "object",
           "required": [],
-          "title": "Group Data"
+          "title": ""
         }
       }
     },
@@ -212,7 +212,7 @@
                 "type": "string",
                 "title": "Column Name"
               },
-              "title": "Drop Columns",
+              "title": "",
               "type": "array",
               "description": "Columns listed here will be left out of your download. We've pre-filled columns that are typically unnecessary or duplicated. If you're not sure, try running the workflow first to see all available columns.",
               "ecoscope:advanced": true
@@ -227,7 +227,7 @@
           "properties": {
             "query": {
               "default": "",
-              "title": "SQL Query",
+              "title": "",
               "type": "string",
               "description": "Write a SQL query to filter or transform your data. Leave blank to skip this step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active'). Note that queries will only apply to your downloaded files and not the generated map.",
               "ecoscope:advanced": true
@@ -282,12 +282,12 @@
               "default": false,
               "title": "Download all attachments",
               "type": "boolean",
-              "description": "The boolean value to negate."
+              "description": ""
             }
           },
           "type": "object",
           "required": [],
-          "title": "Download all attachments"
+          "title": ""
         }
       }
     },
@@ -308,7 +308,7 @@
           },
           "type": "object",
           "required": [],
-          "title": "Generate maps in dashboard"
+          "title": ""
         },
         "base_map_defs": {
           "additionalProperties": false,
@@ -729,7 +729,14 @@
       "ui:order": [
         "process_columns",
         "sql_query"
-      ]
+      ],
+      "sql_query": {
+        "query": {
+          "ui:options": {
+            "label": false
+          }
+        }
+      }
     },
     "persist_events": {
       "ui:order": [
