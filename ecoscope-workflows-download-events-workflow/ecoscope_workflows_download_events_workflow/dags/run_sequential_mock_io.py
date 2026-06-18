@@ -59,6 +59,7 @@ from ecoscope.platform.tasks.transformation import (
 from ecoscope_workflows_ext_custom.tasks.io import (
     persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
 )
+from ecoscope_workflows_ext_custom.tasks.skip import invert_bool as invert_bool
 from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     apply_sql_query as apply_sql_query,
@@ -526,6 +527,23 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
+    download_all_attachments = (
+        task(invert_bool)
+        .validate()
+        .set_task_instance_id("download_all_attachments")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(**(params.get("download_all_attachments") or {}))
+        .call()
+    )
+
     skip_attachment_download = (
         task(maybe_skip_df)
         .validate()
@@ -539,7 +557,11 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(df=get_event_data, **(params.get("skip_attachment_download") or {}))
+        .partial(
+            df=get_event_data,
+            skip=download_all_attachments,
+            **(params.get("skip_attachment_download") or {}),
+        )
         .call()
     )
 
@@ -568,6 +590,23 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
+    generate_maps = (
+        task(invert_bool)
+        .validate()
+        .set_task_instance_id("generate_maps")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(**(params.get("generate_maps") or {}))
+        .call()
+    )
+
     skip_map_generation = (
         task(maybe_skip_df)
         .validate()
@@ -581,7 +620,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(**(params.get("skip_map_generation") or {}))
+        .partial(skip=generate_maps, **(params.get("skip_map_generation") or {}))
         .mapvalues(argnames=["df"], argvalues=process_columns)
     )
 

@@ -276,19 +276,19 @@
       "description": "Download attachments associated with the events.",
       "ecoscope:task_group": true,
       "properties": {
-        "skip_attachment_download": {
+        "download_all_attachments": {
           "additionalProperties": false,
           "properties": {
-            "skip": {
-              "default": true,
-              "title": "Skip",
+            "value": {
+              "default": false,
+              "title": "Download all attachments",
               "type": "boolean",
-              "description": "Skip downloading all attachments associated with the events."
+              "description": "The boolean value to negate."
             }
           },
-          "required": [],
           "type": "object",
-          "title": "Skip Attachment Download"
+          "required": [],
+          "title": "Download all attachments"
         }
       }
     },
@@ -297,19 +297,19 @@
       "description": "Generate maps to visualize the events data.",
       "ecoscope:task_group": true,
       "properties": {
-        "skip_map_generation": {
+        "generate_maps": {
           "additionalProperties": false,
           "properties": {
-            "skip": {
-              "default": false,
-              "title": "Skip",
+            "value": {
+              "default": true,
+              "title": "Generate maps in dashboard",
               "type": "boolean",
-              "description": "Skip generating maps for the events data. Recommended for large datasets to improve performance."
+              "description": "Not recommended for large datasets."
             }
           },
-          "required": [],
           "type": "object",
-          "title": "Skip Map Generation"
+          "required": [],
+          "title": "Generate maps in dashboard"
         },
         "base_map_defs": {
           "additionalProperties": false,
@@ -734,7 +734,7 @@
     },
     "Generate Maps": {
       "ui:order": [
-        "skip_map_generation",
+        "generate_maps",
         "base_map_defs"
       ]
     },

@@ -29,12 +29,15 @@ rjsf-overrides:
     get_event_data.properties.force_point_geometry.ecoscope:advanced: false
     get_event_data.properties.force_point_geometry.description: >-
       Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.
-    Generate Maps.properties.skip_map_generation.properties.skip.description: >-
-      Skip generating maps for the events data. Recommended for large datasets to improve performance.
+    # Positive map toggle (chained invert_bool → skip_map_generation.skip is hidden)
+    Generate Maps.properties.generate_maps.properties.value.title: "Generate maps in dashboard"
+    Generate Maps.properties.generate_maps.properties.value.default: true
+    Generate Maps.properties.generate_maps.properties.value.description: >-
+      Not recommended for large datasets.
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
-    Download Attachments.properties.skip_attachment_download.properties.skip.description: >-
-      Skip downloading all attachments associated with the events.
-    Download Attachments.properties.skip_attachment_download.properties.skip.default: true
+    # Positive attachment toggle (chained invert_bool → skip_attachment_download.skip is hidden)
+    Download Attachments.properties.download_all_attachments.properties.value.title: "Download all attachments"
+    Download Attachments.properties.download_all_attachments.properties.value.default: false
     persist_events.properties.filename_prefix.default: "events"
     persist_events.properties.filetypes.title: "Filetype"
     persist_events.properties.filetypes.default: ["parquet"]
@@ -291,11 +294,17 @@ workflow:
     description: >-
       Download attachments associated with the events.
     tasks:
+      # Positive toggle: value=false (default) → skip=true → no download.
+      - name: Download all attachments
+        id: download_all_attachments
+        task: invert_bool
+
       - name: Skip Attachment Download
         id: skip_attachment_download
         task: maybe_skip_df
         partial:
           df: ${{ workflow.get_event_data.return }}
+          skip: ${{ workflow.download_all_attachments.return }}
 
       - name: Download Attachments
         id: download_attachments
@@ -314,11 +323,18 @@ workflow:
       Generate maps to visualize the events data.
     tasks:
 
+      # Positive toggle: value=true (default) → skip=false → maps generate.
+      - name: Generate maps in dashboard
+        id: generate_maps
+        task: invert_bool
+
       # Maps fork off process_columns (post Remove Columns, pre SQL) so the map
       # reflects the renamed/dropped columns but NOT the downloads-only SQL query.
       - name: Skip Map Generation
         id: skip_map_generation
         task: maybe_skip_df
+        partial:
+          skip: ${{ workflow.generate_maps.return }}
         mapvalues:
           argnames: df
           argvalues: ${{ workflow.process_columns.return }}
