@@ -2774,7 +2774,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gflags-2.2.2-h5888daf_1005.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/giflib-5.2.2-hd590300_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/glog-0.7.1-hbabe93e_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/greenlet-3.5.1-py313h5d5ffb9_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/greenlet-3.5.2-py313h5d5ffb9_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h11-0.16.0-pyhcf101f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
@@ -2997,7 +2997,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/gflags-2.2.2-h5ad3122_1005.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/giflib-5.2.2-h31becfc_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/glog-0.7.1-h468a4a4_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/greenlet-3.5.1-py313h59403f9_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/greenlet-3.5.2-py313h59403f9_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h11-0.16.0-pyhcf101f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
@@ -3652,7 +3652,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/fastapi-core-0.137.1-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/fastar-0.11.0-py313h633daaa_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/giflib-5.2.2-h64bf75a_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/greenlet-3.5.1-py313h927ade5_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/greenlet-3.5.2-py313h927ade5_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h11-0.16.0-pyhcf101f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h2-4.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/hpack-4.1.0-pyhd8ed1ab_0.conda
@@ -9173,32 +9173,30 @@ packages:
   - psutil ; extra == 'test'
   - setuptools ; extra == 'test'
   requires_python: '>=3.10'
-- conda: https://conda.anaconda.org/conda-forge/linux-64/greenlet-3.5.1-py313h5d5ffb9_0.conda
-  sha256: 877e63a855f344c389160720055621c4aeb872d9c7b5ad3beb2af18952efe4f5
-  md5: 9867806877cf07748b06ed37462473e3
+- conda: https://conda.anaconda.org/conda-forge/linux-64/greenlet-3.5.2-py313h5d5ffb9_0.conda
+  sha256: 22a283cb968dded58246429bfaae9a79c9a4463061a89542983a679dae759a2f
+  md5: 49a70e44a38485d1a93f4ef908b23e72
   depends:
   - python
-  - libstdcxx >=14
   - libgcc >=14
+  - libstdcxx >=14
   - __glibc >=2.17,<3.0.a0
   - python_abi 3.13.* *_cp313
   license: MIT
-  license_family: MIT
-  size: 263116
-  timestamp: 1779292372878
-- conda: https://conda.anaconda.org/conda-forge/linux-aarch64/greenlet-3.5.1-py313h59403f9_0.conda
-  sha256: 9c12861c6ed98d7690d916272684f1000f0d09135dfe86dc9932811fb5aa450b
-  md5: f8733b6b269e7dd9e6701cd6cb6bdfa9
+  size: 266173
+  timestamp: 1781762124604
+- conda: https://conda.anaconda.org/conda-forge/linux-aarch64/greenlet-3.5.2-py313h59403f9_0.conda
+  sha256: 4d58e079e459c56e1b93f93153f604dfe0df4a935f3c66a9d60e044c417c898d
+  md5: 0b55bee38655b44eb99d427e8db29b88
   depends:
   - python
-  - python 3.13.* *_cp313
   - libgcc >=14
+  - python 3.13.* *_cp313
   - libstdcxx >=14
   - python_abi 3.13.* *_cp313
   license: MIT
-  license_family: MIT
-  size: 266907
-  timestamp: 1779292376160
+  size: 270221
+  timestamp: 1781762129691
 - conda: https://conda.anaconda.org/conda-forge/osx-64/greenlet-3.5.1-py313h5fe49f0_0.conda
   sha256: fb069ef16dad137b44cb12423ab08917da2bde66dc310c1ef240a95276f14a56
   md5: 088110269215463f020beb51a1d32c33
@@ -9224,9 +9222,9 @@ packages:
   license_family: MIT
   size: 259778
   timestamp: 1779292735843
-- conda: https://conda.anaconda.org/conda-forge/win-64/greenlet-3.5.1-py313h927ade5_0.conda
-  sha256: 3c307eb81151061e3ea1008e8037a806490ca04a81bda2cf7100f8778fdb0702
-  md5: 1c49f7dca225db3667bd140478d8bcdc
+- conda: https://conda.anaconda.org/conda-forge/win-64/greenlet-3.5.2-py313h927ade5_0.conda
+  sha256: 96a45f860d76b08d115a63a43e7bd0213cf3ab241d37e452446ad50963a3e456
+  md5: 0a6c89a2c1c5ad6b5efad3610ac5f323
   depends:
   - python
   - vc >=14.3,<15
@@ -9234,9 +9232,8 @@ packages:
   - ucrt >=10.0.20348.0
   - python_abi 3.13.* *_cp313
   license: MIT
-  license_family: MIT
-  size: 245078
-  timestamp: 1779292429301
+  size: 248211
+  timestamp: 1781762174829
 - conda: https://conda.anaconda.org/conda-forge/linux-64/grpcio-1.78.1-py312h39ee1c6_0.conda
   sha256: 43b09e083e0c3141cb118f84924b498b32d86da5f6a458b60e56e65cd5b97c4e
   md5: b1995dadc14463d8f914c54cf2061a07

@@ -21,19 +21,19 @@ rjsf-overrides:
         transformer_kws:
           type: event_type
           depends_on: properties.er_client_name.properties.data_source.properties.name
+    # Checkbox helper text lives in uiSchema ui:help (renders BELOW the checkbox via
+    # FieldTemplate); schema.description would render ABOVE it in CheckboxWidget.
     get_event_data.properties.include_null_geometry.title: "Include events without a location"
-    get_event_data.properties.include_null_geometry.description: >-
-      Events without coordinates (point or area) will still appear in your download.
     get_event_data.properties.force_point_geometry.title: "Simplify polygons to single points"
     get_event_data.properties.force_point_geometry.default: false
     get_event_data.properties.force_point_geometry.ecoscope:advanced: false
-    get_event_data.properties.force_point_geometry.description: >-
-      Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.
+    # Blank the task's native field description so it does NOT render above the
+    # checkbox (helper text is supplied below via uiSchema ui:help instead).
+    get_event_data.properties.force_point_geometry.description: ""
     # Positive map toggle (chained invert_bool → skip_map_generation.skip is hidden)
     Generate Maps.properties.generate_maps.properties.value.title: "Generate maps in dashboard"
     Generate Maps.properties.generate_maps.properties.value.default: true
-    Generate Maps.properties.generate_maps.properties.value.description: >-
-      Not recommended for large datasets.
+    Generate Maps.properties.generate_maps.properties.value.description: ""
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
     # Positive attachment toggle (chained invert_bool → skip_attachment_download.skip is hidden)
     Download Attachments.properties.download_all_attachments.properties.value.title: "Download all attachments"
@@ -83,6 +83,13 @@ rjsf-overrides:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
     Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
+    # Checkbox helper text → ui:help renders BELOW the checkbox (not above).
+    get_event_data.include_null_geometry.ui:help: >-
+      Events without coordinates (point or area) will still appear in your download.
+    get_event_data.force_point_geometry.ui:help: >-
+      Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.
+    Generate Maps.generate_maps.value.ui:help: >-
+      Not recommended for large datasets.
 task-instance-defaults:
   skipif:
     conditions:

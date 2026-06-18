@@ -91,14 +91,13 @@
         "include_null_geometry": {
           "default": true,
           "title": "Include events without a location",
-          "type": "boolean",
-          "description": "Events without coordinates (point or area) will still appear in your download."
+          "type": "boolean"
         },
         "force_point_geometry": {
           "default": false,
           "title": "Simplify polygons to single points",
           "type": "boolean",
-          "description": "Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.",
+          "description": "",
           "ecoscope:advanced": false
         }
       },
@@ -304,7 +303,7 @@
               "default": true,
               "title": "Generate maps in dashboard",
               "type": "boolean",
-              "description": "Not recommended for large datasets."
+              "description": ""
             }
           },
           "type": "object",
@@ -703,7 +702,13 @@
         "event_types",
         "include_null_geometry",
         "force_point_geometry"
-      ]
+      ],
+      "include_null_geometry": {
+        "ui:help": "Events without coordinates (point or area) will still appear in your download."
+      },
+      "force_point_geometry": {
+        "ui:help": "Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports."
+      }
     },
     "Event Location Filter": {
       "filter_events": {
@@ -736,7 +741,12 @@
       "ui:order": [
         "generate_maps",
         "base_map_defs"
-      ]
+      ],
+      "generate_maps": {
+        "value": {
+          "ui:help": "Not recommended for large datasets."
+        }
+      }
     },
     "ui:order": [
       "workflow_details",
