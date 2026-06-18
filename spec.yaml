@@ -60,10 +60,13 @@ rjsf-overrides:
       Write a SQL query to filter or transform your data. Leave blank to skip this
       step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active').
       Note that queries will only apply to your downloaded files and not the generated map.
-    # Drop redundant inner field titles in the Refine Data group (the task headers
-    # "Remove Columns" / "Custom Data Query" already name these).
-    Refine Data.properties.process_columns.properties.drop_columns.title: ""
-    Refine Data.properties.sql_query.properties.query.title: ""
+    # Blank the redundant inner field titles in the Refine Data group (the task
+    # headers "Remove Columns" / "Custom Data Query" already name these). Use a
+    # single space, NOT "": an empty title makes rjsf fall back to the raw property
+    # name (e.g. "drop_columns"), and for string fields a blanked label also hides
+    # the description (FieldTemplate gates description on displayLabel).
+    Refine Data.properties.process_columns.properties.drop_columns.title: " "
+    Refine Data.properties.sql_query.properties.query.title: "SQL Query"
     # --- renamed group path: Process Events -> Refine Data ---
     Refine Data.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Refine Data.properties.process_columns.properties.drop_columns.items.title: "Column Name"
@@ -101,8 +104,6 @@ rjsf-overrides:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
     Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
-    # Hide the "SQL Query" string-field label (task header "Custom Data Query" names it).
-    Refine Data.sql_query.query.ui:options.label: false
     # Checkbox helper text → ui:help renders BELOW the checkbox (not above).
     get_event_data.include_null_geometry.ui:help: >-
       Events without coordinates (point or area) will still appear in your download.
@@ -221,9 +222,7 @@ workflow:
   - title: Event Location Filter
     type: task-group
     description: >-
-      Optionally limit events to a geographic area, and exclude events recorded at
-      specific coordinates (for example, known placeholder points like 0, 0). Leave
-      empty to keep all events.
+      Filter events based on their location.
     tasks:
       - name: Filter Event Relocations
         id: filter_events
