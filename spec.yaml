@@ -394,7 +394,7 @@ workflow:
         task: groupbykey_passthrough_skip
         skipif:
           conditions:
-            - all_keyed_iterables_are_skips
+            - never
           unpack_depth: 1
         partial:
           iterables:

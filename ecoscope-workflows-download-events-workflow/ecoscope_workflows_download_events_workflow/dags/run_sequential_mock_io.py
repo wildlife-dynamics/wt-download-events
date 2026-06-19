@@ -771,7 +771,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .with_tracing()
         .skipif(
             conditions=[
-                all_keyed_iterables_are_skips,
+                never,
             ],
             unpack_depth=1,
         )
