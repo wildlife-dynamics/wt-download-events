@@ -51,16 +51,10 @@ rjsf-overrides:
     persist_events.properties.filetypes.items.enum: ["csv", "parquet"]
     persist_events.properties.filetypes.description: >-
       Choose the file format for your download. Parquet files are compact, fast to query, and keep all your data in a single file. Works with Python, R, QGIS, and other GIS tools.
-    # --- SQL query field: queries apply to downloads only, not the map (C2) ---
     Refine Data.properties.sql_query.properties.query.description: >-
       Write a SQL query to filter or transform your data. Leave blank to skip this
       step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active').
       Note that queries will only apply to your downloaded files and not the generated map.
-    # Blank the redundant inner field titles in the Refine Data group (the task
-    # headers "Remove Columns" / "Custom Data Query" already name these). Use a
-    # single space, NOT "": an empty title makes rjsf fall back to the raw property
-    # name (e.g. "drop_columns"), and for string fields a blanked label also hides
-    # the description (FieldTemplate gates description on displayLabel).
     Refine Data.properties.process_columns.properties.drop_columns.title: " "
     Refine Data.properties.sql_query.properties.query.title: "SQL Query"
     # --- renamed group path: Process Events -> Refine Data ---
