@@ -4,8 +4,9 @@ requirements:
     version: ">=2.15.0, <2.16.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc8"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+    git: https://github.com/wildlife-dynamics/ecoscope-workflow-task-library
+    subdirectory: src/ecoscope-workflows-ext-custom
+    branch: am/hash-attachments
   # ecoscope-platform already declares this exact pydeck dependency. it is
   # re-stated here as a workaround for a known issue. for further detail, see:
   # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697
@@ -251,19 +252,23 @@ workflow:
       - name: Skip Attachment Download
         id: skip_attachment_download
         task: maybe_skip_df
-        partial:
-          df: ${{ workflow.get_event_data.return }}
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.split_event_groups.return }}
 
       - name: Download Attachments
         id: download_attachments
-        task: download_event_attachments
+        task: download_grouped_event_attachments
         partial:
           client: ${{ workflow.er_client_name.return }}
           output_dir: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
           use_index_as_id: false
-          event_gdf: ${{ workflow.skip_attachment_download.return }}
+          grouped_event_gdfs: ${{ workflow.skip_attachment_download.return }}
           skip_download: false
           attachments_subdir: "attachments"
+        skipif:
+          conditions:
+            - never
 
   - title: Generate Maps
     type: task-group
@@ -384,7 +389,7 @@ workflow:
       # (deck.gl renders later layers above earlier ones).
       - name: Combine Point and Polygon layers per group
         id: combined_event_map_layers
-        task: groupbykey
+        task: groupbykey_passthrough_skip
         skipif:
           conditions:
             - all_keyed_iterables_are_skips
