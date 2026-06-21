@@ -57,7 +57,6 @@ rjsf-overrides:
       Note that queries will only apply to your downloaded files and not the generated map.
     Refine Data.properties.process_columns.properties.drop_columns.title: " "
     Refine Data.properties.sql_query.properties.query.title: "SQL Query"
-    # --- renamed group path: Process Events -> Refine Data ---
     Refine Data.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
     Refine Data.properties.process_columns.properties.drop_columns.items.title: "Column Name"
     Refine Data.properties.process_columns.properties.drop_columns.description: >-
@@ -71,7 +70,6 @@ rjsf-overrides:
     # set_groupers description (the group description already covers it).
     Group Data.properties.groupers.title: ""
     Group Data.properties.groupers.properties.groupers.description: ""
-    # --- groupers override moves to the new Group Data group ---
     Group Data.properties.groupers.properties.groupers.items.anyOf:
       - {"$ref": "#/$defs/ValueGrouper"}
       - {"$ref": "#/$defs/TemporalGrouper"}
@@ -141,9 +139,6 @@ workflow:
       include_related_events: false
       include_display_values: true
 
-  # === Param-less prep tasks: lifted to plain top-level nodes. They expose no user
-  #     params, so (like get_timezone) they do NOT render as form sections. Chain
-  #     and wiring are byte-identical to before. ===
   - name: "Convert to timezone"
     id: convert_to_user_timezone
     task: convert_values_to_timezone
@@ -208,7 +203,6 @@ workflow:
       columns: []
       auto_detect: true
 
-  # === Event Location Filter: filter_events promoted to its own section ===
   - title: Event Location Filter
     type: task-group
     description: >-
@@ -234,7 +228,6 @@ workflow:
       output_column_name: "event_type_colormap"
       df: ${{ workflow.filter_events.return }}
 
-  # === GROUP DATA (group/split BEFORE refine) ===
   - title: Group Data
     type: task-group
     description: >-
@@ -264,8 +257,8 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
-  # === REFINE DATA (post-split, per-group). Remove Columns runs before the
-  #     maps/downloads fork → affects BOTH; Custom Data Query is downloads-only. ===
+  # Post-split, per-group. Remove Columns runs before the maps/downloads fork, so it
+  # affects both the map and the downloads; Custom Data Query is downloads-only.
   - title: Refine Data
     type: task-group
     description: Reshape and organize your data before downloading.

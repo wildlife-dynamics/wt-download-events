@@ -166,9 +166,5 @@ cython_debug/
 .DS_Store
 .claude
 .scratch
-<<<<<<< HEAD
 .env
 .vscode
-=======
-.env
->>>>>>> fe2bb0e (feat: polygon event support + ecoscope-platform 2.11.14 (#31))
