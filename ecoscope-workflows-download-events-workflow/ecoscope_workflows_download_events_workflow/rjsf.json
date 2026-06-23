@@ -75,7 +75,7 @@
           "items": {
             "type": "string"
           },
-          "title": "",
+          "title": " ",
           "type": "array",
           "description": "Specify the event type(s) to download (optional). Leave this section empty to download all event types.",
           "ecoscope:transform": [

@@ -24,8 +24,10 @@ rjsf-overrides:
         transformer_kws:
           type: event_type
           depends_on: properties.er_client_name.properties.data_source.properties.name
-    # Drop the redundant inner "Event Types" field title (section header already says it).
-    get_event_data.properties.event_types.title: ""
+    # Drop the redundant inner "Event Types" field title (section header already says
+    # it). Use a single space, NOT "" — an empty array title falls back to the raw
+    # property key ("event_types"), re-introducing a stray subhead.
+    get_event_data.properties.event_types.title: " "
     # Checkbox helper text lives in uiSchema ui:help (renders BELOW the checkbox via
     # FieldTemplate); schema.description would render ABOVE it in CheckboxWidget.
     get_event_data.properties.include_null_geometry.title: "Include events without a location"
