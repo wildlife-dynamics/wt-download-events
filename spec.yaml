@@ -14,8 +14,11 @@ requirements:
     channel: conda-forge
 rjsf-overrides:
   properties:
+    # Section intro (renders at the top of the Event Types section). The detailed
+    # "how to fill it in" guidance lives below each input via uiSchema items.ui:help.
     get_event_data.properties.event_types.description: >-
-      Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
+      Specify the event type(s) to download (optional). Leave this section empty to
+      download all event types.
     get_event_data.properties.event_types.ecoscope:transform:
       - transformer: EarthRangerEnumResolver
         transformer_kws:
@@ -92,6 +95,12 @@ rjsf-overrides:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
     Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
+    # Per-item helper for the event-types array → renders below each input box
+    # (inside the bordered item card), splitting the detail off the section intro.
+    get_event_data.event_types.items.ui:help: >-
+      Enter the "Event Types" value for each event type you want to include in the
+      output — one per field (e.g. "wildlife_sighting_rep"). "Event Type" values can
+      be found in your EarthRanger Admin site under Activity → Event Types.
     # Checkbox helper text → ui:help renders BELOW the checkbox (not above).
     get_event_data.include_null_geometry.ui:help: >-
       Events without coordinates (point or area) will still appear in your download.
