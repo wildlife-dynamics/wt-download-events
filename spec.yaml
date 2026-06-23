@@ -106,6 +106,11 @@ rjsf-overrides:
     # Checkbox helper text → ui:help renders BELOW the checkbox (not above).
     get_event_data.include_null_geometry.ui:help: >-
       Events without coordinates (point or area) will still appear in your download.
+    # Add breathing room above this checkbox (mt-4 = 1rem). The field's wrapper div
+    # gets classNames from ui:options; ObjectFieldTemplate adds no gap between fields.
+    # Must be a class that exists in ecoscope-web source (Tailwind JIT won't emit
+    # classes seen only in runtime JSON) — mt-4 is widely used there.
+    get_event_data.force_point_geometry.ui:options.classNames: "mt-4"
     get_event_data.force_point_geometry.ui:help: >-
       Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.
     Generate Maps.generate_maps.value.ui:help: >-

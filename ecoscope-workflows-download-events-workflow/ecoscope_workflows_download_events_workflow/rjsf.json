@@ -712,6 +712,9 @@
         "ui:help": "Events without coordinates (point or area) will still appear in your download."
       },
       "force_point_geometry": {
+        "ui:options": {
+          "classNames": "mt-4"
+        },
         "ui:help": "Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports."
       }
     },
