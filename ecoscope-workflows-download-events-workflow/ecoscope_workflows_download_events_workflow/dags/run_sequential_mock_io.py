@@ -86,6 +86,9 @@ from ecoscope.platform.tasks.skip import all_geometry_are_none as all_geometry_a
 from ecoscope.platform.tasks.transformation import (
     filter_by_geometry_type as filter_by_geometry_type,
 )
+from ecoscope_workflows_ext_custom.tasks.groupby import (
+    groupbykey_passthrough_skip as groupbykey_passthrough_skip,
+)
 from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_duplicate_columns as drop_duplicate_columns,
@@ -556,7 +559,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             use_index_as_id=False,
-            event_gdf=get_event_data,
+            grouped_event_gdfs=split_event_groups,
             skip_download=download_all_attachments,
             attachments_subdir="attachments",
             **(params.get("download_attachments") or {}),

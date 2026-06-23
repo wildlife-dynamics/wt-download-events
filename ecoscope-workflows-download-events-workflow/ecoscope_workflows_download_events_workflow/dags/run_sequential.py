@@ -539,7 +539,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             use_index_as_id=False,
-            event_gdf=get_event_data,
+            grouped_event_gdfs=split_event_groups,
             skip_download=download_all_attachments,
             attachments_subdir="attachments",
             **(params.get("download_attachments") or {}),

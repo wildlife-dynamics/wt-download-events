@@ -325,8 +325,8 @@ workflow:
       Download attachments associated with the events.
     tasks:
       # Positive toggle: value=false (default) → invert → skip_download=true → no download.
-      # download_event_attachments has a native skip (`if skip_download: return []`) and its
-      # return is terminal, so the toggle feeds skip_download directly — no maybe_skip_df.
+      # download_grouped_event_attachments has a native skip (`if skip_download: return []`)
+      # and its return is terminal, so the toggle feeds skip_download directly — no maybe_skip_df.
       - name: Download all attachments
         id: download_all_attachments
         task: invert_bool
@@ -338,7 +338,7 @@ workflow:
           client: ${{ workflow.er_client_name.return }}
           output_dir: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
           use_index_as_id: false
-          event_gdf: ${{ workflow.get_event_data.return }}
+          grouped_event_gdfs: ${{ workflow.split_event_groups.return }}
           skip_download: ${{ workflow.download_all_attachments.return }}
           attachments_subdir: "attachments"
         skipif:
