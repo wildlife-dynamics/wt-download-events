@@ -67,12 +67,11 @@ from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_column_prefix as drop_column_prefix,
 )
 
-download_event_attachments = create_func_magicmock(  # 🧪
+download_grouped_event_attachments = create_func_magicmock(  # 🧪
     anchor="ecoscope_workflows_ext_custom.tasks.io",  # 🧪
-    func_name="download_event_attachments",  # 🧪
+    func_name="download_grouped_event_attachments",  # 🧪
 )  # 🧪
 from ecoscope.platform.tasks.config import set_string_var as set_string_var
-from ecoscope.platform.tasks.groupby import groupbykey as groupbykey
 from ecoscope.platform.tasks.io import persist_text as persist_text
 from ecoscope.platform.tasks.results import (
     create_map_widget_single_view as create_map_widget_single_view,
@@ -84,11 +83,11 @@ from ecoscope.platform.tasks.results import gather_dashboard as gather_dashboard
 from ecoscope.platform.tasks.results import merge_widget_views as merge_widget_views
 from ecoscope.platform.tasks.results import set_base_maps as set_base_maps
 from ecoscope.platform.tasks.skip import all_geometry_are_none as all_geometry_are_none
-from ecoscope.platform.tasks.skip import (
-    all_keyed_iterables_are_skips as all_keyed_iterables_are_skips,
-)
 from ecoscope.platform.tasks.transformation import (
     filter_by_geometry_type as filter_by_geometry_type,
+)
+from ecoscope_workflows_ext_custom.tasks.groupby import (
+    groupbykey_passthrough_skip as groupbykey_passthrough_skip,
 )
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_duplicate_columns as drop_duplicate_columns,
@@ -540,20 +539,19 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(df=get_event_data, **(params.get("skip_attachment_download") or {}))
-        .call()
+        .partial(**(params.get("skip_attachment_download") or {}))
+        .mapvalues(argnames=["df"], argvalues=split_event_groups)
     )
 
     download_attachments = (
-        task(download_event_attachments)
+        task(download_grouped_event_attachments)
         # 🧪 validation omitted for mocked IO task (returns pre-loaded example data)
         .set_task_instance_id("download_attachments")
         .handle_errors()
         .with_tracing()
         .skipif(
             conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
+                never,
             ],
             unpack_depth=1,
         )
@@ -561,7 +559,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             use_index_as_id=False,
-            event_gdf=skip_attachment_download,
+            grouped_event_gdfs=skip_attachment_download,
             skip_download=False,
             attachments_subdir="attachments",
             **(params.get("download_attachments") or {}),
@@ -763,14 +761,14 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
     )
 
     combined_event_map_layers = (
-        task(groupbykey)
+        task(groupbykey_passthrough_skip)
         .validate()
         .set_task_instance_id("combined_event_map_layers")
         .handle_errors()
         .with_tracing()
         .skipif(
             conditions=[
-                all_keyed_iterables_are_skips,
+                never,
             ],
             unpack_depth=1,
         )

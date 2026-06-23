@@ -8,7 +8,6 @@ from ecoscope.platform.tasks.filter import (
     get_timezone_from_time_range as get_timezone_from_time_range,
 )
 from ecoscope.platform.tasks.filter import set_time_range as set_time_range
-from ecoscope.platform.tasks.groupby import groupbykey as groupbykey
 from ecoscope.platform.tasks.groupby import set_groupers as set_groupers
 from ecoscope.platform.tasks.groupby import split_groups as split_groups
 from ecoscope.platform.tasks.io import get_events as get_events
@@ -24,9 +23,6 @@ from ecoscope.platform.tasks.results import gather_dashboard as gather_dashboard
 from ecoscope.platform.tasks.results import merge_widget_views as merge_widget_views
 from ecoscope.platform.tasks.results import set_base_maps as set_base_maps
 from ecoscope.platform.tasks.skip import all_geometry_are_none as all_geometry_are_none
-from ecoscope.platform.tasks.skip import (
-    all_keyed_iterables_are_skips as all_keyed_iterables_are_skips,
-)
 from ecoscope.platform.tasks.skip import (
     any_dependency_skipped as any_dependency_skipped,
 )
@@ -52,8 +48,11 @@ from ecoscope.platform.tasks.transformation import map_columns as map_columns
 from ecoscope.platform.tasks.transformation import (
     normalize_json_column as normalize_json_column,
 )
+from ecoscope_workflows_ext_custom.tasks.groupby import (
+    groupbykey_passthrough_skip as groupbykey_passthrough_skip,
+)
 from ecoscope_workflows_ext_custom.tasks.io import (
-    download_event_attachments as download_event_attachments,
+    download_grouped_event_attachments as download_grouped_event_attachments,
 )
 from ecoscope_workflows_ext_custom.tasks.io import (
     persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
@@ -520,20 +519,19 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(df=get_event_data, **(params.get("skip_attachment_download") or {}))
-        .call()
+        .partial(**(params.get("skip_attachment_download") or {}))
+        .mapvalues(argnames=["df"], argvalues=split_event_groups)
     )
 
     download_attachments = (
-        task(download_event_attachments)
+        task(download_grouped_event_attachments)
         .validate()
         .set_task_instance_id("download_attachments")
         .handle_errors()
         .with_tracing()
         .skipif(
             conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
+                never,
             ],
             unpack_depth=1,
         )
@@ -541,7 +539,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             use_index_as_id=False,
-            event_gdf=skip_attachment_download,
+            grouped_event_gdfs=skip_attachment_download,
             skip_download=False,
             attachments_subdir="attachments",
             **(params.get("download_attachments") or {}),
@@ -743,14 +741,14 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
     )
 
     combined_event_map_layers = (
-        task(groupbykey)
+        task(groupbykey_passthrough_skip)
         .validate()
         .set_task_instance_id("combined_event_map_layers")
         .handle_errors()
         .with_tracing()
         .skipif(
             conditions=[
-                all_keyed_iterables_are_skips,
+                never,
             ],
             unpack_depth=1,
         )
