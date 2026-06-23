@@ -75,7 +75,7 @@
           "items": {
             "type": "string"
           },
-          "title": " ",
+          "title": "Event Types",
           "type": "array",
           "description": "Specify the event type(s) to download (optional). Leave this section empty to download all event types.",
           "ecoscope:transform": [
@@ -704,6 +704,9 @@
         "force_point_geometry"
       ],
       "event_types": {
+        "ui:options": {
+          "displayLabel": false
+        },
         "items": {
           "ui:help": "Enter the \"Event Types\" value for each event type you want to include in the output \u2014 one per field (e.g. \"wildlife_sighting_rep\"). \"Event Type\" values can be found in your EarthRanger Admin site under Activity \u2192 Event Types."
         }

@@ -24,10 +24,10 @@ rjsf-overrides:
         transformer_kws:
           type: event_type
           depends_on: properties.er_client_name.properties.data_source.properties.name
-    # Drop the redundant inner "Event Types" field title (section header already says
-    # it). Use a single space, NOT "" — an empty array title falls back to the raw
-    # property key ("event_types"), re-introducing a stray subhead.
-    get_event_data.properties.event_types.title: " "
+    # The array title feeds the per-item labels ("<title>-<n>", e.g. "Event Types-1"),
+    # so keep it as "Event Types". The redundant subhead it would otherwise render is
+    # suppressed via uiSchema ui:options.displayLabel:false (section header already says it).
+    get_event_data.properties.event_types.title: "Event Types"
     # Checkbox helper text lives in uiSchema ui:help (renders BELOW the checkbox via
     # FieldTemplate); schema.description would render ABOVE it in CheckboxWidget.
     get_event_data.properties.include_null_geometry.title: "Include events without a location"
@@ -97,6 +97,10 @@ rjsf-overrides:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
     Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
+    # Suppress the array's own subhead (the task-group header already says "Event
+    # Types") while keeping schema.title="Event Types" so item labels read "Event
+    # Types-1". ArrayFieldTemplate gates the title on uiOptions.displayLabel.
+    get_event_data.event_types.ui:options.displayLabel: false
     # Per-item helper for the event-types array → renders below each input box
     # (inside the bordered item card), splitting the detail off the section intro.
     get_event_data.event_types.items.ui:help: >-
