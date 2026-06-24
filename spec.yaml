@@ -4,7 +4,7 @@ requirements:
     version: ">=2.15.0, <2.16.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc11"
+    version: "0.1.0rc12"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
   # ecoscope-platform already declares this exact pydeck dependency. it is
   # re-stated here as a workaround for a known issue. for further detail, see:
