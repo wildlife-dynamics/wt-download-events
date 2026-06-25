@@ -51,7 +51,11 @@ rjsf-overrides:
     Download Attachments.properties.download_all_attachments.properties.value.default: false
     Download Attachments.properties.download_all_attachments.properties.value.description: ""
     persist_events.properties.filename_prefix.default: "events"
-    persist_events.properties.filetypes.title: "Filetype"
+    # filetypes is a uniqueItems multi-select; its title renders as a large text-lg
+    # "subhead" (FieldTemplate isMultiSelectField branch — no uiSchema escape hatch).
+    # A " " title blanks that redundant heading (a "" would fall back to the raw key
+    # "filetypes"); the "Download File Format" card title is the section label.
+    persist_events.properties.filetypes.title: " "
     persist_events.properties.filetypes.default: ["parquet"]
     persist_events.properties.filetypes.items.enum: ["csv", "parquet"]
     persist_events.properties.filetypes.description: >-
@@ -109,7 +113,7 @@ rjsf-overrides:
       be found in your EarthRanger Admin site under Activity → Event Types.
     # Checkbox helper text → ui:help renders BELOW the checkbox (not above).
     get_event_data.include_null_geometry.ui:help: >-
-      Events without coordinates (point or area) will still appear in your download.
+      Events without coordinates (point or polygon) will still appear in your download.
     # Add breathing room above this checkbox (mt-4 = 1rem). The field's wrapper div
     # gets classNames from ui:options; ObjectFieldTemplate adds no gap between fields.
     # Must be a class that exists in ecoscope-web source (Tailwind JIT won't emit
