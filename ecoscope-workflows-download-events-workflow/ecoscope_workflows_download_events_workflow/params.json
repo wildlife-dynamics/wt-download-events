@@ -20,6 +20,21 @@
       "description": "Add information that will help to differentiate this workflow from another.",
       "title": "Workflow Details"
     },
+    "er_client_name": {
+      "additionalProperties": false,
+      "properties": {
+        "data_source": {
+          "$ref": "#/$defs/EarthRangerConnection",
+          "title": "",
+          "description": "Select one of your configured data sources."
+        }
+      },
+      "required": [
+        "data_source"
+      ],
+      "type": "object",
+      "title": "Data Source"
+    },
     "time_range": {
       "additionalProperties": false,
       "properties": {
@@ -53,21 +68,6 @@
       "description": "Choose the period of time to analyze.",
       "title": "Time Range"
     },
-    "er_client_name": {
-      "additionalProperties": false,
-      "properties": {
-        "data_source": {
-          "$ref": "#/$defs/EarthRangerConnection",
-          "title": "",
-          "description": "Select one of your configured data sources."
-        }
-      },
-      "required": [
-        "data_source"
-      ],
-      "type": "object",
-      "title": "Data Source"
-    },
     "get_event_data": {
       "additionalProperties": false,
       "properties": {
@@ -96,7 +96,7 @@
         "event_types"
       ],
       "type": "object",
-      "title": "Get Event Data"
+      "title": "Event Types"
     },
     "filter_events": {
       "additionalProperties": false,
@@ -132,49 +132,6 @@
       "type": "object",
       "title": "Filter Event Relocations"
     },
-    "process_columns": {
-      "additionalProperties": false,
-      "properties": {
-        "drop_columns": {
-          "default": [],
-          "items": {
-            "type": "string"
-          },
-          "title": "Drop Columns",
-          "type": "array",
-          "description": "List of columns to drop.",
-          "ecoscope:advanced": true
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Preprocess Columns"
-    },
-    "sql_query": {
-      "additionalProperties": false,
-      "properties": {
-        "query": {
-          "default": "",
-          "title": "SQL Query",
-          "type": "string",
-          "description": "SQL query string to apply to the DataFrame. Leaves it unchanged when the field is emptyUse 'df' as the table name in the query.",
-          "ecoscope:advanced": true
-        },
-        "columns": {
-          "default": null,
-          "items": {
-            "type": "string"
-          },
-          "title": "Columns",
-          "type": "array",
-          "description": "Optional list of column names to include in the SQL query context. If specified, only these columns will be available in the 'df' table for querying. Use this to exclude columns with unsupported data types (list, dict) that cannot be stored in SQLite. If not specified, all columns are included.",
-          "ecoscope:advanced": true
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Apply SQL Query"
-    },
     "groupers": {
       "additionalProperties": false,
       "properties": {
@@ -202,6 +159,39 @@
       "type": "object",
       "required": [],
       "title": "Group Data"
+    },
+    "process_columns": {
+      "additionalProperties": false,
+      "properties": {
+        "drop_columns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Drop Columns",
+          "type": "array",
+          "description": "List of columns to drop.",
+          "ecoscope:advanced": true
+        }
+      },
+      "required": [],
+      "type": "object",
+      "title": "Remove Columns"
+    },
+    "sql_query": {
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "default": "",
+          "title": "SQL Query",
+          "type": "string",
+          "description": "SQL query string to apply to the DataFrame. Leaves it unchanged when the field is emptyUse 'df' as the table name in the query.",
+          "ecoscope:advanced": true
+        }
+      },
+      "required": [],
+      "type": "object",
+      "title": "Custom Data Query"
     },
     "persist_events": {
       "additionalProperties": false,
@@ -234,35 +224,35 @@
       },
       "required": [],
       "type": "object",
-      "title": "Persist Events"
+      "title": "Download File Format"
     },
-    "skip_attachment_download": {
+    "download_all_attachments": {
       "additionalProperties": false,
       "properties": {
-        "skip": {
-          "default": false,
-          "title": "Skip",
+        "value": {
+          "default": true,
+          "title": "Value",
           "type": "boolean",
-          "description": "Skip the following tasks if True, returning a sentinel value."
+          "description": "The boolean value to negate."
         }
       },
-      "required": [],
       "type": "object",
-      "title": "Skip Attachment Download"
+      "required": [],
+      "title": "Download all attachments"
     },
-    "skip_map_generation": {
+    "generate_maps": {
       "additionalProperties": false,
       "properties": {
-        "skip": {
-          "default": false,
-          "title": "Skip",
+        "value": {
+          "default": true,
+          "title": "Value",
           "type": "boolean",
-          "description": "Skip the following tasks if True, returning a sentinel value."
+          "description": "The boolean value to negate."
         }
       },
-      "required": [],
       "type": "object",
-      "title": "Skip Map Generation"
+      "required": [],
+      "title": "Generate maps in dashboard"
     },
     "base_map_defs": {
       "additionalProperties": false,
@@ -459,6 +449,19 @@
     }
   },
   "$defs": {
+    "EarthRangerConnection": {
+      "properties": {
+        "name": {
+          "title": "Data Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "EarthRangerConnection",
+      "type": "object"
+    },
     "TimezoneInfo": {
       "properties": {
         "label": {
@@ -485,19 +488,6 @@
         "utc"
       ],
       "title": "TimezoneInfo",
-      "type": "object"
-    },
-    "EarthRangerConnection": {
-      "properties": {
-        "name": {
-          "title": "Data Source",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "title": "EarthRangerConnection",
       "type": "object"
     },
     "BoundingBox": {
@@ -651,12 +641,6 @@
         "filter_point_coords"
       ]
     },
-    "sql_query": {
-      "ui:order": [
-        "query",
-        "columns"
-      ]
-    },
     "persist_events": {
       "ui:order": [
         "filetypes",
@@ -665,16 +649,16 @@
     },
     "ui:order": [
       "workflow_details",
-      "time_range",
       "er_client_name",
+      "time_range",
       "get_event_data",
       "filter_events",
+      "groupers",
       "process_columns",
       "sql_query",
-      "groupers",
       "persist_events",
-      "skip_attachment_download",
-      "skip_map_generation",
+      "download_all_attachments",
+      "generate_maps",
       "base_map_defs"
     ]
   },

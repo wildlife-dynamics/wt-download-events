@@ -20,6 +20,21 @@
       "description": "Add information that will help to differentiate this workflow from another.",
       "title": "Workflow Details"
     },
+    "er_client_name": {
+      "additionalProperties": false,
+      "properties": {
+        "data_source": {
+          "$ref": "#/$defs/EarthRangerConnection",
+          "title": "",
+          "description": "Select one of your configured data sources."
+        }
+      },
+      "required": [
+        "data_source"
+      ],
+      "type": "object",
+      "title": "Data Source"
+    },
     "time_range": {
       "additionalProperties": false,
       "properties": {
@@ -53,21 +68,6 @@
       "description": "Choose the period of time to analyze.",
       "title": "Time Range"
     },
-    "er_client_name": {
-      "additionalProperties": false,
-      "properties": {
-        "data_source": {
-          "$ref": "#/$defs/EarthRangerConnection",
-          "title": "",
-          "description": "Select one of your configured data sources."
-        }
-      },
-      "required": [
-        "data_source"
-      ],
-      "type": "object",
-      "title": "Data Source"
-    },
     "get_event_data": {
       "additionalProperties": false,
       "properties": {
@@ -77,7 +77,7 @@
           },
           "title": "Event Types",
           "type": "array",
-          "description": "Specify the event type(s) to analyze (optional). Enter the \"Event Types\" value for each event type you want to include in the output \u2014 one per field (e.g. \"wildlife_sighting_rep\"). If you are on Ecoscope Desktop, \"Event Type\" values can be found in your EarthRanger Admin site under Activity \u2192 Event Types. Leave this section empty to include all event types",
+          "description": "Specify the event type(s) to download (optional). Leave this section empty to download all event types.",
           "ecoscope:transform": [
             {
               "transformer": "EarthRangerEnumResolver",
@@ -90,14 +90,14 @@
         },
         "include_null_geometry": {
           "default": true,
-          "title": "Include Events Without a Geometry (point or polygon)",
+          "title": "Include events without a location",
           "type": "boolean"
         },
         "force_point_geometry": {
           "default": false,
-          "title": "Reduce Polygon Events to Points",
+          "title": "Simplify polygons to single points",
           "type": "boolean",
-          "description": "When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.",
+          "description": "",
           "ecoscope:advanced": false
         }
       },
@@ -105,11 +105,11 @@
         "event_types"
       ],
       "type": "object",
-      "title": "Get Event Data"
+      "title": "Event Types"
     },
-    "Process Events": {
+    "Event Location Filter": {
       "type": "object",
-      "description": "Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.",
+      "description": "Filter events based on their location.",
       "ecoscope:task_group": true,
       "properties": {
         "filter_events": {
@@ -144,8 +144,47 @@
           },
           "required": [],
           "type": "object",
-          "title": "Filter Event Relocations"
-        },
+          "title": ""
+        }
+      }
+    },
+    "Group Data": {
+      "type": "object",
+      "description": "Specify how the data should be grouped to create separate views for your dashboard (optional). Leave empty to show all data in a single view.",
+      "ecoscope:task_group": true,
+      "properties": {
+        "groupers": {
+          "additionalProperties": false,
+          "properties": {
+            "groupers": {
+              "default": null,
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ValueGrouper"
+                  },
+                  {
+                    "$ref": "#/$defs/TemporalGrouper"
+                  }
+                ],
+                "title": "Group by"
+              },
+              "title": " ",
+              "type": "array",
+              "description": ""
+            }
+          },
+          "type": "object",
+          "required": [],
+          "title": ""
+        }
+      }
+    },
+    "Refine Data": {
+      "type": "object",
+      "description": "Reshape and organize your data before downloading.",
+      "ecoscope:task_group": true,
+      "properties": {
         "process_columns": {
           "additionalProperties": false,
           "properties": {
@@ -170,17 +209,18 @@
                 "reported_by"
               ],
               "items": {
-                "type": "string"
+                "type": "string",
+                "title": "Column Name"
               },
-              "title": "Drop Columns",
+              "title": " ",
               "type": "array",
-              "description": "Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.",
+              "description": "Columns listed here will be left out of your download. We've pre-filled columns that are typically unnecessary or duplicated. If you're not sure, try running the workflow first to see all available columns.",
               "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "Preprocess Columns"
+          "title": "Remove Columns"
         },
         "sql_query": {
           "additionalProperties": false,
@@ -189,48 +229,13 @@
               "default": "",
               "title": "SQL Query",
               "type": "string",
-              "description": "SQL query string to apply to the DataFrame. Leaves it unchanged when the field is emptyUse 'df' as the table name in the query.",
-              "ecoscope:advanced": true
-            },
-            "columns": {
-              "default": null,
-              "items": {
-                "type": "string"
-              },
-              "title": "Columns",
-              "type": "array",
-              "description": "Optional list of column names to include in the SQL query context. If specified, only these columns will be available in the 'df' table for querying. Use this to exclude columns with unsupported data types (list, dict) that cannot be stored in SQLite. If not specified, all columns are included.",
+              "description": "Write a SQL query to filter or transform your data. Leave blank to skip this step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active'). Note that queries will only apply to your downloaded files and not the generated map.",
               "ecoscope:advanced": true
             }
           },
           "required": [],
           "type": "object",
-          "title": "Apply SQL Query"
-        },
-        "groupers": {
-          "additionalProperties": false,
-          "properties": {
-            "groupers": {
-              "default": null,
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ValueGrouper"
-                  },
-                  {
-                    "$ref": "#/$defs/TemporalGrouper"
-                  }
-                ],
-                "title": "Group by"
-              },
-              "title": " ",
-              "type": "array",
-              "description": "            Specify how the data should be grouped to create the views for your dashboard.\n            This field is optional; if left blank, all the data will appear in a single view.\n            "
-            }
-          },
-          "type": "object",
-          "required": [],
-          "title": "Group Data"
+          "title": "Custom Data Query"
         }
       }
     },
@@ -248,9 +253,9 @@
             ],
             "type": "string"
           },
-          "title": "Filetypes",
+          "title": " ",
           "type": "array",
-          "description": "Output filetypes for the events dataset. Parquet preserves all geometry types natively (recommended for polygon events). CSV writes the geometry column as Well-Known Text (WKT) \u2014 readable but not directly round-trippable into all GIS tools.",
+          "description": "Choose the file format for your download. Parquet files are compact, fast to query, and keep all your data in a single file. Works with Python, R, QGIS, and other GIS tools.",
           "uniqueItems": true
         },
         "filename_prefix": {
@@ -263,26 +268,26 @@
       },
       "required": [],
       "type": "object",
-      "title": "Persist Events"
+      "title": "Download File Format"
     },
     "Download Attachments": {
       "type": "object",
       "description": "Download attachments associated with the events.",
       "ecoscope:task_group": true,
       "properties": {
-        "skip_attachment_download": {
+        "download_all_attachments": {
           "additionalProperties": false,
           "properties": {
-            "skip": {
-              "default": true,
-              "title": "Skip",
+            "value": {
+              "default": false,
+              "title": "Download all attachments",
               "type": "boolean",
-              "description": "Skip downloading all attachments associated with the events."
+              "description": ""
             }
           },
-          "required": [],
           "type": "object",
-          "title": "Skip Attachment Download"
+          "required": [],
+          "title": ""
         }
       }
     },
@@ -291,19 +296,19 @@
       "description": "Generate maps to visualize the events data.",
       "ecoscope:task_group": true,
       "properties": {
-        "skip_map_generation": {
+        "generate_maps": {
           "additionalProperties": false,
           "properties": {
-            "skip": {
-              "default": false,
-              "title": "Skip",
+            "value": {
+              "default": true,
+              "title": "Generate maps in dashboard",
               "type": "boolean",
-              "description": "Skip generating maps for the events data. Recommended for large datasets to improve performance."
+              "description": ""
             }
           },
-          "required": [],
           "type": "object",
-          "title": "Skip Map Generation"
+          "required": [],
+          "title": ""
         },
         "base_map_defs": {
           "additionalProperties": false,
@@ -502,6 +507,19 @@
     }
   },
   "$defs": {
+    "EarthRangerConnection": {
+      "properties": {
+        "name": {
+          "title": "Data Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "EarthRangerConnection",
+      "type": "object"
+    },
     "TimezoneInfo": {
       "properties": {
         "label": {
@@ -528,19 +546,6 @@
         "utc"
       ],
       "title": "TimezoneInfo",
-      "type": "object"
-    },
-    "EarthRangerConnection": {
-      "properties": {
-        "name": {
-          "title": "Data Source",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "title": "EarthRangerConnection",
       "type": "object"
     },
     "BoundingBox": {
@@ -697,15 +702,26 @@
         "event_types",
         "include_null_geometry",
         "force_point_geometry"
-      ]
-    },
-    "Process Events": {
-      "ui:order": [
-        "filter_events",
-        "process_columns",
-        "sql_query",
-        "groupers"
       ],
+      "event_types": {
+        "ui:options": {
+          "displayLabel": false
+        },
+        "items": {
+          "ui:help": "Enter the \"Event Types\" value for each event type you want to include in the output \u2014 one per field (e.g. \"wildlife_sighting_rep\"). \"Event Type\" values can be found in your EarthRanger Admin site under Activity \u2192 Event Types."
+        }
+      },
+      "include_null_geometry": {
+        "ui:help": "Events without coordinates (point or polygon) will still appear in your download."
+      },
+      "force_point_geometry": {
+        "ui:options": {
+          "classNames": "mt-4"
+        },
+        "ui:help": "Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports."
+      }
+    },
+    "Event Location Filter": {
       "filter_events": {
         "ui:order": [
           "bounding_box",
@@ -718,13 +734,13 @@
             }
           }
         }
-      },
-      "sql_query": {
-        "ui:order": [
-          "query",
-          "columns"
-        ]
       }
+    },
+    "Refine Data": {
+      "ui:order": [
+        "process_columns",
+        "sql_query"
+      ]
     },
     "persist_events": {
       "ui:order": [
@@ -734,16 +750,23 @@
     },
     "Generate Maps": {
       "ui:order": [
-        "skip_map_generation",
+        "generate_maps",
         "base_map_defs"
-      ]
+      ],
+      "generate_maps": {
+        "value": {
+          "ui:help": "Not recommended for large datasets."
+        }
+      }
     },
     "ui:order": [
       "workflow_details",
-      "time_range",
       "er_client_name",
+      "time_range",
       "get_event_data",
-      "Process Events",
+      "Event Location Filter",
+      "Group Data",
+      "Refine Data",
       "persist_events",
       "Download Attachments",
       "Generate Maps"

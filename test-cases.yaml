@@ -24,8 +24,8 @@ polygon-events:
         name: mep_dev
     get_event_data:
       event_types: []
-    skip_attachment_download:
-      skip: true
+    download_all_attachments:
+      value: false
     filter_events:
       bounding_box:
         min_y: -90
@@ -35,7 +35,6 @@ polygon-events:
       filter_point_coords: []
     sql_query:
       query: ''
-      columns: []
     groupers:
       groupers: []
     persist_events:
@@ -43,8 +42,6 @@ polygon-events:
         - parquet
         - csv
       filename_prefix: events_polygon
-    skip_map_generation:
-      skip: false
     base_map_defs:
       base_maps:
         - url: >-
@@ -75,8 +72,8 @@ base:
         name: mep_dev
     get_event_data:
       event_types: []
-    skip_attachment_download:
-      skip: true
+    download_all_attachments:
+      value: false
     filter_events:
       bounding_box:
         min_y: -90
@@ -86,14 +83,11 @@ base:
       filter_point_coords: []
     sql_query:
       query: ''
-      columns: []
     groupers:
       groupers: []
     persist_events:
       filetypes:
         - csv
-    skip_map_generation:
-      skip: false
     base_map_defs:
       base_maps:
         - url: >-
@@ -138,8 +132,8 @@ month-grouper:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-    skip_attachment_download:
-      skip: true
+    download_all_attachments:
+      value: false
 
 with-details:
   name: With Event Details
@@ -172,8 +166,8 @@ with-details:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-    skip_attachment_download:
-      skip: true
+    download_all_attachments:
+      value: false
 
 with-v2-details:
   name: With V2 Event Details
@@ -206,8 +200,8 @@ with-v2-details:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-    skip_attachment_download:
-      skip: true
+    download_all_attachments:
+      value: false
 
 empty-results:
   name: Empty Results
@@ -273,8 +267,8 @@ with-attachments:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-    skip_attachment_download:
-      skip: false
+    download_all_attachments:
+      value: true
 
 
 value-grouper:
@@ -300,8 +294,8 @@ value-grouper:
     persist_events:
       filetypes: ["csv"]
       filename_prefix: "events_by_type"
-    skip_attachment_download:
-      skip: true
+    download_all_attachments:
+      value: false
     base_map_defs:
       base_maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
@@ -326,18 +320,17 @@ sql-aggregate:
       filter_point_coords: []
     sql_query:
       query: >-
-        SELECT DATE(event_time) as event_time, SUM("How many elephants are in the group?") as total_elephants
+        SELECT event_type, DATE(event_time) as event_time, SUM("How many elephants are in the group?") as total_elephants
         FROM df WHERE event_type = "elephant_sigthing_test" GROUP BY DATE(event_time)
-      columns: ["event_time", "How many elephants are in the group?", "event_type"]
     groupers:
       groupers: []
     persist_events:
       filetypes: ["csv"]
       filename_prefix: "accidents_daily"
-    skip_attachment_download:
-      skip: true
-    skip_map_generation:
-      skip: true
+    download_all_attachments:
+      value: false
+    # maps NOT skipped — they render off the pre-SQL split data, proving SQL is
+    # download-only (the GROUP BY aggregation lands only in the persisted files).
     base_map_defs:
       base_maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
@@ -368,10 +361,10 @@ tz-conversion:
     persist_events:
       filetypes: ["csv"]
       filename_prefix: "events_tz"
-    skip_attachment_download:
-      skip: true
-    skip_map_generation:
-      skip: true
+    download_all_attachments:
+      value: false
+    generate_maps:
+      value: false
     base_map_defs:
       base_maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
@@ -397,10 +390,8 @@ duplicate-columns:
     persist_events:
       filetypes: ["csv"]
       filename_prefix: "events_dedup"
-    skip_attachment_download:
-      skip: true
-    skip_map_generation:
-      skip: false
+    download_all_attachments:
+      value: false
     base_map_defs:
       base_maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
@@ -439,7 +430,88 @@ skip-maps:
         - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           opacity: 0.5
           max_zoom: 17
-    skip_attachment_download:
-      skip: false
-    skip_map_generation:
-      skip: true
+    download_all_attachments:
+      value: true
+    generate_maps:
+      value: false
+
+sql-vs-map:
+  name: SQL Download-Only vs Map
+  mock_io: true
+  params:
+    workflow_details:
+      name: "Events"
+      description: "SQL drops tooltip/colormap columns from downloads; maps still render."
+    time_range:
+      since: "2025-12-21T00:00:00Z"
+      until: "2025-12-23T23:59:59Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: []
+    filter_events:
+      filter_point_coords: []
+    sql_query:
+      # Non-aggregating projection that drops the map's tooltip + colormap columns.
+      # Downloads reflect this; maps fork off process_columns (pre-SQL) and are
+      # unaffected, proving the query is download-only.
+      query: >-
+        SELECT serial_number, event_type, event_time, geometry FROM df
+    groupers:
+      groupers: []
+    persist_events:
+      filetypes: ["csv"]
+      filename_prefix: "events_sql_projection"
+    download_all_attachments:
+      value: false
+    # generate_maps omitted → default true; maps render off the pre-SQL split data.
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0
+
+sql-explode:
+  name: SQL Explode Array Column
+  mock_io: true
+  # process_events_details is the last io-tagged node in the prep chain, so its
+  # mocked example_return seeds the whole pipeline. The fixture carries a
+  # `species_observed` JSON-array column for the SQL step to explode.
+  mock_io_overrides:
+    ecoscope_workflows_ext_custom.tasks.io.process_events_details: dev/fixtures/process-events-details-explode.example-return.parquet
+  params:
+    workflow_details:
+      name: "Events"
+      description: "Explode a per-event species array into one row per species."
+    time_range:
+      since: "2015-01-01T00:00:00Z"
+      until: "2015-01-31T23:59:59Z"
+    er_client_name:
+      data_source:
+        name: "mep_dev"
+    get_event_data:
+      event_types: []
+    filter_events:
+      filter_point_coords: []
+    sql_query:
+      # SQLite (pandasql) has no UNNEST; the pinned default-on sanitize turns the
+      # `species_observed` array into a JSON string, so json_each() can explode it
+      # into one output row per element. SELECT df.* carries every other column
+      # (sanitize stringifies the colormap tuple etc.) onto each exploded row.
+      # Download-only: maps fork off the pre-SQL split data and are unaffected.
+      query: >-
+        SELECT df.*, je.value AS species
+        FROM df, json_each(df.species_observed) AS je
+        ORDER BY df.serial_number, je.id
+    groupers:
+      groupers: []
+    persist_events:
+      filetypes: ["csv"]
+      filename_prefix: "events_exploded"
+    download_all_attachments:
+      value: false
+    # generate_maps omitted → default true; the explode lands only in the download.
+    base_map_defs:
+      base_maps:
+        - url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          opacity: 1.0

@@ -4,46 +4,82 @@ requirements:
     version: ">=2.15.0, <2.16.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc12"
+    version: "0.1.0rc14"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
   # ecoscope-platform already declares this exact pydeck dependency. it is
   # re-stated here as a workaround for a known issue. for further detail, see:
   # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697
   - name: pydeck
     version: 0.9.2
-    channel: conda-forge 
+    channel: conda-forge
 rjsf-overrides:
   properties:
+    # Section intro (renders at the top of the Event Types section). The detailed
+    # "how to fill it in" guidance lives below each input via uiSchema items.ui:help.
     get_event_data.properties.event_types.description: >-
-      Specify the event type(s) to analyze (optional). Enter the "Event Types" value for each event type you want to include in the output — one per field (e.g. "wildlife_sighting_rep"). If you are on Ecoscope Desktop, "Event Type" values can be found in your EarthRanger Admin site under Activity → Event Types. Leave this section empty to include all event types
+      Specify the event type(s) to download (optional). Leave this section empty to
+      download all event types.
     get_event_data.properties.event_types.ecoscope:transform:
       - transformer: EarthRangerEnumResolver
         transformer_kws:
           type: event_type
           depends_on: properties.er_client_name.properties.data_source.properties.name
-    get_event_data.properties.force_point_geometry.title: "Reduce Polygon Events to Points"
+    # The array title feeds the per-item labels ("<title>-<n>", e.g. "Event Types-1"),
+    # so keep it as "Event Types". The redundant subhead it would otherwise render is
+    # suppressed via uiSchema ui:options.displayLabel:false (section header already says it).
+    get_event_data.properties.event_types.title: "Event Types"
+    # Checkbox helper text lives in uiSchema ui:help (renders BELOW the checkbox via
+    # FieldTemplate); schema.description would render ABOVE it in CheckboxWidget.
+    get_event_data.properties.include_null_geometry.title: "Include events without a location"
+    get_event_data.properties.force_point_geometry.title: "Simplify polygons to single points"
     get_event_data.properties.force_point_geometry.default: false
     get_event_data.properties.force_point_geometry.ecoscope:advanced: false
-    get_event_data.properties.force_point_geometry.description: >-
-      When checked, polygon and multipolygon event geometries are reduced to their centroid (point geometry). Leave unchecked to preserve polygon events as polygons on maps and exports.
-    Generate Maps.properties.skip_map_generation.properties.skip.description: >-
-      Skip generating maps for the events data. Recommended for large datasets to improve performance.
+    # Blank the task's native field description so it does NOT render above the
+    # checkbox (helper text is supplied below via uiSchema ui:help instead).
+    get_event_data.properties.force_point_geometry.description: ""
+    # Positive map toggle (chained invert_bool → skip_map_generation.skip is hidden).
+    # Drop the redundant task header; the checkbox label (value.title) is enough.
+    Generate Maps.properties.generate_maps.title: ""
+    Generate Maps.properties.generate_maps.properties.value.title: "Generate maps in dashboard"
+    Generate Maps.properties.generate_maps.properties.value.default: true
+    Generate Maps.properties.generate_maps.properties.value.description: ""
     Generate Maps.properties.base_map_defs.properties.base_maps.title: "Map Base Layers"
-    Download Attachments.properties.skip_attachment_download.properties.skip.description: >-
-      Skip downloading all attachments associated with the events.
-    Download Attachments.properties.skip_attachment_download.properties.skip.default: true
-    persist_events.properties.filename_prefix.default: "events" 
+    # Positive attachment toggle (invert_bool → download_attachments.skip_download partial).
+    # Drop the redundant task header + invert_bool's native "negate" description.
+    Download Attachments.properties.download_all_attachments.title: ""
+    Download Attachments.properties.download_all_attachments.properties.value.title: "Download all attachments"
+    Download Attachments.properties.download_all_attachments.properties.value.default: false
+    Download Attachments.properties.download_all_attachments.properties.value.description: ""
+    persist_events.properties.filename_prefix.default: "events"
+    # filetypes is a uniqueItems multi-select; its title renders as a large text-lg
+    # "subhead" (FieldTemplate isMultiSelectField branch — no uiSchema escape hatch).
+    # A " " title blanks that redundant heading (a "" would fall back to the raw key
+    # "filetypes"); the "Download File Format" card title is the section label.
+    persist_events.properties.filetypes.title: " "
     persist_events.properties.filetypes.default: ["parquet"]
     persist_events.properties.filetypes.items.enum: ["csv", "parquet"]
     persist_events.properties.filetypes.description: >-
-      Output filetypes for the events dataset. Parquet preserves all geometry
-      types natively (recommended for polygon events). CSV writes the geometry
-      column as Well-Known Text (WKT) — readable but not directly round-trippable
-      into all GIS tools.
-    Process Events.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
-    Process Events.properties.process_columns.properties.drop_columns.description: >-
-      Columns to drop from the event dataset, with defaults based on common Ecoscope practices. Modify the list based on your requirements.
-    Process Events.properties.groupers.properties.groupers.items.anyOf:
+      Choose the file format for your download. Parquet files are compact, fast to query, and keep all your data in a single file. Works with Python, R, QGIS, and other GIS tools.
+    Refine Data.properties.sql_query.properties.query.description: >-
+      Write a SQL query to filter or transform your data. Leave blank to skip this
+      step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active').
+      Note that queries will only apply to your downloaded files and not the generated map.
+    Refine Data.properties.process_columns.properties.drop_columns.title: " "
+    Refine Data.properties.sql_query.properties.query.title: "SQL Query"
+    Refine Data.properties.process_columns.properties.drop_columns.default: ["location", "end_time", "message", "provenance", "attributes", "comment", "patrol_segments", "updated_at", "is_contained_in", "sort_at", "icon_id", "url", "image_url", "geojson", "related_subjects", "patrols", "reported_by"]
+    Refine Data.properties.process_columns.properties.drop_columns.items.title: "Column Name"
+    Refine Data.properties.process_columns.properties.drop_columns.description: >-
+      Columns listed here will be left out of your download. We've pre-filled columns
+      that are typically unnecessary or duplicated. If you're not sure, try running the
+      workflow first to see all available columns.
+    # Drop the redundant task header "Filter Event Relocations"; the card description
+    # is the explainer (set on the Event Location Filter task-group in the body).
+    Event Location Filter.properties.filter_events.title: ""
+    # Drop the redundant inner "Group Data" task header and the duplicate native
+    # set_groupers description (the group description already covers it).
+    Group Data.properties.groupers.title: ""
+    Group Data.properties.groupers.properties.groupers.description: ""
+    Group Data.properties.groupers.properties.groupers.items.anyOf:
       - {"$ref": "#/$defs/ValueGrouper"}
       - {"$ref": "#/$defs/TemporalGrouper"}
   $defs:
@@ -64,7 +100,29 @@ rjsf-overrides:
   uiSchema:
     Download Attachments.download_attachments.ui:options.label: false
     Download Attachments.download_attachments.attachments_subdir.items.ui:options.label: false
-    Process Events.filter_events.filter_point_coords.items.ui:options.label: false
+    Event Location Filter.filter_events.filter_point_coords.items.ui:options.label: false
+    # Suppress the array's own subhead (the task-group header already says "Event
+    # Types") while keeping schema.title="Event Types" so item labels read "Event
+    # Types-1". ArrayFieldTemplate gates the title on uiOptions.displayLabel.
+    get_event_data.event_types.ui:options.displayLabel: false
+    # Per-item helper for the event-types array → renders below each input box
+    # (inside the bordered item card), splitting the detail off the section intro.
+    get_event_data.event_types.items.ui:help: >-
+      Enter the "Event Types" value for each event type you want to include in the
+      output — one per field (e.g. "wildlife_sighting_rep"). "Event Type" values can
+      be found in your EarthRanger Admin site under Activity → Event Types.
+    # Checkbox helper text → ui:help renders BELOW the checkbox (not above).
+    get_event_data.include_null_geometry.ui:help: >-
+      Events without coordinates (point or polygon) will still appear in your download.
+    # Add breathing room above this checkbox (mt-4 = 1rem). The field's wrapper div
+    # gets classNames from ui:options; ObjectFieldTemplate adds no gap between fields.
+    # Must be a class that exists in ecoscope-web source (Tailwind JIT won't emit
+    # classes seen only in runtime JSON) — mt-4 is widely used there.
+    get_event_data.force_point_geometry.ui:options.classNames: "mt-4"
+    get_event_data.force_point_geometry.ui:help: >-
+      Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.
+    Generate Maps.generate_maps.value.ui:help: >-
+      Not recommended for large datasets.
 task-instance-defaults:
   skipif:
     conditions:
@@ -75,6 +133,10 @@ workflow:
   - name: Workflow Details
     id: workflow_details
     task: set_workflow_details
+
+  - name: Data Source
+    id: er_client_name
+    task: set_er_connection
 
   - name: Time Range
     id: time_range
@@ -88,11 +150,7 @@ workflow:
     partial:
       time_range: ${{ workflow.time_range.return }}
 
-  - name: Data Source
-    id: er_client_name
-    task: set_er_connection
-
-  - name: Get Event Data
+  - name: Event Types
     id: get_event_data
     task: get_events
     partial:
@@ -105,112 +163,101 @@ workflow:
       include_related_events: false
       include_display_values: true
 
-  - title: Process Events
+  - name: "Convert to timezone"
+    id: convert_to_user_timezone
+    task: convert_values_to_timezone
+    partial:
+      df: ${{ workflow.get_event_data.return }}
+      timezone: ${{ workflow.get_timezone.return }}
+      columns: ["time"]
+      auto_detect: false
+
+  - name: Extract reported_by_name from Events
+    id: extract_reported_by
+    task: extract_value_from_json_column
+    partial:
+      df: ${{ workflow.convert_to_user_timezone.return }}
+      column_name: "reported_by"
+      field_name_options: ["name"]
+      output_type: "str"
+      output_column_name: "reported_by_name"
+
+  - name: Extract reported_by_subtype from Events
+    id: extract_reported_by_subtype
+    task: extract_value_from_json_column
+    partial:
+      df: ${{ workflow.extract_reported_by.return }}
+      column_name: "reported_by"
+      field_name_options: ["subject_subtype"]
+      output_type: "str"
+      output_column_name: "reported_by_subtype"
+
+  - name: Process Event Details
+    id: process_event_details
+    task: process_events_details
+    partial:
+      df: ${{ workflow.extract_reported_by_subtype.return }}
+      client: ${{ workflow.er_client_name.return }}
+      map_to_titles: true
+      ordered: true
+
+  - name: Normalize Event Details
+    id: normalize_event_details
+    task: normalize_json_column
+    partial:
+      df: ${{ workflow.process_event_details.return }}
+      column: "event_details"
+      skip_if_not_exists: true
+      sort_columns: false
+
+  - name: Remove Column Prefix Event Details
+    id: drop_event_details_prefix
+    task: drop_column_prefix
+    partial:
+      df: ${{ workflow.normalize_event_details.return }}
+      prefix: "event_details__"
+      duplicate_strategy: "suffix"
+
+  - name: "Convert event detail datetimes to timezone"
+    id: convert_event_details_timezone
+    task: convert_values_to_timezone
+    partial:
+      df: ${{ workflow.drop_event_details_prefix.return }}
+      timezone: ${{ workflow.get_timezone.return }}
+      columns: []
+      auto_detect: true
+
+  - title: Event Location Filter
     type: task-group
     description: >-
-      Process events by applying filters, SQL queries, etc. Note that the data here includes all the columns from the previous steps and the normalized event details.
+      Filter events based on their location.
     tasks:
-
-
-      - name: "Convert to timezone"
-        id: convert_to_user_timezone
-        task: convert_values_to_timezone
-        partial:
-          df: ${{ workflow.get_event_data.return }}
-          timezone: ${{ workflow.get_timezone.return }}
-          columns: ["time"]
-          auto_detect: false
-
-      - name: Extract reported_by_name from Events
-        id: extract_reported_by
-        task: extract_value_from_json_column
-        partial:
-          df: ${{ workflow.convert_to_user_timezone.return }}
-          column_name: "reported_by"
-          field_name_options: ["name"]
-          output_type: "str"
-          output_column_name: "reported_by_name"
-          
-      - name: Extract reported_by_subtype from Events
-        id: extract_reported_by_subtype
-        task: extract_value_from_json_column
-        partial:
-          df: ${{ workflow.extract_reported_by.return }}
-          column_name: "reported_by"
-          field_name_options: ["subject_subtype"]
-          output_type: "str"
-          output_column_name: "reported_by_subtype"
-
-      - name: Process Event Details
-        id: process_event_details
-        task: process_events_details
-        partial:
-          df: ${{ workflow.extract_reported_by_subtype.return }}
-          client: ${{ workflow.er_client_name.return }}
-          map_to_titles: true
-          ordered: true
-
-      - name: Normalize Event Details
-        id: normalize_event_details
-        task: normalize_json_column
-        partial:
-          df: ${{ workflow.process_event_details.return }}
-          column: "event_details"
-          skip_if_not_exists: true
-          sort_columns: false
-
-      - name: Remove Column Prefix Event Details
-        id: drop_event_details_prefix
-        task: drop_column_prefix
-        partial:
-          df: ${{ workflow.normalize_event_details.return }}
-          prefix: "event_details__"
-          duplicate_strategy: "suffix"
-
-      - name: "Convert event detail datetimes to timezone"
-        id: convert_event_details_timezone
-        task: convert_values_to_timezone
-        partial:
-          df: ${{ workflow.drop_event_details_prefix.return }}
-          timezone: ${{ workflow.get_timezone.return }}
-          columns: []
-          auto_detect: true
-
-      - name: Events Colormap
-        id: events_colormap
-        task: apply_color_map
-        partial:
-          input_column_name: "event_type"
-          colormap: "tab20b"
-          output_column_name: "event_type_colormap"
-          df: ${{ workflow.convert_event_details_timezone.return }}
-          
-      ## Custom Processing Steps ##
       - name: Filter Event Relocations
         id: filter_events
         task: apply_reloc_coord_filter
         partial:
-          df: ${{ workflow.events_colormap.return }}
+          df: ${{ workflow.convert_event_details_timezone.return }}
           roi_gdf: null
           roi_name: null
           reset_index: true
 
-      - name: Preprocess Columns
-        id: process_columns
-        task: map_columns
-        partial:
-          df: ${{ workflow.filter_events.return }}
-          rename_columns:
-            time: event_time
-          retain_columns: []
-          raise_if_not_found: true
+  # Colormap is a plain PRE-SPLIT node so colors stay consistent across groups.
+  # Off the SQL path → default-on sanitize never touches the RGBA color column.
+  - name: Events Colormap
+    id: events_colormap
+    task: apply_color_map
+    partial:
+      input_column_name: "event_type"
+      colormap: "tab20b"
+      output_column_name: "event_type_colormap"
+      df: ${{ workflow.filter_events.return }}
 
-      - name: Apply SQL Query
-        id: sql_query
-        task: apply_sql_query
-        partial:
-          df: ${{ workflow.process_columns.return }}
-
+  - title: Group Data
+    type: task-group
+    description: >-
+      Specify how the data should be grouped to create separate views for your
+      dashboard (optional). Leave empty to show all data in a single view.
+    tasks:
       - name: Group Data
         id: groupers
         task: set_groupers
@@ -219,8 +266,10 @@ workflow:
         id: events_add_temporal_index
         task: add_temporal_index
         partial:
-          df: ${{ workflow.sql_query.return }}
-          time_col: "event_time"
+          df: ${{ workflow.events_colormap.return }}
+          # The rename time->event_time now happens post-split (in process_columns),
+          # so the temporal index must key off the original "time" column.
+          time_col: "time"
           groupers: ${{ workflow.groupers.return }}
           cast_to_datetime: true
           format: "mixed"
@@ -232,11 +281,42 @@ workflow:
           df: ${{ workflow.events_add_temporal_index.return }}
           groupers: ${{ workflow.groupers.return }}
 
-  - name: Persist Events
+  # Post-split, per-group. Remove Columns runs before the maps/downloads fork, so it
+  # affects both the map and the downloads; Custom Data Query is downloads-only.
+  - title: Refine Data
+    type: task-group
+    description: Reshape and organize your data before downloading.
+    tasks:
+      - name: Remove Columns
+        id: process_columns
+        task: map_columns
+        partial:
+          rename_columns:
+            time: event_time
+          retain_columns: []
+          raise_if_not_found: true
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.split_event_groups.return }}
+
+      - name: Custom Data Query
+        id: sql_query
+        task: apply_sql_query
+        partial:
+          # Hide both the columns whitelist and the sanitize toggle from the form —
+          # default-on sanitize makes the whitelist unnecessary, and sanitize is fixed
+          # on so SQL "just works". Fixed here so neither renders as a user field.
+          columns: null
+          sanitize: true
+        mapvalues:
+          argnames: df
+          argvalues: ${{ workflow.process_columns.return }}
+
+  - name: Download File Format
     id: persist_events
     task: persist_grouped_dfs_for_results_download
     partial:
-      grouped_dfs: ${{ workflow.split_event_groups.return }}
+      grouped_dfs: ${{ workflow.sql_query.return }}
       root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
       sanitize: true
     skipif:
@@ -248,12 +328,12 @@ workflow:
     description: >-
       Download attachments associated with the events.
     tasks:
-      - name: Skip Attachment Download
-        id: skip_attachment_download
-        task: maybe_skip_df
-        mapvalues:
-          argnames: df
-          argvalues: ${{ workflow.split_event_groups.return }}
+      # Positive toggle: value=false (default) → invert → skip_download=true → no download.
+      # download_grouped_event_attachments has a native skip (`if skip_download: return []`)
+      # and its return is terminal, so the toggle feeds skip_download directly — no maybe_skip_df.
+      - name: Download all attachments
+        id: download_all_attachments
+        task: invert_bool
 
       - name: Download Attachments
         id: download_attachments
@@ -262,8 +342,8 @@ workflow:
           client: ${{ workflow.er_client_name.return }}
           output_dir: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
           use_index_as_id: false
-          grouped_event_gdfs: ${{ workflow.skip_attachment_download.return }}
-          skip_download: false
+          grouped_event_gdfs: ${{ workflow.split_event_groups.return }}
+          skip_download: ${{ workflow.download_all_attachments.return }}
           attachments_subdir: "attachments"
         skipif:
           conditions:
@@ -275,12 +355,21 @@ workflow:
       Generate maps to visualize the events data.
     tasks:
 
+      # Positive toggle: value=true (default) → skip=false → maps generate.
+      - name: Generate maps in dashboard
+        id: generate_maps
+        task: invert_bool
+
+      # Maps fork off process_columns (post Remove Columns, pre SQL) so the map
+      # reflects the renamed/dropped columns but NOT the downloads-only SQL query.
       - name: Skip Map Generation
         id: skip_map_generation
         task: maybe_skip_df
+        partial:
+          skip: ${{ workflow.generate_maps.return }}
         mapvalues:
           argnames: df
-          argvalues: ${{ workflow.split_event_groups.return }}
+          argvalues: ${{ workflow.process_columns.return }}
 
       # Drop duplicate columns from event detail normalization before renaming
       - name: Drop duplicate columns

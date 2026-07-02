@@ -10,7 +10,6 @@ platforms = ['linux-64', 'osx-arm64', 'win-64']
 published = true
 
 [dependencies]
-# required for compilation
 wt-compiler = "==0.8.0"
 graphviz = "*"
 

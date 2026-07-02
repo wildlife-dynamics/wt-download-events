@@ -40,11 +40,7 @@ Before using this workflow, you need:
 
 ## Configuration Guide
 
-Once you've added the workflow template, you'll need to configure it for your specific needs. The configuration form is organized into several sections.
-
-### Basic Configuration
-
-These are the essential settings you'll need to configure for every workflow run:
+Once you've added the workflow template, you'll need to configure it for your specific needs. The configuration form is organized into the following sections, in order. Some sections expose extra fields under an **"Advanced Configurations"** accordion.
 
 #### 1. Workflow Details
 Give your workflow a name and description to help you identify it later.
@@ -54,84 +50,36 @@ Give your workflow a name and description to help you identify it later.
 - **Workflow Description** (optional): Additional details about this analysis
   - Example: `"Download arrest and snare events for monthly report"`
 
-#### 2. Time Range
-Specify the time period for the events you want to download.
-
-- **Timezone**(required): Use the dropdown to select your timezone
-- **Since** (required): Use the calendar picker to select the start date and time
-  - Example: `12/17/2025, 12:00 AM`
-- **Until** (required): Use the calendar picker to select the end date and time
-  - Example: `12/18/2025, 12:00 AM`
-
-#### 3. Data Source
+#### 2. Data Source
 Select your EarthRanger connection.
 
 - **Data Source** (required): Choose from your configured data sources
   - Example: Select `mep_dev` from the dropdown
 
-#### 4. Get Event Data
+#### 3. Time Range
+Specify the time period for the events you want to download.
+
+- **Timezone** (required): Use the dropdown to select your timezone
+- **Since** (required): Use the calendar picker to select the start date and time
+  - Example: `12/17/2025, 12:00 AM`
+- **Until** (required): Use the calendar picker to select the end date and time
+  - Example: `12/18/2025, 12:00 AM`
+
+#### 4. Event Types
 Choose which events to download.
 
 - **Event Types**: Specify which event types to include. You can find them on your earthranger site: https://<your-site>.pamdas.org/admin/activity/eventtype/ and use the value here.
   - Leave empty to download all event types
   - Example: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
-- **Include Events Without a Geometry**: Include events that don't have a point or polygon location
-  - Default: `true`
-- **Reduce Polygon Events to Points**: When checked, polygon and multipolygon
-  event geometries are reduced to their centroid (point geometry). Leave
-  unchecked to preserve polygon events as polygons on maps and exports.
+- **Include events without a location**: Events without coordinates (point or area) will still appear in your download.
+  - Default: checked
+- **Simplify polygons to single points**: Converts polygon events to their center point. Leave unchecked to keep original shapes in maps and exports.
   - Default: unchecked (polygon events are preserved as polygons)
 
-Note: The workflow automatically fetches all available columns and processes event details (mapping coded values to their display titles). You can control which columns appear in your final output using the **Drop Columns** option in the Advanced Configuration section.
+Note: The workflow automatically fetches all available columns and processes event details (mapping coded values to their display titles). You can control which columns appear in your final output using **Remove Columns** in the **Refine Data** section.
 
-
-#### 5. Download Attachments
-Control whether to download files attached to events (photos, documents, etc.). All the files will be stored under <output_folder>/attachments/<event_id>
-
-- **Skip Attachment Download**:
-  - Check this to skip downloading attachments (default: checked)
-  - Uncheck to download all attachments
-
-#### 6. Group Data (Optional)
-Organize your data into separate views based on time periods or categories.
-
-- **Group by**: Create separate outputs grouped by:
-  - Time: Year, Month, Day of week, Hour, etc.
-  - Category: Select a categorical column from your event data (e.g., event_type, event_category). If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.
-
-#### 7. Persist Events
-Choose how to save your data.
-
-- **Filetypes**: Select one or more output formats
-  - **CSV**: Standard spreadsheet format, opens in Excel. Geometry is written as
-    Well-Known Text (WKT) — readable but not directly round-trippable into all
-    GIS tools.
-  - **Parquet** (recommended for polygon events): Efficient format for geospatial
-    data; preserves all geometry types natively (Point, Polygon, MultiPolygon).
-  - Example: Select both `CSV` and `Parquet`
-- **Filename Prefix** (optional): Custom prefix for output files. Ecoscope will attach a hash code to keep it unique
-  - Default: `"events"`
-  - Example: `"events_monthly"` will create files like `events_monthly_abc123.csv`
-
-
-#### 8. Generate Maps
-
-##### Skip Map Generation
-Control whether to create map visualizations.
-
-- **Skip**: Check this to skip map generation
-  - Recommended for large datasets to improve performance
-  - Default: unchecked (maps will be generated)
-
-### Advanced Configuration
-
-These optional settings provide additional control over your workflow:
-
-
-#### Process Events
-
-##### Filter Event Relocations
-Remove unwanted data points from your results.
+#### 5. Event Location Filter (Optional)
+Optionally limit events to a geographic area, and exclude events recorded at specific coordinates (for example, known placeholder points like 0, 0). Leave empty to keep all events.
 
 - **Bounding Box**: Limit events to a geographic area
   - Default: entire world (-180 to 180 longitude, -90 to 90 latitude)
@@ -139,29 +87,62 @@ Remove unwanted data points from your results.
   - Useful for filtering out test data or GPS outliers
   - Example: `[{"Latitude": 0.0, "Longitude": 0.0}, {"Latitude": 180.0, "Longitude": 90.0}]`
 
-##### Process Columns
-Customize which columns appear in your output.
+#### 6. Group Data (Optional)
+Specify how the data should be grouped to create separate views for your dashboard (optional). Leave empty to show all data in a single view.
 
-- **Drop Columns**: Remove specific columns you don't need
-  - Default includes common internal/system columns: `location`, `end_time`, `message`, `provenance`, `priority`, `priority_label`, `attributes`, `comment`, `patrol_segments`, `updated_at`, `state`, `is_contained_in`, `sort_at`, `icon_id`, `url`, `image_url`, `geojson`, `related_subjects`, `patrols`, `reported_by`
-  - Modify the list based on your requirements - add columns you want to hide or remove columns you want to keep
+- **Group by**: Create separate outputs grouped by:
+  - Time: Year, Month, Day of week, Hour, etc.
+  - Category: Select a categorical column from your event data (e.g., event_type, event_category). If you're unsure which columns are available, run the workflow once without grouping to see the data, then configure grouping in a subsequent run.
 
-##### Apply SQL Query
-Advanced users can filter or transform data using SQL.
+#### 7. Refine Data
+Reshape and organize your data before downloading. This section has two steps:
 
-- **Query**: Write a SQL query to filter or modify the data
-  - Use `df` as the table name
-  - Example: `SELECT * FROM df WHERE event_category = 'security'`
-  - Leave empty to skip
+- **Remove Columns**: Columns listed here will be left out of your download. The list is pre-filled with columns that are typically unnecessary or duplicated; modify it based on your requirements. **Remove Columns applies to both your downloaded files and the generated map.**
+  - Default includes common internal/system columns: `location`, `end_time`, `message`, `provenance`, `attributes`, `comment`, `patrol_segments`, `updated_at`, `is_contained_in`, `sort_at`, `icon_id`, `url`, `image_url`, `geojson`, `related_subjects`, `patrols`, `reported_by`
+- **Custom Data Query (SQL Query)**: Write a SQL query to filter or transform your data. Leave blank to skip this step.
+  - Use `df` as the table name. Example: `SELECT * FROM df WHERE status = 'active'`
+  - **The query applies only to your downloaded files, not the generated map.** (See [Maps vs. downloads](#maps-vs-downloads) below.)
 
+#### 8. Download File Format
+Choose how to save your data.
 
-#### Map Base Layers
-Customize the background maps for your visualizations.
+- **Filetype**: Select one or more output formats
+  - **CSV**: Standard spreadsheet format, opens in Excel. Geometry is written as
+    Well-Known Text (WKT) — readable but not directly round-trippable into all
+    GIS tools.
+  - **Parquet (GeoParquet)** (recommended for polygon events): Efficient format for
+    geospatial data; preserves all geometry types natively (Point, Polygon,
+    MultiPolygon). [Learn more about GeoParquet](https://geoparquet.org/).
+  - Example: Select both `CSV` and `Parquet`
+- **Filename Prefix** (optional): Custom prefix for output files. Ecoscope will attach a hash code to keep it unique
+  - Default: `"events"`
+  - Example: `"events_monthly"` will create files like `events_monthly_abc123.csv`
 
-- **Base Maps**: Select one or more base layers
+#### 9. Download Attachments
+Control whether to download files attached to events (photos, documents, etc.). All the files will be stored under `<output_folder>/attachments/<event_id>`.
+
+- **Download all attachments**:
+  - Check this to download all attachments associated with the events
+  - Default: unchecked (attachments are not downloaded)
+
+#### 10. Generate Maps
+Control whether to create map visualizations.
+
+- **Generate maps in dashboard**: Helper text: *Not recommended for large datasets.*
+  - Default: checked (maps are generated)
+  - Uncheck to skip map generation (faster for large datasets)
+- **Map Base Layers** (Advanced): Customize the background maps for your visualizations.
   - Available options: Open Street Map, Roadmap, Satellite, Terrain, or custom layers with a URL
   - Default: Terrain and Satellite layers
   - The first layer will appear on the bottom
+
+<a name="maps-vs-downloads"></a>
+> **Maps vs. downloads.** Grouping/splitting happens **before** the refine step, then the
+> pipeline forks: **Remove Columns** runs before the fork, so it affects **both** the map and
+> your downloaded files. **Custom Data Query (SQL)** runs only on the downloads branch — it
+> shapes your **downloaded files but never the map**. This means you can aggregate or drop
+> columns in SQL for your exports while the dashboard map still renders normally. Maps are
+> always colored consistently by event type, regardless of grouping.
 
 ## Running the Workflow
 
@@ -178,8 +159,8 @@ Once you've configured all the settings:
    - You'll see status updates as the workflow runs
    - Processing time depends on:
      - The size of your date range
-     - Number of weather stations
-     - Number of observations in the system
+     - The number of events in the system for that range
+     - Whether attachment download and map generation are enabled
    - The workflow completes with status "Success" or "Failed"
 
 ## Understanding Your Results
@@ -189,17 +170,16 @@ After the workflow completes successfully, you'll find your outputs in the desig
 ### Data Outputs
 
 Your event data will be saved in the format(s) you selected:
-- **File formats**: CSV, Parquet, and/or Parquet (based on your selection)
-- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (Parquet, Parquet)
+- **File formats**: CSV and/or Parquet (based on your selection)
+- **Opens in**: Microsoft Excel, Google Sheets (CSV), Python/R (Parquet)
 - **Best for**:
   - CSV: Quick data review and analysis
-  - Parquet: Large datasets with spatial data, programmatic analysis
-  - Parquet: Large datasets without geometry, efficient storage
-- **Contents**: All event data with normalized event details (coded values are automatically mapped to human-readable display titles)
+  - Parquet: Large datasets with spatial data, programmatic analysis, efficient storage
+- **Contents**: All event data with normalized event details (coded values are automatically mapped to human-readable display titles), minus any columns you set in **Remove Columns** and reflecting any **Custom Data Query** you ran
 
 ### Visual Outputs (When Maps are Generated)
 
-If you didn't skip map generation, you'll also receive:
+If you left **Generate maps in dashboard** checked, you'll also receive:
 
 #### Interactive Map
 - **Format**: HTML file or embedded in dashboard
@@ -240,9 +220,9 @@ Here are some typical scenarios and how to configure the workflow for each:
   - Until: `2025-08-31T23:59:59`
   - Timezone: `Africa/Nairobi (UTC+03:00)`
 - **Event Types**: Leave empty (download all types)
-- **Filetypes**: Select `CSV`
-- **Skip Attachment Download**: Checked
-- **Skip Map Generation**: Checked (for faster processing)
+- **Filetype**: Select `CSV`
+- **Download all attachments**: Unchecked (default)
+- **Generate maps in dashboard**: Unchecked (for faster processing)
 
 **Result**: Single CSV file with all events from August 2025
 
@@ -254,9 +234,9 @@ Here are some typical scenarios and how to configure the workflow for each:
 **Configuration**:
 - **Time Range**: Your desired date range
 - **Event Types**: `["arrest_rep", "snare_rep", "poacher_camp_rep"]`
-- **Filetypes**: Select `CSV` and `Parquet`
-- **Skip Attachment Download**: Checked
-- **Skip Map Generation**: Unchecked
+- **Filetype**: Select `CSV` and `Parquet`
+- **Download all attachments**: Unchecked (default)
+- **Generate maps in dashboard**: Checked (default)
 
 **Result**:
 - CSV file for spreadsheet analysis
@@ -276,8 +256,8 @@ Here are some typical scenarios and how to configure the workflow for each:
 - **Event Types**: Leave empty or specify types
 - **Group Data**:
   - Select `"%B"` (Month name: January, February, etc.)
-- **Filetypes**: Select `CSV`
-- **Skip Attachment Download**: Checked
+- **Filetype**: Select `CSV`
+- **Download all attachments**: Unchecked (default)
 
 **Result**: 12 separate CSV files, one for each month
 
@@ -289,9 +269,9 @@ Here are some typical scenarios and how to configure the workflow for each:
 **Configuration**:
 - **Time Range**: Your desired date range
 - **Event Types**: Specify relevant types
-- **Filetypes**: Select `CSV`
-- **Skip Attachment Download**: Unchecked
-- **Skip Map Generation**: As needed
+- **Filetype**: Select `CSV`
+- **Download all attachments**: Checked
+- **Generate maps in dashboard**: As needed
 
 **Result**:
 - CSV file with detailed event information (event details are automatically expanded into separate columns with human-readable values)
@@ -308,9 +288,9 @@ a single map.
 - **Time Range**: Your desired date range
 - **Event Types**: Include both point and polygon event types
   (e.g. `["arrest_rep", "arr_project_boundary"]`)
-- **Reduce Polygon Events to Points**: Unchecked (preserve polygons)
-- **Filetypes**: Select `Parquet` (recommended for polygon geometry)
-- **Skip Map Generation**: Unchecked
+- **Simplify polygons to single points**: Unchecked (preserve polygons)
+- **Filetype**: Select `Parquet` (recommended for polygon geometry)
+- **Generate maps in dashboard**: Checked (default)
 
 **Result**:
 - Parquet file with mixed Point and Polygon geometry rows
@@ -325,12 +305,31 @@ a single map.
 **Configuration**:
 - **Time Range**: Your desired date range
 - **Event Types**: As needed
-- **Filter Event Relocations** (Advanced):
+- **Event Location Filter**:
   - Set **Bounding Box** coordinates for your area of interest
   - Example: Min Longitude: 37.0, Max Longitude: 38.0, Min Latitude: -1.0, Max Latitude: 0.0
-- **Filetypes**: Select preferred formats
+- **Filetype**: Select preferred formats
 
 **Result**: Events only from within your specified geographic boundaries
+
+---
+
+### Example 7: Aggregated Export with a Map
+**Goal**: Produce an aggregated summary table for download while still seeing the
+individual events on the dashboard map.
+
+**Configuration**:
+- **Time Range**: Your desired date range
+- **Event Types**: As needed
+- **Refine Data → Custom Data Query**:
+  - Example: `SELECT event_type, DATE(event_time) AS event_time, COUNT(*) AS n FROM df GROUP BY event_type, DATE(event_time)`
+- **Filetype**: Select `CSV`
+- **Generate maps in dashboard**: Checked (default)
+
+**Result**:
+- A CSV with one aggregated row per event type per day (the SQL result)
+- An interactive map that still shows every individual event — the query applies
+  only to the downloaded file, not the map
 
 ## Troubleshooting
 
@@ -359,8 +358,8 @@ a single map.
 **Problem**: The workflow takes an extremely long time to complete
 
 **Solutions**:
-- Enable "Skip Map Generation" for large datasets
-- Enable "Skip Attachment Download" if you don't need photos/documents
+- Uncheck "Generate maps in dashboard" for large datasets
+- Leave "Download all attachments" unchecked if you don't need photos/documents
 - Reduce the date range to smaller time periods
 - Limit the number of event types selected
 - Process data in smaller batches (by month or quarter)
@@ -377,6 +376,7 @@ a single map.
 **Problem**: Data downloads successfully but no map is created
 
 **Solutions**:
-- Ensure "Skip Map Generation" is unchecked
+- Ensure "Generate maps in dashboard" is checked
 - Verify your events have valid geometry/location data
+- If you used a **Custom Data Query**, remember it does not affect the map — check that your events have geometry rather than the query
 - Try using default base map settings

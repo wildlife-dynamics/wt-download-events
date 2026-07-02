@@ -59,7 +59,7 @@ from ecoscope.platform.tasks.transformation import (
 from ecoscope_workflows_ext_custom.tasks.io import (
     persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
 )
-from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
+from ecoscope_workflows_ext_custom.tasks.skip import invert_bool as invert_bool
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     apply_sql_query as apply_sql_query,
 )
@@ -89,6 +89,7 @@ from ecoscope.platform.tasks.transformation import (
 from ecoscope_workflows_ext_custom.tasks.groupby import (
     groupbykey_passthrough_skip as groupbykey_passthrough_skip,
 )
+from ecoscope_workflows_ext_custom.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope_workflows_ext_custom.tasks.transformation import (
     drop_duplicate_columns as drop_duplicate_columns,
 )
@@ -114,6 +115,23 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(**(params.get("workflow_details") or {}))
+        .call()
+    )
+
+    er_client_name = (
+        task(set_er_connection)
+        .validate()
+        .set_task_instance_id("er_client_name")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(**(params.get("er_client_name") or {}))
         .call()
     )
 
@@ -148,23 +166,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(time_range=time_range, **(params.get("get_timezone") or {}))
-        .call()
-    )
-
-    er_client_name = (
-        task(set_er_connection)
-        .validate()
-        .set_task_instance_id("er_client_name")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(**(params.get("er_client_name") or {}))
         .call()
     )
 
@@ -357,6 +358,29 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
+    filter_events = (
+        task(apply_reloc_coord_filter)
+        .validate()
+        .set_task_instance_id("filter_events")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            df=convert_event_details_timezone,
+            roi_gdf=None,
+            roi_name=None,
+            reset_index=True,
+            **(params.get("filter_events") or {}),
+        )
+        .call()
+    )
+
     events_colormap = (
         task(apply_color_map)
         .validate()
@@ -374,72 +398,9 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             input_column_name="event_type",
             colormap="tab20b",
             output_column_name="event_type_colormap",
-            df=convert_event_details_timezone,
+            df=filter_events,
             **(params.get("events_colormap") or {}),
         )
-        .call()
-    )
-
-    filter_events = (
-        task(apply_reloc_coord_filter)
-        .validate()
-        .set_task_instance_id("filter_events")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            df=events_colormap,
-            roi_gdf=None,
-            roi_name=None,
-            reset_index=True,
-            **(params.get("filter_events") or {}),
-        )
-        .call()
-    )
-
-    process_columns = (
-        task(map_columns)
-        .validate()
-        .set_task_instance_id("process_columns")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(
-            df=filter_events,
-            rename_columns={"time": "event_time"},
-            retain_columns=[],
-            raise_if_not_found=True,
-            **(params.get("process_columns") or {}),
-        )
-        .call()
-    )
-
-    sql_query = (
-        task(apply_sql_query)
-        .validate()
-        .set_task_instance_id("sql_query")
-        .handle_errors()
-        .with_tracing()
-        .skipif(
-            conditions=[
-                any_is_empty_df,
-                any_dependency_skipped,
-            ],
-            unpack_depth=1,
-        )
-        .partial(df=process_columns, **(params.get("sql_query") or {}))
         .call()
     )
 
@@ -474,8 +435,8 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            df=sql_query,
-            time_col="event_time",
+            df=events_colormap,
+            time_col="time",
             groupers=groupers,
             cast_to_datetime=True,
             format="mixed",
@@ -505,6 +466,45 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
+    process_columns = (
+        task(map_columns)
+        .validate()
+        .set_task_instance_id("process_columns")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            rename_columns={"time": "event_time"},
+            retain_columns=[],
+            raise_if_not_found=True,
+            **(params.get("process_columns") or {}),
+        )
+        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+    )
+
+    sql_query = (
+        task(apply_sql_query)
+        .validate()
+        .set_task_instance_id("sql_query")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(columns=None, sanitize=True, **(params.get("sql_query") or {}))
+        .mapvalues(argnames=["df"], argvalues=process_columns)
+    )
+
     persist_events = (
         task(persist_grouped_dfs_for_results_download)
         .validate()
@@ -518,7 +518,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            grouped_dfs=split_event_groups,
+            grouped_dfs=sql_query,
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             sanitize=True,
             **(params.get("persist_events") or {}),
@@ -526,10 +526,10 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
-    skip_attachment_download = (
-        task(maybe_skip_df)
+    download_all_attachments = (
+        task(invert_bool)
         .validate()
-        .set_task_instance_id("skip_attachment_download")
+        .set_task_instance_id("download_all_attachments")
         .handle_errors()
         .with_tracing()
         .skipif(
@@ -539,8 +539,8 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(**(params.get("skip_attachment_download") or {}))
-        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+        .partial(**(params.get("download_all_attachments") or {}))
+        .call()
     )
 
     download_attachments = (
@@ -559,11 +559,28 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client_name,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
             use_index_as_id=False,
-            grouped_event_gdfs=skip_attachment_download,
-            skip_download=False,
+            grouped_event_gdfs=split_event_groups,
+            skip_download=download_all_attachments,
             attachments_subdir="attachments",
             **(params.get("download_attachments") or {}),
         )
+        .call()
+    )
+
+    generate_maps = (
+        task(invert_bool)
+        .validate()
+        .set_task_instance_id("generate_maps")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(**(params.get("generate_maps") or {}))
         .call()
     )
 
@@ -580,8 +597,8 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(**(params.get("skip_map_generation") or {}))
-        .mapvalues(argnames=["df"], argvalues=split_event_groups)
+        .partial(skip=generate_maps, **(params.get("skip_map_generation") or {}))
+        .mapvalues(argnames=["df"], argvalues=process_columns)
     )
 
     dedup_columns = (
