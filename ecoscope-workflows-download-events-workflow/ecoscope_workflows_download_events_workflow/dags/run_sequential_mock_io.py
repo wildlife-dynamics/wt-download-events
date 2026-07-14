@@ -47,6 +47,7 @@ from ecoscope.platform.tasks.groupby import split_groups as split_groups
 from ecoscope.platform.tasks.io import (
     persist_grouped_dfs_for_results_download as persist_grouped_dfs_for_results_download,
 )
+from ecoscope.platform.tasks.skip import invert_bool as invert_bool
 from ecoscope.platform.tasks.skip import never as never
 from ecoscope.platform.tasks.transformation import (
     add_temporal_index as add_temporal_index,
@@ -63,7 +64,6 @@ from ecoscope.platform.tasks.transformation import map_columns as map_columns
 from ecoscope.platform.tasks.transformation import (
     normalize_json_column as normalize_json_column,
 )
-from ecoscope_workflows_ext_custom.tasks.skip import invert_bool as invert_bool
 
 download_grouped_event_attachments = create_func_magicmock(  # 🧪
     anchor="ecoscope.platform.tasks.io",  # 🧪

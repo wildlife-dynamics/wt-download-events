@@ -8,12 +8,9 @@ requirements:
     version: ">=2,<2.5"
     channel: conda-forge
   - name: ecoscope
-    path: /home/alex/Code/ecoscope
+    git: https://github.com/wildlife-dynamics/ecoscope
     extras: [analysis,mapping,plotting,platform]
-    editable: true
-  - name: ecoscope-workflows-ext-custom
-    path: /home/alex/Code/ecoscope-workflow-task-library/src/ecoscope-workflows-ext-custom
-    editable: true
+    branch: am/add-download-tasks
   # ecoscope-platform already declares this exact pydeck dependency. it is
   # re-stated here as a workaround for a known issue. for further detail, see:
   # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697

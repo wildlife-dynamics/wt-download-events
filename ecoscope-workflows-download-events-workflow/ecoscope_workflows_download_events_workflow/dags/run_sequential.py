@@ -37,6 +37,7 @@ from ecoscope.platform.tasks.skip import (
     any_dependency_skipped as any_dependency_skipped,
 )
 from ecoscope.platform.tasks.skip import any_is_empty_df as any_is_empty_df
+from ecoscope.platform.tasks.skip import invert_bool as invert_bool
 from ecoscope.platform.tasks.skip import maybe_skip_df as maybe_skip_df
 from ecoscope.platform.tasks.skip import never as never
 from ecoscope.platform.tasks.transformation import (
@@ -66,7 +67,6 @@ from ecoscope.platform.tasks.transformation import map_columns as map_columns
 from ecoscope.platform.tasks.transformation import (
     normalize_json_column as normalize_json_column,
 )
-from ecoscope_workflows_ext_custom.tasks.skip import invert_bool as invert_bool
 from wt_contracts import validate as _validate
 from wt_task import task
 
