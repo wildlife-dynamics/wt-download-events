@@ -6,7 +6,7 @@ polygon-events:
   # so our 5 mixed-geometry rows survive the chain into the rendering tasks.
   mock_io_overrides:
     ecoscope.platform.tasks.io.get_events: dev/fixtures/get-events-polygon.example-return.parquet
-    ecoscope_workflows_ext_custom.tasks.io.process_events_details: dev/fixtures/process-events-details-polygon.example-return.parquet
+    ecoscope.platform.tasks.io.process_events_details: dev/fixtures/process-events-details-polygon.example-return.parquet
   params:
     workflow_details:
       description: Mixed Point + Polygon events from a mocked get_events return.
@@ -478,7 +478,7 @@ sql-explode:
   # mocked example_return seeds the whole pipeline. The fixture carries a
   # `species_observed` JSON-array column for the SQL step to explode.
   mock_io_overrides:
-    ecoscope_workflows_ext_custom.tasks.io.process_events_details: dev/fixtures/process-events-details-explode.example-return.parquet
+    ecoscope.platform.tasks.io.process_events_details: dev/fixtures/process-events-details-explode.example-return.parquet
   params:
     workflow_details:
       name: "Events"
