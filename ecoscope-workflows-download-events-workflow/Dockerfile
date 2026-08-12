@@ -3,7 +3,7 @@
 
 FROM bitnami/minideb:bullseye AS fetch
 RUN apt-get update && apt-get install -y curl ca-certificates
-RUN curl -fsSL https://pixi.sh/install.sh | PIXI_VERSION= bash
+RUN curl -fsSL https://pixi.sh/install.sh | PIXI_VERSION=latest bash
 
 FROM bitnami/minideb:bullseye AS install
 COPY --from=fetch /root/.pixi /root/.pixi
