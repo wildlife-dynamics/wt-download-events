@@ -291,7 +291,11 @@ workflow:
           rename_columns:
             time: event_time
           retain_columns: []
-          raise_if_not_found: true
+          # `drop_columns` is user-supplied and its default lists ER API columns that
+          # the DWH does not serve, so requiring them fails the DWH-backed run. No step
+          # in this workflow reads those columns; they are dropped only to keep them out
+          # of the download, so a missing column must not be an error.
+          raise_if_not_found: false
         mapvalues:
           argnames: df
           argvalues: ${{ workflow.split_event_groups.return }}
