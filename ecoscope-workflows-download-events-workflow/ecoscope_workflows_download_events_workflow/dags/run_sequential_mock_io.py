@@ -479,7 +479,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .partial(
             rename_columns={"time": "event_time"},
             retain_columns=[],
-            raise_if_not_found=True,
+            raise_if_not_found=False,
             **(params.get("process_columns") or {}),
         )
         .mapvalues(argnames=["df"], argvalues=split_event_groups)
