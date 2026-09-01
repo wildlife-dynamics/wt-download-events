@@ -178,6 +178,7 @@ workflow:
       field_name_options: ["name"]
       output_type: "str"
       output_column_name: "reported_by_name"
+      fan_out: false
 
   - name: Extract reported_by_subtype from Events
     id: extract_reported_by_subtype
@@ -188,6 +189,7 @@ workflow:
       field_name_options: ["subject_subtype"]
       output_type: "str"
       output_column_name: "reported_by_subtype"
+      fan_out: false
 
   - name: Process Event Details
     id: process_event_details

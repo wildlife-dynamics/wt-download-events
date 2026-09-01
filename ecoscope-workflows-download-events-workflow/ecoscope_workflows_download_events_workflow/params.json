@@ -98,34 +98,6 @@
       "type": "object",
       "title": "Event Types"
     },
-    "extract_reported_by": {
-      "additionalProperties": false,
-      "properties": {
-        "fan_out": {
-          "default": true,
-          "title": "Fan Out",
-          "type": "boolean",
-          "description": "Only used when output_type is 'series'. If true (default), expand the extracted collection into indexed columns prefixed by output_column_name. If false, store it as a list in a single output_column_name column."
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Extract reported_by_name from Events"
-    },
-    "extract_reported_by_subtype": {
-      "additionalProperties": false,
-      "properties": {
-        "fan_out": {
-          "default": true,
-          "title": "Fan Out",
-          "type": "boolean",
-          "description": "Only used when output_type is 'series'. If true (default), expand the extracted collection into indexed columns prefixed by output_column_name. If false, store it as a list in a single output_column_name column."
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Extract reported_by_subtype from Events"
-    },
     "filter_events": {
       "additionalProperties": false,
       "properties": {
@@ -680,8 +652,6 @@
       "er_client_name",
       "time_range",
       "get_event_data",
-      "extract_reported_by",
-      "extract_reported_by_subtype",
       "filter_events",
       "groupers",
       "process_columns",
