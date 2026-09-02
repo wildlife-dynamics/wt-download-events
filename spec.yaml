@@ -1,11 +1,8 @@
 id: download_events
 requirements:
   - name: ecoscope-platform
-    version: ">=2.15.0, <2.16.0"
+    version: ">=2.20.0, <2.21.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
-  - name: ecoscope-workflows-ext-custom
-    version: "0.1.0rc14"
-    channel: https://repo.prefix.dev/ecoscope-workflows-custom/
   # ecoscope-platform already declares this exact pydeck dependency. it is
   # re-stated here as a workaround for a known issue. for further detail, see:
   # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697
@@ -181,6 +178,7 @@ workflow:
       field_name_options: ["name"]
       output_type: "str"
       output_column_name: "reported_by_name"
+      fan_out: false
 
   - name: Extract reported_by_subtype from Events
     id: extract_reported_by_subtype
@@ -191,6 +189,7 @@ workflow:
       field_name_options: ["subject_subtype"]
       output_type: "str"
       output_column_name: "reported_by_subtype"
+      fan_out: false
 
   - name: Process Event Details
     id: process_event_details
@@ -294,7 +293,11 @@ workflow:
           rename_columns:
             time: event_time
           retain_columns: []
-          raise_if_not_found: true
+          # `drop_columns` is user-supplied and its default lists ER API columns that
+          # the DWH does not serve, so requiring them fails the DWH-backed run. No step
+          # in this workflow reads those columns; they are dropped only to keep them out
+          # of the download, so a missing column must not be an error.
+          raise_if_not_found: false
         mapvalues:
           argnames: df
           argvalues: ${{ workflow.split_event_groups.return }}
