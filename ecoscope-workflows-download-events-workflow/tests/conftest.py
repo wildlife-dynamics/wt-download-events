@@ -446,14 +446,10 @@ def response_json_failure(
 
 
 def _iframe_widgets_from_response_json(response_json: dict) -> list[dict]:
-    first_view_key = list(response_json["result"]["views"])[0]
-    first_view = response_json["result"]["views"][first_view_key]
-    widget_view = (
-        first_view["dashboard"] if isinstance(first_view, dict) else first_view
-    )
+    first_view = list(response_json["result"]["views"])[0]
     return [
         widget
-        for widget in widget_view
+        for widget in response_json["result"]["views"][first_view]
         if isinstance(widget["data"], str) and widget["data"].endswith(".html")
     ]
 
