@@ -458,9 +458,10 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            rename_columns={"time": "event_time"},
             retain_columns=[],
             raise_if_not_found=False,
+            duplicate_strategy="suffix",
+            rename_columns=[],
             **(params.get("process_columns") or {}),
         )
         .mapvalues(argnames=["df"], argvalues=split_event_groups)
@@ -614,11 +615,12 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             retain_columns=[],
             rename_columns={
                 "serial_number": "Event Serial",
-                "event_time": "Event Time",
+                "time": "Event Time",
                 "event_type_display": "Event Type",
                 "reported_by_name": "Reported By",
             },
             raise_if_not_found=False,
+            duplicate_strategy="overwrite",
             **(params.get("rename_display_columns") or {}),
         )
         .mapvalues(argnames=["df"], argvalues=dedup_columns)

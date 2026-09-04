@@ -320,8 +320,8 @@ sql-aggregate:
       filter_point_coords: []
     sql_query:
       query: >-
-        SELECT event_type, DATE(event_time) as event_time, SUM("How many elephants are in the group?") as total_elephants
-        FROM df WHERE event_type = "elephant_sigthing_test" GROUP BY DATE(event_time)
+        SELECT event_type, DATE(time) as time, SUM("How many elephants are in the group?") as total_elephants
+        FROM df WHERE event_type = "elephant_sigthing_test" GROUP BY DATE(time)
     groupers:
       groupers: []
     persist_events:
@@ -457,7 +457,7 @@ sql-vs-map:
       # Downloads reflect this; maps fork off process_columns (pre-SQL) and are
       # unaffected, proving the query is download-only.
       query: >-
-        SELECT serial_number, event_type, event_time, geometry FROM df
+        SELECT serial_number, event_type, time, geometry FROM df
     groupers:
       groupers: []
     persist_events:
