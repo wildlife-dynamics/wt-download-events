@@ -88,6 +88,35 @@
             }
           ]
         },
+        "event_states": {
+          "default": null,
+          "items": {
+            "type": "string",
+            "oneOf": [
+              {
+                "const": "new",
+                "title": "New"
+              },
+              {
+                "const": "active",
+                "title": "Active"
+              },
+              {
+                "const": "resolved",
+                "title": "Resolved"
+              },
+              {
+                "const": "review",
+                "title": "Review"
+              }
+            ]
+          },
+          "title": "Event State",
+          "type": "array",
+          "description": "Choose to analyze events with a certain state. If left empty, events of all states will be analyzed",
+          "uniqueItems": true,
+          "ecoscope:advanced": true
+        },
         "include_null_geometry": {
           "default": true,
           "title": "Include events without a location",
@@ -700,6 +729,7 @@
     "get_event_data": {
       "ui:order": [
         "event_types",
+        "event_states",
         "include_null_geometry",
         "force_point_geometry"
       ],
