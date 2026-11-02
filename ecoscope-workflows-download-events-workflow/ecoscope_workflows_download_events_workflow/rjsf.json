@@ -25,8 +25,8 @@
       "properties": {
         "data_source": {
           "$ref": "#/$defs/EarthRangerConnection",
-          "title": "",
-          "description": "Select one of your configured data sources."
+          "description": "Select one of your configured data sources.",
+          "title": ""
         }
       },
       "required": [
@@ -39,23 +39,19 @@
       "additionalProperties": false,
       "properties": {
         "since": {
+          "description": "The start time",
           "format": "date-time",
           "title": "Since",
-          "type": "string",
-          "description": "The start time"
+          "type": "string"
         },
         "until": {
+          "description": "The end time",
           "format": "date-time",
           "title": "Until",
-          "type": "string",
-          "description": "The end time"
+          "type": "string"
         },
         "timezone": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/TimezoneInfo"
-            }
-          ],
+          "$ref": "#/$defs/TimezoneInfo",
           "default": null,
           "title": "Timezone"
         }
@@ -72,12 +68,12 @@
       "additionalProperties": false,
       "properties": {
         "event_types": {
+          "description": "Specify the event type(s) to download (optional). Leave this section empty to download all event types.",
           "items": {
             "type": "string"
           },
           "title": "Event Types",
           "type": "array",
-          "description": "Specify the event type(s) to download (optional). Leave this section empty to download all event types.",
           "ecoscope:transform": [
             {
               "transformer": "EarthRangerEnumResolver",
@@ -90,6 +86,8 @@
         },
         "event_states": {
           "default": null,
+          "description": "Choose to analyze events with a certain state. If left empty, events of all states will be analyzed",
+          "ecoscope:advanced": true,
           "items": {
             "type": "string",
             "oneOf": [
@@ -113,9 +111,7 @@
           },
           "title": "Event State",
           "type": "array",
-          "description": "Choose to analyze events with a certain state. If left empty, events of all states will be analyzed",
-          "uniqueItems": true,
-          "ecoscope:advanced": true
+          "uniqueItems": true
         },
         "include_null_geometry": {
           "default": true,
@@ -124,10 +120,10 @@
         },
         "force_point_geometry": {
           "default": false,
-          "title": "Simplify polygons to single points",
-          "type": "boolean",
           "description": "",
-          "ecoscope:advanced": false
+          "ecoscope:advanced": false,
+          "title": "Simplify polygons to single points",
+          "type": "boolean"
         }
       },
       "required": [
@@ -145,30 +141,26 @@
           "additionalProperties": false,
           "properties": {
             "bounding_box": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/BoundingBox"
-                }
-              ],
+              "$ref": "#/$defs/BoundingBox",
               "default": {
                 "min_y": -90.0,
                 "max_y": 90.0,
                 "min_x": -180.0,
                 "max_x": 180.0
               },
-              "title": "Bounding Box",
               "description": "Filter events to inside these bounding coordinates.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": true,
+              "title": "Bounding Box"
             },
             "filter_point_coords": {
               "default": [],
+              "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
+              "ecoscope:advanced": true,
               "items": {
                 "$ref": "#/$defs/Coordinate"
               },
               "title": "Filter Exact Point Coordinates",
-              "type": "array",
-              "description": "By adding a filter, the workflow will not include events recorded at the specified coordinates.",
-              "ecoscope:advanced": true
+              "type": "array"
             }
           },
           "required": [],
@@ -187,6 +179,7 @@
           "properties": {
             "groupers": {
               "default": null,
+              "description": "",
               "items": {
                 "anyOf": [
                   {
@@ -199,8 +192,7 @@
                 "title": "Group by"
               },
               "title": " ",
-              "type": "array",
-              "description": ""
+              "type": "array"
             }
           },
           "type": "object",
@@ -237,14 +229,14 @@
                 "patrols",
                 "reported_by"
               ],
+              "description": "Columns listed here will be left out of your download. We've pre-filled columns that are typically unnecessary or duplicated. If you're not sure, try running the workflow first to see all available columns.",
+              "ecoscope:advanced": true,
               "items": {
                 "type": "string",
                 "title": "Column Name"
               },
               "title": " ",
-              "type": "array",
-              "description": "Columns listed here will be left out of your download. We've pre-filled columns that are typically unnecessary or duplicated. If you're not sure, try running the workflow first to see all available columns.",
-              "ecoscope:advanced": true
+              "type": "array"
             }
           },
           "required": [],
@@ -256,10 +248,10 @@
           "properties": {
             "query": {
               "default": "",
-              "title": "SQL Query",
-              "type": "string",
               "description": "Write a SQL query to filter or transform your data. Leave blank to skip this step. Use df as the table name (e.g., SELECT * FROM df WHERE status = 'active'). Note that queries will only apply to your downloaded files and not the generated map.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": true,
+              "title": "SQL Query",
+              "type": "string"
             }
           },
           "required": [],
@@ -275,6 +267,7 @@
           "default": [
             "parquet"
           ],
+          "description": "Choose the file format for your download. Parquet files are compact, fast to query, and keep all your data in a single file. Works with Python, R, QGIS, and other GIS tools.",
           "items": {
             "enum": [
               "csv",
@@ -284,15 +277,14 @@
           },
           "title": " ",
           "type": "array",
-          "description": "Choose the file format for your download. Parquet files are compact, fast to query, and keep all your data in a single file. Works with Python, R, QGIS, and other GIS tools.",
           "uniqueItems": true
         },
         "filename_prefix": {
           "default": "events",
-          "title": "Filename Prefix",
-          "type": "string",
           "description": "            Optional filename to persist text to within the `root_path`.\n            If not provided, a filename will be generated based on a hash of the df content.\n            ",
-          "ecoscope:advanced": true
+          "ecoscope:advanced": true,
+          "title": "Filename Prefix",
+          "type": "string"
         }
       },
       "required": [],
@@ -309,9 +301,9 @@
           "properties": {
             "value": {
               "default": false,
+              "description": "",
               "title": "Download all attachments",
-              "type": "boolean",
-              "description": ""
+              "type": "boolean"
             }
           },
           "type": "object",
@@ -330,9 +322,9 @@
           "properties": {
             "value": {
               "default": true,
+              "description": "",
               "title": "Generate maps in dashboard",
-              "type": "boolean",
-              "description": ""
+              "type": "boolean"
             }
           },
           "type": "object",
@@ -357,8 +349,9 @@
                   "min_zoom": 0
                 }
               ],
+              "description": "Select tile layers to use as base layers in map outputs. The first layer in the list will be the bottommost layer displayed.",
+              "ecoscope:advanced": true,
               "items": {
-                "title": "Base Layer",
                 "anyOf": [
                   {
                     "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
@@ -376,8 +369,8 @@
                         "default": 1,
                         "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                         "ecoscope:advanced": true,
-                        "maximum": 1.0,
-                        "minimum": 0.0,
+                        "maximum": 1,
+                        "minimum": 0,
                         "title": "Layer Opacity",
                         "type": "number"
                       }
@@ -401,8 +394,8 @@
                         "default": 1,
                         "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                         "ecoscope:advanced": true,
-                        "maximum": 1.0,
-                        "minimum": 0.0,
+                        "maximum": 1,
+                        "minimum": 0,
                         "title": "Layer Opacity",
                         "type": "number"
                       }
@@ -426,8 +419,8 @@
                         "default": 1,
                         "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                         "ecoscope:advanced": true,
-                        "maximum": 1.0,
-                        "minimum": 0.0,
+                        "maximum": 1,
+                        "minimum": 0,
                         "title": "Layer Opacity",
                         "type": "number"
                       }
@@ -451,8 +444,8 @@
                         "default": 1,
                         "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                         "ecoscope:advanced": true,
-                        "maximum": 1.0,
-                        "minimum": 0.0,
+                        "maximum": 1,
+                        "minimum": 0,
                         "title": "Layer Opacity",
                         "type": "number"
                       }
@@ -476,8 +469,8 @@
                         "default": 1,
                         "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                         "ecoscope:advanced": true,
-                        "maximum": 1.0,
-                        "minimum": 0.0,
+                        "maximum": 1,
+                        "minimum": 0,
                         "title": "Layer Opacity",
                         "type": "number"
                       }
@@ -499,8 +492,8 @@
                         "default": 1,
                         "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                         "ecoscope:advanced": true,
-                        "maximum": 1.0,
-                        "minimum": 0.0,
+                        "maximum": 1,
+                        "minimum": 0,
                         "title": "Custom Layer Opacity",
                         "type": "number"
                       },
@@ -520,12 +513,11 @@
                     "title": "Custom Layer (Advanced)",
                     "type": "object"
                   }
-                ]
+                ],
+                "title": "Base Layer"
               },
               "title": "Map Base Layers",
-              "type": "array",
-              "description": "Select tile layers to use as base layers in map outputs. The first layer in the list will be the bottommost layer displayed.",
-              "ecoscope:advanced": true
+              "type": "array"
             }
           },
           "type": "object",
