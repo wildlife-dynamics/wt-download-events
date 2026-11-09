@@ -2740,10 +2740,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/uvicorn-standard-0.54.0-h6c8c7fd_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       linux-aarch64-linux-4-4-0:
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/_openmp_mutex-4.5-20_gnu.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/aiohttp-3.14.5-py313hd50f550_0.conda
@@ -2899,10 +2899,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/uvicorn-standard-0.54.0-h6c8c7fd_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/aiohappyeyeballs-2.7.1-pyhd8ed1ab_0.conda
@@ -3050,10 +3050,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.7-hbc1a06c_7.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/aiohappyeyeballs-2.7.1-pyhd8ed1ab_0.conda
@@ -3201,10 +3201,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/aiohappyeyeballs-2.7.1-pyhd8ed1ab_0.conda
@@ -3352,10 +3352,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
   test:
     channels:
     - url: https://repo.prefix.dev/ecoscope-workflows/
@@ -3620,10 +3620,10 @@ environments:
       - conda: https://conda.anaconda.org/microsoft/linux-64/playwright-1.55.0-py313_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       linux-aarch64-linux-4-4-0:
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/_openmp_mutex-4.5-20_gnu.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-aarch64/aiohttp-3.14.5-py313hd50f550_0.conda
@@ -3882,10 +3882,10 @@ environments:
       - conda: https://conda.anaconda.org/microsoft/linux-aarch64/playwright-1.55.0-py313_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/aiohappyeyeballs-2.7.1-pyhd8ed1ab_0.conda
@@ -4139,10 +4139,10 @@ environments:
       - conda: https://conda.anaconda.org/microsoft/osx-64/playwright-1.55.0-py313_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/aiohappyeyeballs-2.7.1-pyhd8ed1ab_0.conda
@@ -4396,10 +4396,10 @@ environments:
       - conda: https://conda.anaconda.org/microsoft/osx-arm64/playwright-1.55.0-py313_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/aiohappyeyeballs-2.7.1-pyhd8ed1ab_0.conda
@@ -4643,10 +4643,10 @@ environments:
       - conda: https://conda.anaconda.org/microsoft/win-64/playwright-1.55.0-py313_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/ecoscope-eda-core-0.2.4-pyh4616a5c_0.conda
       - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-contracts-0.2.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+      - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -33655,9 +33655,9 @@ packages:
   run_exports: {}
   size: 11953
   timestamp: 1778689024683
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.6.0-pyh4616a5c_0.conda
-  sha256: ee39b914f4b67b57a3b21aa06efc33b67b01ca3f1c30b1880bf1195fd4f0b849
-  md5: 285eff6d7af72ba56a953ed07a4e2187
+- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-0.7.0-pyh4616a5c_0.conda
+  sha256: 6a7c4f854c60941802fec9e0258221a8ebd1601308ead0fe15f4e00a958f96d8
+  md5: 3d686cd2788b3fa743b0242e83f8e911
   depends:
   - python >=3.12,<3.16
   - python >=3.12
@@ -33670,23 +33670,24 @@ packages:
   - pixi-unpack >=0.4,<1
   license: BSD-3-Clause
   run_exports: {}
-  size: 24963
-  timestamp: 1791485886566
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.6.0-pyh4616a5c_0.conda
-  sha256: f7c6ebae67e6c16f5e9c58c8d1765c4236f497fd5f5897c9cc809078fbea3cc8
-  md5: 2e4c094ff7213da6d2cde72adc497017
+  size: 29366
+  timestamp: 1793730471717
+- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-invokers-gcp-0.7.0-pyh4616a5c_0.conda
+  sha256: 68ffde7aad820682df87bc09bc15a7e1fcf5248e9a3040e98caac627033a54c8
+  md5: 03b17948d242fadc8fbab97c4c153dd8
   depends:
   - python >=3.12,<3.16
   - python >=3.12
   - python *
-  - wt-invokers >=0.6.0,<1.0.0
+  - wt-invokers >=0.7.0,<1.0.0
   - google-cloud-batch >=0.19.0
   - google-cloud-run >=0.10.0
   - google-auth >=2.0.0
+  - obstore >=0.6.0,<1.0.0
   license: BSD-3-Clause
   run_exports: {}
-  size: 3253
-  timestamp: 1791486140890
+  size: 3273
+  timestamp: 1793730549574
 - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-registry-0.2.2-pyh4616a5c_0.conda
   sha256: 65873a7af47107b0676985ecdda8ef0a9707524c7b55ebf6a97ea1778e1c5684
   md5: 59ffaf95ce6d469b9a2c7a8dcb437bf5
@@ -33699,9 +33700,9 @@ packages:
   run_exports: {}
   size: 14594
   timestamp: 1778689066571
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.1-pyh4616a5c_0.conda
-  sha256: f1b15ab8639b4a6fb298cce45f8d4e02ddf53822d6c548bacbd6c57afa0c362d
-  md5: 11f9c95b1e658c5eda3bd6ef81eb0b8d
+- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-0.3.3-pyh4616a5c_0.conda
+  sha256: 7741ab89000bbb108f6ad86ebc7eb80710efa710a7ea2084cd2c7f1e597ea9f9
+  md5: 276cf4647d0c6571e991004926aa6e11
   depends:
   - python >=3.13,<3.14
   - python *
@@ -33718,27 +33719,27 @@ packages:
   - wt-invokers >=0.1.0,<1.0.0
   license: BSD-3-Clause
   run_exports: {}
-  size: 13309
-  timestamp: 1791486747008
-- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.1-pyh4616a5c_0.conda
-  sha256: ef96773d22b3fece455a22781ab96640d8f1f0fc8a094fb0fb06b2835c344463
-  md5: 0b558f8948d31ec259cebf56ddfdce47
+  size: 13783
+  timestamp: 1794234298022
+- conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-runner-gcp-0.3.3-pyh4616a5c_0.conda
+  sha256: 0f6fd77eee502244cc5bf870dd1fabdab186fa4458e1a1475230f492dd39b297
+  md5: fa4550e45102f18369f4df3b0a422170
   depends:
   - python >=3.13,<3.14
   - python *
-  - wt-runner >=0.3.1,<1.0.0
+  - wt-runner >=0.3.3,<1.0.0
   - ecoscope-eda-core >=0.2.0
   - opentelemetry-sdk >=1.37.0,<2
   - opentelemetry-exporter-gcp-trace >=1.9.0,<2
-  - wt-invokers-gcp >=0.6.0,<1.0.0
+  - wt-invokers-gcp >=0.7.0,<1.0.0
   - aiohttp >=3.11.18,<4
   - pydantic >=2.0.0
   - gcloud-aio-pubsub >=6.1.0,<7
   - stamina >=25.1.0,<26
   license: BSD-3-Clause
   run_exports: {}
-  size: 3516
-  timestamp: 1791487997821
+  size: 3504
+  timestamp: 1794234359538
 - conda: https://repo.prefix.dev/ecoscope-workflows/noarch/wt-task-0.1.3-pyh4616a5c_0.conda
   sha256: 6ab551b2fc9bc5838376093b815acd6c6df19297e190b6dd57d1a3fdba1ce0fb
   md5: 59103432a267bca87f1d91ac0e4cd9a9
