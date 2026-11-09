@@ -3,6 +3,7 @@
 
 import json
 import os
+import signal
 import sys
 from importlib.metadata import PackageNotFoundError, version
 from io import TextIOWrapper
@@ -14,6 +15,44 @@ from urllib.request import url2pathname
 import click
 
 RELEASE_NAME = "ecoscope-workflows-download-events-workflow"
+
+
+# Invokers give a terminated run a grace window before killing it; this must
+# stay well inside that window so the flush finishes first.
+SPAN_FLUSH_TIMEOUT_MILLIS = 5000
+
+
+def _exit_on_sigterm(signum: int, frame: Any) -> None:
+    # SIGTERM's default action skips `finally` blocks and atexit hooks, which
+    # would drop every buffered span and the still-open `.cli` root span.
+    raise SystemExit(128 + signum)
+
+
+def _flush_spans() -> None:
+    from opentelemetry import trace
+
+    # The API's no-op ProxyTracerProvider has no force_flush.
+    force_flush = getattr(trace.get_tracer_provider(), "force_flush", None)
+    if force_flush is not None:
+        force_flush(timeout_millis=SPAN_FLUSH_TIMEOUT_MILLIS)
+
+
+def _release_version() -> str:
+    try:
+        return version(RELEASE_NAME)
+    except PackageNotFoundError:
+        pass
+    # Not installed: run with `python -m` from the release directory, or from
+    # PYTHONPATH. Read the VERSION.yaml the installed metadata is built from.
+    import ruamel.yaml
+
+    try:
+        data = ruamel.yaml.YAML(typ="safe").load(
+            Path(__file__).resolve().parents[1] / "VERSION.yaml"
+        )
+        return f"{data['MAJ']}.{data['MIN']}.{data.get('PATCH', 0)}"
+    except (OSError, TypeError, KeyError):
+        return "unknown"
 
 
 @click.group()
@@ -125,10 +164,7 @@ def run(
     results_url = os.environ.get("ECOSCOPE_WORKFLOWS_RESULTS")
     if not results_url:
         raise ValueError("Environment variable ECOSCOPE_WORKFLOWS_RESULTS is required.")
-    try:
-        _version = version(RELEASE_NAME)
-    except PackageNotFoundError:
-        _version = "unknown"
+    _version = _release_version()
     otel_exporter_kws: dict = {}
     if otel_exporter == "console" and otel_console_exporter_dst == "file":
         parsed_results_url = urlparse(results_url)
@@ -148,18 +184,29 @@ def run(
     )
     if (traceparent := os.environ.get("TRACEPARENT")) is not None:
         attach_context(traceparent, tracestate=os.environ.get("TRACESTATE"))
-    if _HAS_OTEL:
-        tracer = trace.get_tracer(__name__)
-        tracer_attributes = {
-            "execution_mode": execution_mode,
-            "mock_io": mock_io,
-            "config.time_range": json.dumps(params.get("time_range", "")),
-            "config.groupers": json.dumps(params.get("groupers", "")),
-            "version": _version,
-        }
-        with tracer.start_as_current_span(
-            f"{RELEASE_NAME}.cli", attributes=tracer_attributes
-        ):
+    signal.signal(signal.SIGTERM, _exit_on_sigterm)
+    try:
+        if _HAS_OTEL:
+            tracer = trace.get_tracer(__name__)
+            tracer_attributes = {
+                "execution_mode": execution_mode,
+                "mock_io": mock_io,
+                "config.time_range": json.dumps(params.get("time_range", "")),
+                "config.groupers": json.dumps(params.get("groupers", "")),
+                "version": _version,
+            }
+            with tracer.start_as_current_span(
+                f"{RELEASE_NAME}.cli", attributes=tracer_attributes
+            ):
+                response = dispatch(
+                    execution_mode, mock_io, params, validate_params_schema=False
+                )
+                result_store = obstore.store.from_url(results_url)
+                result_bytes = response.model_dump_json().encode("utf-8")
+                put_result = result_store.put("result.json", result_bytes)
+                if not put_result:
+                    raise RuntimeError("Failed to put result json in result store.")
+        else:
             response = dispatch(
                 execution_mode, mock_io, params, validate_params_schema=False
             )
@@ -168,15 +215,9 @@ def run(
             put_result = result_store.put("result.json", result_bytes)
             if not put_result:
                 raise RuntimeError("Failed to put result json in result store.")
-    else:
-        response = dispatch(
-            execution_mode, mock_io, params, validate_params_schema=False
-        )
-        result_store = obstore.store.from_url(results_url)
-        result_bytes = response.model_dump_json().encode("utf-8")
-        put_result = result_store.put("result.json", result_bytes)
-        if not put_result:
-            raise RuntimeError("Failed to put result json in result store.")
+    finally:
+        if _HAS_OTEL:
+            _flush_spans()
 
 
 @cli.command()
