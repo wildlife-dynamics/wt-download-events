@@ -1,8 +1,16 @@
 id: download_events
 requirements:
   - name: ecoscope-platform
-    version: ">=2.31.0, <2.32.0"
+    version: 2.38.0
     channel: https://repo.prefix.dev/ecoscope-workflows/
+  # QA-only: ecoscope#913 branch; this branch is never merged.
+  - name: ecoscope
+    git: https://github.com/wildlife-dynamics/ecoscope.git
+    branch: am/912-dict-event-details
+  # ecoscope's pyproject needs sqlalchemy<2.1, but its conda recipe doesn't pin it.
+  - name: sqlalchemy
+    version: "<2.1"
+    channel: conda-forge
   # ecoscope-platform already declares this exact pydeck dependency. it is
   # re-stated here as a workaround for a known issue. for further detail, see:
   # https://github.com/wildlife-dynamics/wt/issues/167#issuecomment-4451993697
