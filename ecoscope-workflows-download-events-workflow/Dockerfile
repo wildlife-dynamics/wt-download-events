@@ -10,6 +10,9 @@ FROM debian:bookworm-slim AS install
 COPY --from=fetch /root/.pixi /root/.pixi
 COPY --from=fetch /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 ENV PATH="/root/.pixi/bin:$PATH"
+# QA-only hand edit: pixi needs git to fetch ecoscope's git source (commit pinned in pixi.lock).
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY . .
